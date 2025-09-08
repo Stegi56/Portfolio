@@ -1,11 +1,13 @@
+#root { isolation: isolate; }
+
 :root{
   --bg:#0b0d11;          /* black/near-black */
   --panel:#11151a;       /* dark gray */
   --edge:#1b2230;        /* lines/borders */
-  --text:#e9eef7;        /* white-ish */
-  --muted:#9aa4b2;       /* gray */
+  --text:#d7dce6;        /* white-ish */
+  --muted:#e2d1d1;       /* gray */
   --blue:#3b82f6;        /* blue */
-  --violet:#7a5cff;      /* purple-blue highlight */
+  --violet:#7e6fff;      /* purple-blue highlight */
   --accent: linear-gradient(90deg, var(--violet), var(--blue));
   --radius:14px;
   --shadow:0 10px 30px rgba(0,0,0,.45);
@@ -109,7 +111,7 @@ hr.sep{
 
 /* tiny scroll progress bar */
 .progress{
-  position:fixed;top:0;left:0;height:3px;width:100%;z-index:60;pointer-events:none;
+  position:fixed;top:0;left:0;height:10px;width:100%;z-index:60;pointer-events:none;
   background:linear-gradient(90deg, var(--violet), var(--blue));
   transform-origin:0 0; transform:scaleX(0);
 }

@@ -12,7 +12,18 @@ import { profile } from "./data/profile";
 export default function App() {
   return (
     <>
-      <LowPolyBackground />
+      <LowPolyBackground
+        speed={2.5}        // slower animation
+        wobble={15}         // stronger vertex wobble
+        parallax={12}      // stronger mouse shift
+        glow={0.2}        // brighter near cursor
+        glowRadius={200}   // larger glow area
+        cols={24}
+        rows={16}
+        dprCap={3}         // tame high-DPI cost
+        from={{ r: 45, g: 58, b: 99 }}
+        to={{ r: 70, g: 58, b: 140 }}
+      />
       <ScrollProgressBar />
       <Nav
         links={[

@@ -44,13 +44,18 @@ export default function Hero() {
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
             />
             <div>
-              <h1 className="h1">{profile.name}</h1>
-              <p className="p" style={{marginTop:"6px"}}>{profile.headline} — {profile.location}</p>
-              <div style={{display:"flex", gap:"10px", flexWrap:"wrap", marginTop:"12px"}}>
-                <a className="btn primary" href="#projects">View Projects</a>
-                <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-                <a className="btn" href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+              <div style={{display: "flex", gap: "16px"}}>
+                <h1 className="h1" style={{margin:0}}>{profile.name}</h1>
+                <div>
+                  <p className="h3" style={{margin:0, whiteSpace:"nowrap"}}>{profile.headline}</p>
+                  <p className="p" style={{margin:0}}>{profile.location}</p>
+                </div>
               </div>
+            <div style={{display: "flex", gap: "10px", marginTop: "12px"}}>
+              <a className="btn primary" href="#experience">Experience</a>
+              <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer" style={{minWidth: "120px"}}>LinkedIn</a>
+              <a className="btn" href={profile.github} target="_blank" rel="noreferrer" style={{minWidth: "120px"}}>GitHub</a>
+            </div>
             </div>
           </div>
         </motion.div>

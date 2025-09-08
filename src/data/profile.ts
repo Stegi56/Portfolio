@@ -18,59 +18,59 @@ export type Project = {
 };
 
 export const profile = {
-  name: "Stegi",                  // update
+  name: "Joel Staugaitis",                  
   headline: "Software Engineer",
-  location: "City, Country",      // update
-  email: "you@example.com",       // update
+  location: "United Kingdom & EU",      
+  email: "56rolsj@gmail.com",             
   linkedin: "https://www.linkedin.com/in/stegi56/",
-  github: "https://github.com/your-username", // update
-  resumeUrl: "/cv.pdf",           // place a file in /public if you want
+  github: "https://github.com/stegi56",
+  resumeUrl: "/Joel Staugaitis.pdf", 
   summary:
-    "Engineer focused on modern TypeScript, performance, and clean UX. I like shipping sharp, minimal products with thoughtful animations.",
-  // --- Fill these from your LinkedIn ---
+    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. I take pride in delivering minimalistic solutions that balance performance and maintainability.",
   skills: [
     "TypeScript","React","Node.js","Vite","CI/CD",
     "Cloud","GraphQL","PostgreSQL","Testing","Design Systems"
   ],
   experience: <Experience[]>[
     {
-      company: "Company A",
-      role: "Senior Software Engineer",
-      start: "May 2023",
+      company: "CGI",
+      role: "Consultant Software Engineer",
+      start: "Jul 2025",
       end: "Present",
       bullets: [
-        "Led the migration to React + Vite + TS, improving build time by 40%.",
-        "Built a design system with accessible components and zero-runtime theming."
+        "Delivering public sector infrastructure using AWS, Terraform, GitLab and CI/CD."
       ],
-      tech: ["React","TypeScript","Vite","Storybook"],
+      tech: ["aws","Terraform","GitLab","React","TypeScript"],
       link: "https://example.com"
     },
     {
-      company: "Company B",
-      role: "Software Engineer",
-      start: "Jan 2021",
-      end: "Apr 2023",
+      company: "HM Revenue & Customs",
+      role: "Software Developer",
+      start: "Oct 2023",
+      end: "Aug 2024",
       bullets: [
-        "Delivered feature X used by 100k+ MAU.",
-        "Drove reliability work, cutting errors by 30%."
+        "Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
+        "Constructed pipelines",
+        "Managed infrastructure state via Terraform",
+        "Using Scala, worked on micro-services and frontend of a Catalogue tool. "
       ],
-      tech: ["Node.js","GraphQL","Postgres"]
+      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker"]
     }
   ],
   projects: <Project[]>[
     {
       name: "Project One",
-      description: "Low-latency real-time dashboard with typed APIs.",
-      highlights: ["<50ms P95 updates","end-to-end typed contracts"],
+      description: "testy test test",
+      highlights: ["1", "2"],
       tech: ["React","TypeScript","WebSockets"],
       link: "https://example.com",
-      repo: "https://github.com/your-username/project-one"
+      repo: "https://example.com"
     },
     {
       name: "Project Two",
-      description: "Dev tool that generates forms from Zod schemas.",
-      tech: ["TypeScript","React","Zod"],
-      repo: "https://github.com/your-username/project-two"
+      description: "testy test test",
+      tech: ["TypeScript","React"],
+      repo: "https://example.com"
     }
   ]
 };
