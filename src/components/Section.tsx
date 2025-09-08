@@ -1,0 +1,30 @@
+import { motion } from "framer-motion";
+import React from "react";
+
+export default function Section(props: { id: string; title: string; children: React.ReactNode; subtitle?: string }) {
+  const { id, title, subtitle, children } = props;
+  return (
+    <section id={id} className="section">
+      <div className="container">
+        <motion.header
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <h2 className="h2" style={{background:"var(--accent)",WebkitBackgroundClip:"text",color:"transparent"}}>{title}</h2>
+          {subtitle && <p className="p" style={{marginTop:4}}>{subtitle}</p>}
+          <hr className="sep" />
+        </motion.header>
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+        >
+          {children}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
