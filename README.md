@@ -1,14 +1,11 @@
-# \# Stegi Portfolio
+## Stegi Portfolio
 
-# 
+### Dev
 
-# \## Dev
-
-# ```bash
-
-# npm i
-
-# npm run dev
-
-# 
+```bash
+  npm i
+```
+```bash
+  npm run dev
+```
 

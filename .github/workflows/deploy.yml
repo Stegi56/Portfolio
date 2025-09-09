@@ -24,7 +24,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      # Build with base set to repo name for /<repo>/ pages
       - name: Build
         run: |
           REPO="${{ github.event.repository.name }}"
