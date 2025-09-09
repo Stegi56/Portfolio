@@ -6,14 +6,11 @@ export default function Nav(props: { links: { id: string; label: string }[]; git
     <nav className="nav">
       <div className="container glass nav-inner">
         <div style={{display:"flex", alignItems:"center", gap:"0.9rem"}}>
-          <span aria-hidden className="kbd" style={{background:"linear-gradient(90deg,#9881fc,#3b82f6)", WebkitBackgroundClip:"text", color:"transparent", fontSize:38, fontWeight:800}}>STEGI</span>
-          <span className="kbd" style={{color:"var(--muted)"}}>Software Engineer</span>
+          <span aria-hidden className="kbd" style={{background:"linear-gradient(90deg,#9881fc,#3b82f6)", WebkitBackgroundClip:"text", color:"transparent", fontSize:38, fontWeight:800}}>STEGI56</span>
         </div>
         <div className="nav-links">
           {links.map(l => <a key={l.id} href={`#${l.id}`}>{l.label}</a>)}
-          {resumeUrl && <a className="btn" href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>}
-          {linkedin && <a aria-label="LinkedIn" href={linkedin} target="_blank" rel="noreferrer">in</a>}
-          {github && <a aria-label="GitHub" href={github} target="_blank" rel="noreferrer">GH</a>}
+          {resumeUrl && <a className="btn primary" href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>}
         </div>
       </div>
     </nav>

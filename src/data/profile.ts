@@ -1,3 +1,13 @@
+import { i } from "framer-motion/client";
+
+export type Certification = {
+  name: string;
+  image: string; // URL or path to logo image
+  certificate: string; // URL or path to certificate PDF
+  issuer: string;
+  issueDate: string; // "2023-08"
+}
+
 export type Experience = {
   company: string;
   role: string;
@@ -30,6 +40,36 @@ export const profile = {
   skills: [
     "TypeScript","React","Node.js","Vite","CI/CD",
     "Cloud","GraphQL","PostgreSQL","Testing","Design Systems"
+  ],
+  certifications: <Certification[]>[
+    {
+      name: "AWS Certified Cloud Practitioner",
+      image: "/logos/aws-certified-cloud-practitioner.png",
+      certificate: "/certificates/1754427503415.pdf",
+      issuer: "Amazon Web Services",
+      issueDate: "2025-08",
+    },
+    {
+      name: "HashiCorp Certified: Terraform Associate",
+      image: "/logos/TQ968292686GB.png",
+      certificate: "/certificates/TerraformAssociate00320250909-30-zjhxev.pdf",
+      issuer: "HashiCorp",
+      issueDate: "2025-09",
+    },
+    {
+      name: "GitLab CI Fundamentals",
+      image: "/logos/gitlab-logo-500-rgb.png",
+      certificate: "certficates/1757078512263.pdf",
+      issuer: "GitLab",
+      issueDate: "2025-09",
+    },
+    {
+      name: "1st Class Honours BSc Computer Science",
+      image: "/logos/output-onlinepngtools.png",
+      certificate: "certficates/1757078512263.pdf",
+      issuer: "City, University of London",
+      issueDate: "2025-07",
+    },
   ],
   experience: <Experience[]>[
     {

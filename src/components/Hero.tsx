@@ -34,32 +34,37 @@ export default function Hero() {
             rotateY: sry
           }}
         >
-          <div style={{display:"grid", gridTemplateColumns:"100px 1fr", gap:"18px", alignItems:"center"}}>
-            <img
-              src="/avatar.png"
-              width="100"
-              height="100"
-              alt={`${profile.name} avatar`}
-              style={{borderRadius:"16px", border:"1px solid var(--edge)"}}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-            />
+          <div style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
             <div>
-              <div style={{display: "flex", gap: "16px"}}>
+              <div style={{display:"grid", gridTemplateColumns:"130px 1fr", gap:"18px", alignItems:"center"}}>
+                <img
+                  src="/favicon.svg"
+                  width="130"
+                  height="130"
+                  alt={`${profile.name} avatar`}
+                  style={{borderRadius:"16px", border:"1px solid var(--edge)"}}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                />
                 <h1 className="h1" style={{margin:0}}>{profile.name}</h1>
-                <div>
-                  <p className="h3" style={{margin:0, whiteSpace:"nowrap"}}>{profile.headline}</p>
-                  <p className="p" style={{margin:0}}>{profile.location}</p>
-                </div>
               </div>
-            <div style={{display: "flex", gap: "10px", marginTop: "12px"}}>
-              <a className="btn primary" href="#experience">Experience</a>
-              <a className="btn" href={profile.linkedin} target="_blank" rel="noreferrer" style={{minWidth: "120px"}}>LinkedIn</a>
-              <a className="btn" href={profile.github} target="_blank" rel="noreferrer" style={{minWidth: "120px"}}>GitHub</a>
+              <div>
+                <p className="kbd fs-5" style={{margin:0, whiteSpace:"nowrap"}}>{profile.headline}</p>
+                <p className="p" style={{margin:0}}>{profile.location}</p>
+              </div>
             </div>
-            </div>
+            <ul className="ps-1">
+              {profile.certifications.map(c => 
+                <img
+                  src={c.image}
+                  width="75"
+                  height="75"
+                  alt={`${profile.name} avatar`}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                />
+              )}
+            </ul>
           </div>
         </motion.div>
-        <p className="p" style={{maxWidth: "70ch"}}>{profile.summary}</p>
       </div>
     </section>
   );

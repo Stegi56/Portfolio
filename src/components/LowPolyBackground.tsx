@@ -4,19 +4,14 @@ import { useEffect, useRef } from "react";
 type RGB = { r: number; g: number; b: number };
 
 export type LowPolyProps = Partial<{
-  cols: number;          // grid columns
-  rows: number;          // grid rows
-  speed: number;         // animation speed multiplier (1 = default)
-  wobble: number;        // px amplitude of the per‑vertex wobble
-  parallax: number;      // px mouse parallax shift (±)
-  glow: number;          // 0..1+ glow intensity near cursor
-  glowRadius: number;    // px radius of glow falloff
-  colorJitter: number;   // extra lighten from noise (0..1)
-  opacity: number;       // canvas opacity
-  zIndex: number;        // canvas z-index
-  dprCap: number;        // clamp DPR for perf (e.g. 2)
-  from: RGB;             // palette start
-  to: RGB;               // palette end
+  cols: number; rows: number;
+  speed: number; wobble: number; parallax: number;
+  glow: number; glowRadius: number; colorJitter: number;
+  opacity: number; zIndex: number; dprCap: number;
+  from: RGB; to: RGB;
+
+  overscan: number;       
+  lockEdges: boolean;  
 }>;
 
 const DEF = {
@@ -32,6 +27,9 @@ const DEF = {
   dprCap: 2,
   from: { r: 22, g: 35, b: 56 },
   to:   { r: 60, g: 52, b: 120 },
+
+  overscan: 0,          // 0 → auto (parallax + wobble + 8)
+  lockEdges: false,
 } as const;
 
 export default function LowPolyBackground(props: LowPolyProps) {
@@ -71,7 +69,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
     window.addEventListener("pointermove", onPointer, { passive: true });
 
     const loop = (now: number) => {
-      const seconds = (now * 0.001) * cfg.speed; // single speed knob
+      const seconds = (now * 0.001) * cfg.speed;
       const angle = seconds * 0.12;
       const tNoise = seconds * 0.8;
 
@@ -85,13 +83,39 @@ export default function LowPolyBackground(props: LowPolyProps) {
       const shiftX = (mouse.x - 0.5) * cfg.parallax;
       const shiftY = (mouse.y - 0.5) * cfg.parallax;
 
-      const points = Array.from({ length: cfg.rows + 1 }, (_, y) =>
-        Array.from({ length: cfg.cols + 1 }, (_, x) => {
-          const px = x * cellW + shiftX;
-          const py = y * cellH + shiftY;
-          const n = noise(x * 0.8, y * 0.7, tNoise);
-          const wob = cfg.wobble * n;
-          return { x: snap(px + wob), y: snap(py + wob), n };
+      // --- NEW: overscan / edge locking setup
+      const autoBleed = cfg.parallax + cfg.wobble + 8; // safety margin
+      const bleedPx = cfg.lockEdges ? 0 : Math.max(cfg.overscan ?? 0, autoBleed);
+      const ex = Math.ceil(bleedPx / cellW); // extra cells per side (x)
+      const ey = Math.ceil(bleedPx / cellH); // extra cells per side (y)
+      const colsFull = cfg.cols + ex * 2;
+      const rowsFull = cfg.rows + ey * 2;
+
+      const points = Array.from({ length: rowsFull + 1 }, (_, gy) =>
+        Array.from({ length: colsFull + 1 }, (_, gx) => {
+          const gridX = gx - ex;
+          const gridY = gy - ey;
+
+          const px0 = gridX * cellW + shiftX;
+          const py0 = gridY * cellH + shiftY;
+
+          const n = noise(gridX * 0.8, gridY * 0.7, tNoise);
+          const onOuter =
+            cfg.lockEdges && (gx === 0 || gx === colsFull || gy === 0 || gy === rowsFull);
+
+          const wob = onOuter ? 0 : cfg.wobble * n;
+
+          let px = px0 + wob;
+          let py = py0 + wob;
+
+          if (cfg.lockEdges) {
+            if (gx === 0) px = 0;
+            if (gx === colsFull) px = vw;
+            if (gy === 0) py = 0;
+            if (gy === rowsFull) py = vh;
+          }
+
+          return { x: snap(px), y: snap(py), n };
         })
       );
 
@@ -113,8 +137,9 @@ export default function LowPolyBackground(props: LowPolyProps) {
         ctx.fill();
       };
 
-      for (let y = 0; y < cfg.rows; y++) {
-        for (let x = 0; x < cfg.cols; x++) {
+      // draw full (possibly overscanned) grid
+      for (let y = 0; y < rowsFull; y++) {
+        for (let x = 0; x < colsFull; x++) {
           const p00 = points[y][x], p10 = points[y][x + 1];
           const p01 = points[y + 1][x], p11 = points[y + 1][x + 1];
           tri(p00, p10, p11);
@@ -127,7 +152,6 @@ export default function LowPolyBackground(props: LowPolyProps) {
 
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduce || cfg.speed === 0) {
-      // Draw one static frame
       loop(performance.now());
     } else {
       rafId = requestAnimationFrame(loop);
@@ -142,7 +166,9 @@ export default function LowPolyBackground(props: LowPolyProps) {
   }, [
     cfg.cols, cfg.rows, cfg.speed, cfg.wobble, cfg.parallax,
     cfg.glow, cfg.glowRadius, cfg.colorJitter, cfg.dprCap,
-    cfg.from.r, cfg.from.g, cfg.from.b, cfg.to.r, cfg.to.g, cfg.to.b
+    cfg.from.r, cfg.from.g, cfg.from.b, cfg.to.r, cfg.to.g, cfg.to.b,
+    // NEW deps
+    cfg.overscan, cfg.lockEdges,
   ]);
 
   return (
@@ -155,6 +181,8 @@ export default function LowPolyBackground(props: LowPolyProps) {
         zIndex: cfg.zIndex,
         opacity: cfg.opacity,
         pointerEvents: "none",
+        // Optional safety net for 1px seams (remove if you need transparency):
+        // background: `rgb(${cfg.from.r},${cfg.from.g},${cfg.from.b})`,
       }}
     />
   );

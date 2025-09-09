@@ -14,22 +14,20 @@ export default function App() {
     <>
       <LowPolyBackground
         speed={2.5}        // slower animation
-        wobble={15}         // stronger vertex wobble
-        parallax={12}      // stronger mouse shift
-        glow={0.2}        // brighter near cursor
-        glowRadius={200}   // larger glow area
+        wobble={15}        // stronger vertex wobble
+        parallax={25}      // stronger mouse shift
+        glow={0.2}         // brighter near cursor
+        glowRadius={150}   // larger glow area
         cols={24}
         rows={16}
-        dprCap={3}         // tame high-DPI cost
+        dprCap={10}         // tame high-DPI cost
         from={{ r: 45, g: 58, b: 99 }}
         to={{ r: 70, g: 58, b: 140 }}
       />
       <ScrollProgressBar />
       <Nav
         links={[
-          { id: "about", label: "About" },
           { id: "experience", label: "Experience" },
-          { id: "projects", label: "Projects" },
           { id: "skills", label: "Skills" },
           { id: "contact", label: "Contact" },
         ]}
@@ -47,25 +45,28 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="experience" title="Experience" subtitle="Highlights from my recent roles">
+      <Section id="experience" title="Experience">
         <div className="grid">
           {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} />)}
         </div>
       </Section>
 
-      <Section id="projects" title="Projects" subtitle="Selected work & OSS">
+      <Section id="projects" title="Projects">
         <div className="grid">
           {profile.projects.map((p, i) => <ProjectCard p={p} key={i} />)}
         </div>
       </Section>
 
-      <Section id="skills" title="Skills" subtitle="What I use day‑to‑day">
+      <Section id="skills" title="Skills" subtitle="Select those of interest">
         <div className="card" style={{padding:"18px"}}>
           <div style={{display:"flex", flexWrap:"wrap", gap:"10px"}}>
             {profile.skills.map(s => <span className="chip" key={s}>{s}</span>)}
           </div>
         </div>
       </Section>
+
+      <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5f551af6-ca28-4186-97a4-e646d0e27d46" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
 
       <Section id="contact" title="Contact">
         <div className="card" style={{padding:"18px", display:"flex", flexWrap:"wrap", gap:"12px", alignItems:"center"}}>

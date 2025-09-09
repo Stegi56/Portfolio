@@ -1,20 +1,21 @@
 #root { isolation: isolate; }
 
 :root{
-  --bg:#0b0d11;          /* black/near-black */
-  --panel:#11151a;       /* dark gray */
-  --edge:#1b2230;        /* lines/borders */
-  --text:#d7dce6;        /* white-ish */
-  --muted:#e2d1d1;       /* gray */
-  --blue:#3b82f6;        /* blue */
+  --bg:#0b0d11;     
+  --panel:#11151a;      
+  --edge:#1b2230;       
+  --text:#e9ecf1;       
+  --muted:#ffffff;       
+  --blue:#3b82f6;        
   --violet:#7e6fff;      /* purple-blue highlight */
+  --header: #6d7aff;
   --accent: linear-gradient(90deg, var(--violet), var(--blue));
   --radius:14px;
   --shadow:0 10px 30px rgba(0,0,0,.45);
 }
 
 *{box-sizing:border-box}
-html,body,#root{height:100%}
+html,body,#root{min-height:100%}
 html{scroll-behavior:smooth}
 body{
   margin:0;
@@ -56,7 +57,12 @@ button{font:inherit}
 }
 
 .section{
-  padding:96px 0;
+  padding:30px 0;
+  scroll-margin-top:64px;
+}
+
+.fs-0,.fs-1,.fs-2,.fs-3,.fs-4,.fs-5, strong{
+  color: var(--text);
 }
 
 .h1{
@@ -64,11 +70,17 @@ button{font:inherit}
   line-height:1.1;
   letter-spacing:-.01em;
   font-weight:800;
+  color:var(--text)
+}
+
+.text-color{
+  color:var(--text)
 }
 
 .h2{
   font-size:clamp(1.4rem,4vw,2rem);
   line-height:1.2;font-weight:700;margin:0 0 .75rem 0;
+  color:var(--header);
 }
 
 .p{color:var(--muted);font-size:1.05rem;line-height:1.65}
@@ -76,10 +88,12 @@ button{font:inherit}
 .btn{
   display:inline-flex;align-items:center;gap:.6rem;
   padding:.7rem 1rem;border-radius:12px;border:1px solid var(--edge);
-  transition:transform .12s ease, border-color .2s;
-  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  transition:transform .12s ease, border-color .2s, box-shadow .2s;
+  background: var(--violet);
+  color: white;
+  box-shadow: 0 2px 12px rgba(126, 111, 255, 0.25);
 }
-.btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.22)}
+.btn:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22)}
 .btn.primary{background:var(--accent);color:white;border:none}
 
 .nav{
@@ -93,8 +107,9 @@ button{font:inherit}
 .nav-links{
   display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;
 }
-.nav a{opacity:.9;padding:.6rem .8rem;border-radius:10px}
+.nav a{opacity:.9;padding:.3rem .8rem;border-radius:10px}
 .nav a:hover{background:rgba(255,255,255,.06)}
+.nav a:hover.btn.primary{background:var(--accent);color:white;border:white}
 
 .grid{
   display:grid;gap:16px;
@@ -111,7 +126,7 @@ hr.sep{
 
 /* tiny scroll progress bar */
 .progress{
-  position:fixed;top:0;left:0;height:10px;width:100%;z-index:60;pointer-events:none;
+  position:fixed;top:0;left:0;height:12px;width:100%;z-index:60;pointer-events:none;
   background:linear-gradient(90deg, var(--violet), var(--blue));
   transform-origin:0 0; transform:scaleX(0);
 }

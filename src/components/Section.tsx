@@ -12,7 +12,7 @@ export default function Section(props: { id: string; title: string; children: Re
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          <h2 className="h2" style={{background:"var(--accent)",WebkitBackgroundClip:"text",color:"transparent"}}>{title}</h2>
+          <h2 className="h2" style={{background:"var(--header)",WebkitBackgroundClip:"text",color:"transparent"}}>{title}</h2>
           {subtitle && <p className="p" style={{marginTop:4}}>{subtitle}</p>}
           <hr className="sep" />
         </motion.header>
