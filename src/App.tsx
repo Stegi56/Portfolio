@@ -1,4 +1,6 @@
 import React from "react";
+import Masonry from "react-masonry-css";
+
 import "./styles.css";
 import LowPolyBackground from "./components/LowPolyBackground";
 import Nav from "./components/Nav";
@@ -8,8 +10,14 @@ import ExperienceCard from "./components/ExperienceCard";
 import ProjectCard from "./components/ProjectCard";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import { profile } from "./data/profile";
+import { useTitleCarousel } from './hooks/useTitleCarousel';
+
 
 export default function App() {
+  const carouselTitle = profile.name + " - " + profile.headline;
+
+  useTitleCarousel(carouselTitle, 200);
+
   return (
     <>
       <LowPolyBackground
@@ -46,9 +54,15 @@ export default function App() {
       </Section>
 
       <Section id="experience" title="Experience">
-        <div className="grid">
-          {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} />)}
-        </div>
+        <Masonry
+          breakpointCols={{
+            default: 2,
+            1000: 1,
+          }}
+          className="masonry-grid m-0 p-0"
+          columnClassName="masonry-grid_column">
+            {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} />)}
+        </Masonry>
       </Section>
 
       <Section id="projects" title="Projects">
@@ -57,7 +71,10 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="skills" title="Skills" subtitle="Select those of interest">
+      <Section id="skills" title="Skills">
+        <h5> 
+          Select those of interest
+        </h5>
         <div className="card" style={{padding:"18px"}}>
           <div style={{display:"flex", flexWrap:"wrap", gap:"10px"}}>
             {profile.skills.map(s => <span className="chip" key={s}>{s}</span>)}

@@ -27,7 +27,6 @@ const DEF = {
   dprCap: 2,
   from: { r: 22, g: 35, b: 56 },
   to:   { r: 60, g: 52, b: 120 },
-
   overscan: 0,          // 0 → auto (parallax + wobble + 8)
   lockEdges: false,
 } as const;
@@ -181,7 +180,6 @@ export default function LowPolyBackground(props: LowPolyProps) {
         zIndex: cfg.zIndex,
         opacity: cfg.opacity,
         pointerEvents: "none",
-        // Optional safety net for 1px seams (remove if you need transparency):
         // background: `rgb(${cfg.from.r},${cfg.from.g},${cfg.from.b})`,
       }}
     />

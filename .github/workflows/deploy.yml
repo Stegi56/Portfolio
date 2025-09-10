@@ -22,10 +22,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Build for custom domain root
+      - name: Build with correct base
         run: |
-          npm ci
-          npm run build -- --base="/"
+          REPO=${{ github.event.repository.name }}
+          npm run build -- --base="/$REPO/"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -10,6 +10,7 @@ export type Certification = {
 
 export type Experience = {
   company: string;
+  logo: string; // URL or path to logo image
   role: string;
   start: string; // "Mar 2022"
   end: string;   // "Present" or "Aug 2024"
@@ -36,10 +37,9 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "/Joel Staugaitis.pdf", 
   summary:
-    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. I take pride in delivering minimalistic solutions that balance performance and maintainability.",
+    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. I take pride in delivering solutions that balance performance, complexity/maintainability and cost.",
   skills: [
-    "TypeScript","React","Node.js","Vite","CI/CD",
-    "Cloud","GraphQL","PostgreSQL","Testing","Design Systems"
+    "TypeScript","React","Node.js"
   ],
   certifications: <Certification[]>[
     {
@@ -74,17 +74,31 @@ export const profile = {
   experience: <Experience[]>[
     {
       company: "CGI",
+      logo: "/logos/CGI_2.png",
       role: "Consultant Software Engineer",
       start: "Jul 2025",
       end: "Present",
       bullets: [
-        "Delivering public sector infrastructure using AWS, Terraform, GitLab and CI/CD."
+        "Delivering infrastructure for a public sector client using AWS, Terraform, GitLab and CI/CD."
       ],
-      tech: ["aws","Terraform","GitLab","React","TypeScript"],
+      tech: ["aws","Terraform","GitLab", "CI/CD"],
       link: "https://example.com"
     },
     {
+      company: "He Is Real Charity",
+      logo: "logos/heisreal.png",
+      role: "Volunteer Software Engineer",
+      start: "May 2025",
+      end: "July 2025",
+      bullets: [
+       "Infrastructure: Made a pipeline and configured infrastructure for public file upload, review and display.",
+       "Design: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
+      ],
+      tech: ["aws","GitHub Actions","React","TypeScript", "vite", "Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
+    },
+    {
       company: "HM Revenue & Customs",
+      logo: "/logos/hmrc.png",
       role: "Software Developer",
       start: "Oct 2023",
       end: "Aug 2024",
@@ -94,7 +108,7 @@ export const profile = {
         "Managed infrastructure state via Terraform",
         "Using Scala, worked on micro-services and frontend of a Catalogue tool. "
       ],
-      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker"]
+      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB"],
     }
   ],
   projects: <Project[]>[
