@@ -22,7 +22,7 @@ export default function CertificationCard({ cert }: { cert: Certification }) {
         ) : (
           <a style={{ color:"var(--muted)", display: "block" }}>{cert.issuer}</a>
         )}
-      <span className="kbd" style={{ flex: 1, minWidth: 0, maxWidth:150 ,color: "var(--muted)"}}>{cert.issueDate}</span>
+      <span className="kbd" style={{ flex: 1, minWidth: 0, maxWidth:130 ,color: "var(--muted)"}}>{cert.issueDate}</span>
       {cert.certificate &&(
         <a className="btn glass" href={cert.certificate} target="_blank" rel="noreferrer">Certificate</a>
       )}
