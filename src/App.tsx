@@ -87,9 +87,9 @@ export default function App() {
       <Section id="certifications" title="Certifications">
         <Masonry
           breakpointCols={{
-            1500: 3,
+            default: 3,
             1000: 2,
-            525: 1,
+            550: 1,
           }}
           className="masonry-grid"
           columnClassName="masonry-grid_column">
