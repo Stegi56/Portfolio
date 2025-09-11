@@ -26,7 +26,7 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
             <a href={exp.link} target="_blank" rel="noreferrer" style={{ color:"var(--muted)", display: "block" }}>{exp.company}</a>
           )}
         </div>
-        <span className="kbd" style={{ flex: 1, minWidth: 0, maxWidth:160 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
+        <span className="kbd" style={{ flex: 1, minWidth: 0, maxWidth:170 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
       </div>
       {exp.poster &&(
         <a className="btn glass nav-links" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>
