@@ -19,8 +19,8 @@ export default function Hero() {
   const bg = useMotionTemplate`radial-gradient(600px 300px at 20% -10%, rgba(122,92,255,.25), transparent 60%)`;
 
   return (
-    <section className="section" style={{paddingTop: "30px"}}>
-      <div className="container" style={{display:"grid", gap:"22px"}}>
+    <section className="section mb-2 pt-4" id="hero">
+      <div className="container ps-0 pe-0" style={{display:"grid", gap:"22px"}}>
         <motion.div
           className="card"
           onMouseMove={onMove}
@@ -38,7 +38,7 @@ export default function Hero() {
             <div className="col mb-2">
               <div style={{display:"grid", gridTemplateColumns:"130px 1fr", gap:"18px", alignItems:"center"}}>
                 <img
-                  src="/favicon.svg"
+                  src="favicon.svg"
                   width="130"
                   height="130"
                   alt={`${profile.name} avatar`}
@@ -56,7 +56,17 @@ export default function Hero() {
               <ul className="ps-1">
                 {profile.certifications.map(c => 
                   <img
+                    key={c.image + " hero badge"}
                     src={c.image}
+                    width="75"
+                    height="75"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                )}
+                {profile.education.map(e => 
+                  <img
+                    key={e.logo + " hero badge"}
+                    src={e.logo}
                     width="75"
                     height="75"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}

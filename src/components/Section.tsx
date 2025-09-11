@@ -4,8 +4,8 @@ import React from "react";
 export default function Section(props: { id: string; title: string; children: React.ReactNode; subtitle?: string }) {
   const { id, title, subtitle, children } = props;
   return (
-    <section id={id} className="section">
-      <div className="container">
+    <section id={id} className="section pt-2 pb-4">
+      <div className="container ps-0 pe-0">
         <motion.header
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

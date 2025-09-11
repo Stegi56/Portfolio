@@ -7,8 +7,9 @@
   --text:#e9ecf1;       
   --muted:#ffffff;       
   --blue:#3b82f6;        
-  --violet:#7e6fff;      /* purple-blue highlight */
+  --violet:#7e6fff;
   --header: #6d7aff;
+  --urlColour: #7aacfdff;
   --accent: linear-gradient(90deg, var(--violet), var(--blue));
   --radius:14px;
   --shadow:0 10px 30px rgba(0,0,0,.45);
@@ -31,7 +32,6 @@ button{font:inherit}
 
 .container{
   width:min(1140px,92vw);
-  margin-inline:auto;
 }
 
 .glass{
@@ -58,8 +58,7 @@ button{font:inherit}
 }
 
 .section{
-  scroll-margin-top:80px;
-  padding:10px;
+  scroll-margin-top:110px;
 }
 
 .fs-0,.fs-1,.fs-2,.fs-3,.fs-4,.fs-5, strong{
@@ -81,20 +80,19 @@ button{font:inherit}
 .h2{
   font-size:clamp(1.4rem,4vw,2rem);
   line-height:1.2;font-weight:700;margin:0 0 .75rem 0;
-  color:var(--header);
+  color:var(--text);
 }
 
 .p{color:var(--muted);font-size:1.05rem;line-height:1.65}
 
 .btn{
   display:inline-flex;align-items:center;gap:.6rem;
-  padding:.7rem 1rem;border-radius:12px;border:1px solid var(--edge);
+  padding:.7rem 1rem;border-radius:12px;
   transition:transform .12s ease, border-color .2s, box-shadow .2s;
-  background: var(--violet);
-  color: white;
-  box-shadow: 0 2px 12px rgba(126, 111, 255, 0.25);
+  opacity:.9; padding:.3rem .8rem;border-radius:10px;
+  color:white;
 }
-.btn:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22)}
+.btn:hover{transform:translateY(-1px);background:rgba(255, 255, 255, 0.123); color:white}
 .btn.primary{background:var(--accent);color:white;border:none}
 
 .nav{
@@ -102,11 +100,11 @@ button{font:inherit}
   padding:.6rem 0;margin:0;
 }
 .nav-inner{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  display:flex;align-items:center;justify-content:space-between;
   padding:.5rem .8rem;
 }
 .nav-links{
-  display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;
+  display:flex;gap:.2rem;flex-wrap:wrap;;
 }
 .nav a{opacity:.9;padding:.3rem .8rem;border-radius:10px}
 .nav a:hover{background:rgba(255,255,255,.06)}
@@ -129,10 +127,11 @@ hr.sep{
 }
 
 .masonry-grid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: auto;
+  gap: 1rem
 }
 .masonry-grid_column {
   background-clip: padding-box;
@@ -140,4 +139,8 @@ hr.sep{
 
 .masonry-grid_column > div { 
   margin-bottom: 20px;
+}
+
+a.url{
+  color: var(--urlColour);
 }
