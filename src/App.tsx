@@ -31,7 +31,7 @@ export default function App() {
         glowRadius={150}   // larger glow area
         cols={24}
         rows={16}
-        dprCap={2}         // tame high-DPI cost
+        dprCap={1.5}         // tame high-DPI cost
         from={{ r: 45, g: 58, b: 99 }}
         to={{ r: 70, g: 58, b: 140 }}
       />

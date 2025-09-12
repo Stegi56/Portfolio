@@ -148,7 +148,7 @@ export const profile = {
         "Made automations to enforce platform opinions",
         "Using Scala, worked on micro-services and frontend of a Catalogue tool. "
       ],
-      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB"],
+      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB", "Linux"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -160,14 +160,14 @@ export const profile = {
       description: "Developed an embedded dashcam system in Rust with Tauri and REACT for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process. ",
       repo: "https://github.com/Stegi56/ZeroCam",
       embed: '<iframe src="https://www.youtube.com/embed/hgGenb6m6fY?si=VgECMOTRG2hlCbff" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-      tech: ["Rust", "Tauri", "React", "TypeScript", "FFmpeg", "MediaMTX", "Raspberry Pi", "Cloudflare"],
+      tech: ["Rust", "Tauri", "React", "TypeScript", "FFmpeg", "MediaMTX", "Raspberry Pi", "Cloudflare", "Linux"],
     },
     {
       name: "Face Covering Detection",
       description: "Built a Python computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
       photo: "demos/mask detection.png",
       repo: "https://github.com/Stegi56/Face-Covering-Detection",
-      tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Sckit-image"],
+      tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Scikit-image", "NumPy", "matplotlib"],
     },
     {
       name: "ChatEz",
@@ -178,13 +178,27 @@ export const profile = {
       tech: ["Node.js", "React", "TypeScript", "JavaScript", "Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
     },
     {
+      name: "Bob",
+      description: "Created a platform game “Bob” using a variation of the box2D engine in Java.",
+      embed: '<iframe src="https://www.youtube.com/embed/xg0nEpYkc2w?si=Ikpy2SrWjRXQRDdS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      tech: ["Java", "Swing UI", "OOAD"],
+    },
+    {
+      name: "League of Legends Analytics",
+      logo: "logos/league.png",
+      description: "Made a tool that gets match data to provide post-match performance analysis",
+      embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wg3HJdyKrVg?si=me1_7p9EpbMllM0H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      about: "Joelis Staugaitis NEA - Lol Analytics.pdf",
+      tech: ["Python", "TKinter", "Matplotlib", "Numpy", "REST APIs"],
+    },
+    {
       name: "Regression Body Fat Estimator",
       logo: "logos/body fat estimator.jpg",
       description: "Made a ML model for body fat estimation using TensorFlow.",
       repo: "https://github.com/Stegi56/Body-Fat-Estimator",
       about: "https://www.linkedin.com/feed/update/urn:li:activity:7083426688864276480/",
       video: "demos/Body Fat Estimator.mp4",
-      tech: ["Python", "TensorFlow", "Android Studio", "Java"],
-    }
+      tech: ["Python", "TensorFlow", "Android Studio", "Java", "NumPy", "Pandas", "matplotlib"],
+    },
   ]
 };

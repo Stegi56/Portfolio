@@ -22,7 +22,7 @@ export default function EducationCard({ ed }: { ed: Education }) {
           <strong style={{ fontWeight: 700 }}>{ed.title}</strong>
           <p className="mb-0" style={{ color:"var(--muted)", display: "block" }}>{ed.institution}</p>
         </div>
-        <span className="kbd" style={{ flex: 1, minWidth: 70, maxWidth:150 ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
+        <span className="kbd" style={{ flex: 1, minWidth: 70, maxWidth:200 ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
       </div>
       {ed.certificate &&(
         <a className="btn glass nav-links" href={ed.certificate} target="_blank" rel="noreferrer">Certificate</a>
