@@ -19,7 +19,10 @@ export default function ProjectCard({ p }: { p: Project }) {
           />
         )}
         <strong>{p.name}</strong>
-        {p.repo && <a className="btn glass ms-auto" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
+        <div style={{gap:"8px", display:"flex"}}>
+          {p.repo && <a className="btn glass ms-auto" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
+          {p.about && <a className="btn glass ms-auto" href={p.about} target="_blank" rel="noreferrer">About</a>}
+        </div>
       </header>
       <p className="p mb-0">{p.description}</p>
       {!!p.bullets?.length && (
@@ -30,13 +33,21 @@ export default function ProjectCard({ p }: { p: Project }) {
       {p.embed && (
         <div className="video-container" dangerouslySetInnerHTML={{ __html: p.embed }} />
       )}
-      {!!p.demo && (
+      {!!p.photo && (
         <img
           className=""
-          src={p.demo}
+          src={p.photo}
           width="100%"
         />
       )}
+
+      {!!p.video && (
+        <video className="" width="100%" height="auto" controls>
+          <source src={p.video} type="video/mp4"/>
+          Your browser does not support the video tag.
+        </video>
+      )}
+
       <div style={{display:"flex", flexWrap:"wrap", gap:"8px"}}>
         {p.tech.map(t => <span className="chip" key={t}>{t}</span>)}
       </div>

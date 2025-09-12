@@ -39,7 +39,8 @@ export type Project = {
   description: string;
   bullets?: string[];
   tech: string[];
-  demo?: string;
+  photo?: string;
+  video?: string;
   embed?: string;
   repo?: string;
   about?: string;
@@ -164,7 +165,7 @@ export const profile = {
     {
       name: "Face Covering Detection",
       description: "Built a Python computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
-      demo: "demos/mask detection.png",
+      photo: "demos/mask detection.png",
       repo: "https://github.com/Stegi56/Face-Covering-Detection",
       tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Sckit-image"],
     },
@@ -175,6 +176,15 @@ export const profile = {
       repo: "https://github.com/ChatEz-Project",
       embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       tech: ["Node.js", "React", "TypeScript", "JavaScript", "Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
+    },
+    {
+      name: "Regression Body Fat Estimator",
+      logo: "logos/body fat estimator.jpg",
+      description: "Made a ML model for body fat estimation using TensorFlow.",
+      repo: "https://github.com/Stegi56/Body-Fat-Estimator",
+      about: "https://www.linkedin.com/feed/update/urn:li:activity:7083426688864276480/",
+      video: "demos/Body Fat Estimator.mp4",
+      tech: ["Python", "TensorFlow", "Android Studio", "Java"],
     }
   ]
 };

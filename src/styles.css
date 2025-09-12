@@ -94,6 +94,7 @@ button{font:inherit}
 }
 .btn:hover{background:rgba(255, 255, 255, 0.123); color:white}
 .btn:first-child:active{color:white}
+.btn:active{color:white}
 .btn.primary{background:var(--accent);color:white;border:none}
 
 .nav{
