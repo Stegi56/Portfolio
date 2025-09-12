@@ -89,7 +89,7 @@ export default function App() {
           breakpointCols={{
             default: 3,
             1000: 2,
-            550: 1,
+            400: 1,
           }}
           className="masonry-grid"
           columnClassName="masonry-grid_column">

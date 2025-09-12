@@ -19,7 +19,7 @@ export default function Hero() {
   const bg = useMotionTemplate`radial-gradient(600px 300px at 20% -10%, rgba(122,92,255,.25), transparent 60%)`;
 
   return (
-    <section className="section mb-2 pt-4" id="hero">
+    <section className="section mb-2 pt-3" id="home">
       <div className="container ps-0 pe-0" style={{display:"grid", gap:"22px"}}>
         <motion.div
           className="card"

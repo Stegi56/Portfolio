@@ -16,13 +16,15 @@ export default function CertificationCard({ cert }: { cert: Certification }) {
         style={{placeSelf:"center"}}
         onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
       />
-        <strong style={{ fontWeight: 700 }}>{cert.name}</strong>
+      <strong style={{ fontWeight: 700 }}>{cert.name}</strong>
+      <div className="row">
         {cert.link != undefined ? (
-          <a className="url" href={cert.link} target="_blank" rel="noreferrer" style={{ display: "block" }}>{cert.issuer}</a>
+          <a className="col-md-8 col-sm-12" href={cert.link} target="_blank" rel="noreferrer" style={{ display: "block" }}>{cert.issuer}</a>
         ) : (
-          <a style={{ color:"var(--muted)", display: "block" }}>{cert.issuer}</a>
+          <a className="col-md-8 col-sm-12" style={{ color:"var(--muted)", display: "block" }}>{cert.issuer}</a>
         )}
-      <span className="kbd" style={{ flex: 1, minWidth: 0, maxWidth:130 ,color: "var(--muted)"}}>{cert.issueDate}</span>
+        <span className="col-md-4 col-sm-12 kbd text-md-end text-sm-start" style={{flex: 1, minWidth: 0, maxWidth:150 ,color: "var(--muted)"}}>{cert.issueDate}</span>
+      </div>
       {cert.certificate &&(
         <a className="btn glass" href={cert.certificate} target="_blank" rel="noreferrer">Certificate</a>
       )}
