@@ -35,11 +35,14 @@ export type Experience = {
 
 export type Project = {
   name: string;
+  logo?: string;
   description: string;
-  highlights?: string[];
+  bullets?: string[];
   tech: string[];
-  link?: string;
+  demo?: string;
+  embed?: string;
   repo?: string;
+  about?: string;
 };
 
 export const profile = {
@@ -51,7 +54,7 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. I take pride in delivering solutions that balance performance, complexity/maintainability and cost.",
+    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. Has experience engineering for a platform that serves 45+ million users.",
   skills: [
     "TypeScript","React","Node.js"
   ],
@@ -83,7 +86,8 @@ export const profile = {
       certificate: "certificates/1754427503415.pdf",
       issuer: "Amazon Web Services",
       issueDate: "2025-08",
-      tech: ["aws", "DevOps"]
+      tech: ["aws", "DevOps"],
+      link: "https://aws.amazon.com/certification/certified-cloud-practitioner/"
     },
     {
       name: "HashiCorp Certified: Terraform Associate",
@@ -91,7 +95,8 @@ export const profile = {
       certificate: "certificates/TerraformAssociate00320250909-30-zjhxev.pdf",
       issuer: "HashiCorp",
       issueDate: "2025-09",
-      tech: ["Terraform", "IaC", "Vault", "DevOps"]
+      tech: ["Terraform", "IaC", "Vault", "DevOps"],
+      link: "https://developer.hashicorp.com/certifications/infrastructure-automation"
     },
     {
       name: "GitLab CI Fundamentals",
@@ -99,7 +104,8 @@ export const profile = {
       certificate: "certificates/1757078512263.pdf",
       issuer: "GitLab",
       issueDate: "2025-09",
-      tech: ["GitLab", "CI/CD", "DevOps"]
+      tech: ["GitLab", "CI/CD", "DevOps"],
+      link: "https://university.gitlab.com/learning-paths/gitlab-ci-fundamentals"
     }
   ],
   experience: <Experience[]>[
@@ -136,8 +142,9 @@ export const profile = {
       end: "Aug 2024",
       bullets: [
         "Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "Constructed pipelines",
-        "Managed infrastructure state via Terraform",
+        "Constructed pipelines and new fallbacks",
+        "Managed infrastructure via Terraform",
+        "Made automations to enforce platform opinions",
         "Using Scala, worked on micro-services and frontend of a Catalogue tool. "
       ],
       tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB"],
@@ -147,18 +154,27 @@ export const profile = {
   ],
   projects: <Project[]>[
     {
-      name: "Project One",
-      description: "testy test test",
-      highlights: ["1", "2"],
-      tech: ["React","TypeScript","WebSockets"],
-      link: "https://example.com",
-      repo: "https://example.com"
+      name: "ZeroCam",
+      logo: "logos/zerocam.png",
+      description: "Developed an embedded dashcam system in Rust with Tauri and REACT for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process. ",
+      repo: "https://github.com/Stegi56/ZeroCam",
+      embed: '<iframe src="https://www.youtube.com/embed/hgGenb6m6fY?si=VgECMOTRG2hlCbff" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      tech: ["Rust", "Tauri", "React", "TypeScript", "FFmpeg", "MediaMTX", "Raspberry Pi", "Cloudflare"],
     },
     {
-      name: "Project Two",
-      description: "testy test test",
-      tech: ["TypeScript","React"],
-      repo: "https://example.com"
+      name: "Face Covering Detection",
+      description: "Built a Python computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
+      demo: "demos/mask detection.png",
+      repo: "https://github.com/Stegi56/Face-Covering-Detection",
+      tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Sckit-image"],
+    },
+    {
+      name: "ChatEz",
+      logo: "logos/chatez.png",
+      description: " Built a real-time, scalable web chat application using (Node.js + REACT), deployed on Google Cloud. Employed APIs for translation + AI summary features and utilised Firebase PaaS.",
+      repo: "https://github.com/ChatEz-Project",
+      embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
     }
   ]
 };

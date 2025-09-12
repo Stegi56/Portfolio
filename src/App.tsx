@@ -1,5 +1,6 @@
 import React from "react";
 import Masonry from "react-masonry-css";
+import { motion } from "framer-motion";
 
 import "./styles.css";
 import LowPolyBackground from "./components/LowPolyBackground";
@@ -48,11 +49,16 @@ export default function App() {
       <Hero/>
 
       <Section id="about" title="About">
-        <div className="card" style={{padding:"18px"}}>
-          <p className="p m-0">
-            {profile.summary}
-          </p>
-        </div>
+        <motion.article
+          whileHover={{ y: -3 }}
+          transition={{ type: "spring", stiffness: 300, damping: 22 }}
+        >
+          <div className="card" style={{padding:"18px"}}>
+            <p className="p m-0">
+              {profile.summary}
+            </p>
+          </div>
+        </motion.article>
       </Section>
 
       <Section id="experience" title="Experience">
@@ -68,9 +74,15 @@ export default function App() {
       </Section>
 
       <Section id="projects" title="Projects">
-        <div className="grid">
-          {profile.projects.map((p, i) => <ProjectCard p={p} key={i} />)}
-        </div>
+        <Masonry
+          breakpointCols={{
+            default: 2,
+            1000: 1,
+          }}
+          className="masonry-grid"
+          columnClassName="masonry-grid_column">
+            {profile.projects.map((p, i) => <ProjectCard p={p} key={i} />)}
+        </Masonry>
       </Section>
 
       <Section id="skills" title="Skills">
@@ -87,7 +99,8 @@ export default function App() {
       <Section id="certifications" title="Certifications">
         <Masonry
           breakpointCols={{
-            default: 3,
+            default: 4,
+            1500: 3,
             1000: 2,
             400: 1,
           }}
