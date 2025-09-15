@@ -90,7 +90,7 @@ export default function App() {
           }}
           className="masonry-grid"
           columnClassName="masonry-grid_column">
-            {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} />)}
+            {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </Masonry>
       </Section>
 
@@ -102,7 +102,7 @@ export default function App() {
           }}
           className="masonry-grid"
           columnClassName="masonry-grid_column">
-            {profile.projects.map((p, i) => <ProjectCard p={p} key={i} />)}
+            {profile.projects.map((p, i) => <ProjectCard p={p} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </Masonry>
       </Section>
 
@@ -131,7 +131,7 @@ export default function App() {
 
       <Section id="education" title="Education">
         <div className="col">
-          {profile.education.map((ed, i) => <EducationCard ed={ed} key={i} />)}
+          {profile.education.map((ed, i) => <EducationCard ed={ed} allTech={allTech} toggleTech={toggleTech} key={i} />)}
         </div>
       </Section>
 
@@ -140,10 +140,13 @@ export default function App() {
 
       <Section id="contact" title="Contact">
         <div className="card p-3 align-items-center">
-          <span className="kbd fs-6 pb-2" style={{color:"var(--text)"}}>Let’s talk:</span>
-          <div style={{display:"flex", flexWrap:"wrap", gap:"8px", justifyContent:"center", width:"100%"}}>
+          <TechPills 
+            displayTech={Array.from(allTech).filter(t => t[1] == true).map(t => t[0])} 
+            allTech={allTech} toggleTech={toggleTech}
+          />
+          <span className="kbd p-2" style={{fontSize:27, color:"var(--text)"}}>Let’s talk:</span>
 
-            <div className="btn-group" role="group">
+            <div className="btn-group pb-2" role="group">
               <a className="btn primary" href={`mailto:${profile.email}`}>{profile.email}</a>
               <button className="btn glass" title="copy to clipboard" onClick={() => navigator.clipboard.writeText(profile.email)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="p-0 m-0 bi bi-copy" viewBox="0 0 16 16">
@@ -193,7 +196,6 @@ export default function App() {
                 Insta
               </a>
             </div>
-          </div>
         </div>
         <p className="p" style={{marginTop:"10px"}}>© {new Date().getFullYear()} {profile.name}</p>
       </Section>

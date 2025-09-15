@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import type { Education } from "../data/profile";
 
-export default function EducationCard({ ed }: { ed: Education }) {
+import TechPills from "./TechPills";
+
+interface TechProps{
+  allTech: Map<string, boolean>;
+  toggleTech: (tech: string) => void;
+}
+
+export default function EducationCard({ ed, allTech, toggleTech}: { ed: Education } & TechProps) {
   return (
     <motion.article
       className="card mb-3"
@@ -32,11 +39,7 @@ export default function EducationCard({ ed }: { ed: Education }) {
       <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
         {ed.bullets.map((b, i) => <li key={i}>{b}</li>)}
       </ul>
-      {!!ed.tech?.length && (
-        <div style={{display:"flex", flexWrap:"wrap", gap:"8px"}}>
-          {ed.tech.map(t => <span className="chip glass" key={t}>{t}</span>)}
-        </div>
-      )}
+      <TechPills displayTech={ed.tech} allTech={allTech} toggleTech={toggleTech}/>
     </motion.article>
   );
 }

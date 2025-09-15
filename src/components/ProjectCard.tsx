@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import type { Project } from "../data/profile";
 
-export default function ProjectCard({ p }: { p: Project }) {
+import TechPills from "./TechPills";
+
+interface TechProps{
+  allTech: Map<string, boolean>;
+  toggleTech: (tech: string) => void;
+}
+
+export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & TechProps) {
   return (
     <motion.article
       className="card mb-3"
@@ -52,9 +59,7 @@ export default function ProjectCard({ p }: { p: Project }) {
         </video>
       )}
 
-      <div style={{display:"flex", flexWrap:"wrap", gap:"8px"}}>
-        {p.tech.map(t => <span className="chip" key={t}>{t}</span>)}
-      </div>
+      <TechPills displayTech={p.tech} allTech={allTech} toggleTech={toggleTech}/>
 
     </motion.article>
   );

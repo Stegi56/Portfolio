@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import type { Experience } from "../data/profile";
 
-export default function ExperienceCard({ exp }: { exp: Experience }) {
+import TechPills from "./TechPills";
+interface TechProps{
+  allTech: Map<string, boolean>;
+  toggleTech: (tech: string) => void;
+}
+
+export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Experience } & TechProps) {
   return (
     <motion.article
       className="card mb-3"
@@ -36,11 +42,8 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
       <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
         {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
       </ul>
-      {!!exp.tech?.length && (
-        <div style={{display:"flex", flexWrap:"wrap", gap:"8px"}}>
-          {exp.tech.map(t => <span className="chip glass" key={t}>{t}</span>)}
-        </div>
-      )}
+      <TechPills displayTech={exp.tech} allTech={allTech} toggleTech={toggleTech}/>
+
     </motion.article>
   );
 }
