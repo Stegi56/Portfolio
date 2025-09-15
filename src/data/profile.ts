@@ -8,7 +8,7 @@ export type Education = {
   end: string;   // "Present" or "Aug 2024"
   bullets: string[];
   certificate?: string; // URL or path to certificate PDF
-  tech?: string[];
+  tech: string[];
 }
 
 export type Certification = {
@@ -18,7 +18,7 @@ export type Certification = {
   issuer: string;
   link?: string;
   issueDate: string; // "2023-08"
-  tech?: string[];
+  tech: string[];
 }
 
 export type Experience = {
@@ -28,7 +28,7 @@ export type Experience = {
   start: string; // "Mar 2022"
   end: string;   // "Present" or "Aug 2024"
   bullets: string[];
-  tech?: string[];
+  tech: string[];
   link?: string;
   poster?: string;
 };
@@ -52,13 +52,11 @@ export const profile = {
   location: "United Kingdom & EU",      
   email: "56rolsj@gmail.com",             
   linkedin: "https://www.linkedin.com/in/stegi56/",
+  instagram: "https://www.instagram.com/stegi__56",
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A keen generalist who enjoys staying up to date with the latest tech, experimenting with new libraries, frameworks and languages. Has experience engineering for a platform that serves 45+ million users.",
-  skills: [
-    "TypeScript","React","Node.js"
-  ],
+    "A keen generalist who enjoys staying up to date with the latest tech, and doing deep dives into new libraries, frameworks and languages. Has experience engineering for a platform that serves 45+ million users.",
   education: <Education[]>[
     {
       title: "BSc Computer Science (1st Class Honours)",
@@ -117,7 +115,7 @@ export const profile = {
       start: "Jul 2025",
       end: "Present",
       bullets: [
-        "Delivering infrastructure for a public sector client using AWS, Terraform, GitLab and CI/CD."
+        "Delivering infrastructure for a public sector client."
       ],
       tech: ["aws","Terraform","GitLab", "CI/CD"],
       link: "https://www.cgi.com/uk/en-gb",
@@ -129,8 +127,9 @@ export const profile = {
       start: "May 2025",
       end: "July 2025",
       bullets: [
-       "Infrastructure: Made a pipeline and configured infrastructure for public file upload, review and display.",
-       "Design: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
+       "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget and time frame, yielding zero project overrun.",
+       "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
+       "Frontend: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
       ],
       tech: ["aws","GitHub Actions","React","TypeScript", "vite", "Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
       link: "https://heisreal.today",
@@ -142,13 +141,14 @@ export const profile = {
       start: "Oct 2023",
       end: "Aug 2024",
       bullets: [
-        "Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "Constructed pipelines and new fallbacks",
-        "Managed infrastructure via Terraform",
-        "Made automations to enforce platform opinions",
-        "Using Scala, worked on micro-services and frontend of a Catalogue tool. "
+        "Role: Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
+        "SPIKEs: Conducted an investigations, one identified 100+ abandoned microservices for removal across HMRC, resulting in significant infrastructture savings and improved cleanliness of the platform.",
+        "Created automations to enforce platform opinions and prevent future need for an investigations.",
+        "Microservices: Using Scala constructed new fallbacks and expanded backend microservices.",
+        "DevOps: Managed infrastructure via Terraform.",
+        "Frontend: Evolved the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "aws", "terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB", "Linux"],
+      tech: ["Scala", "aws", "Terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB", "Linux"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }

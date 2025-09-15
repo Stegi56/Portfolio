@@ -14,6 +14,8 @@ export default function EducationCard({ ed }: { ed: Education }) {
           src={ed.logo}
           width="60"
           height="60"
+          loading="lazy" 
+          decoding="async"
           style={{alignSelf:"center"}}
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />

@@ -41,6 +41,8 @@ export default function Hero() {
                   src="favicon.svg"
                   width="130"
                   height="130"
+                  loading="lazy" 
+                  decoding="async"
                   alt={`${profile.name} avatar`}
                   style={{borderRadius:"16px", border:"1px solid var(--edge)"}}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
@@ -60,6 +62,8 @@ export default function Hero() {
                     src={c.image}
                     width="75"
                     height="75"
+                    loading="lazy" 
+                    decoding="async"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}
@@ -69,6 +73,8 @@ export default function Hero() {
                     src={e.logo}
                     width="75"
                     height="75"
+                    loading="lazy" 
+                    decoding="async"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}

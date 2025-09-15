@@ -14,6 +14,8 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
           src={exp.logo}
           width="60"
           height="60"
+          loading="lazy" 
+          decoding="async"
           style={{alignSelf:"center"}}
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />

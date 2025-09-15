@@ -16,6 +16,8 @@ export default function ProjectCard({ p }: { p: Project }) {
             src={p.logo}
             width="60"
             height="60"
+            loading="lazy" 
+            decoding="async"
           />
         )}
         <strong>{p.name}</strong>
@@ -38,6 +40,8 @@ export default function ProjectCard({ p }: { p: Project }) {
           className=""
           src={p.photo}
           width="100%"
+          loading="lazy" 
+          decoding="async"
         />
       )}
 
