@@ -94,7 +94,7 @@ export const profile = {
       certificate: "certificates/TerraformAssociate00320250909-30-zjhxev.pdf",
       issuer: "HashiCorp",
       issueDate: "2025-09",
-      tech: ["Terraform", "IaC", "Vault", "DevOps"],
+      tech: ["Terraform", "IaC", "Vault", "DevOps", "BASH"],
       link: "https://developer.hashicorp.com/certifications/infrastructure-automation"
     },
     {
@@ -103,7 +103,7 @@ export const profile = {
       certificate: "certificates/1757078512263.pdf",
       issuer: "GitLab",
       issueDate: "2025-09",
-      tech: ["GitLab", "CI/CD", "DevOps"],
+      tech: ["GitLab", "CI/CD", "DevOps", "BASH"],
       link: "https://university.gitlab.com/learning-paths/gitlab-ci-fundamentals"
     }
   ],
@@ -117,7 +117,7 @@ export const profile = {
       bullets: [
         "Delivering infrastructure for a public sector client."
       ],
-      tech: ["aws","Terraform","GitLab", "CI/CD"],
+      tech: ["aws","Terraform","GitLab", "CI/CD", "BASH", "Java"],
       link: "https://www.cgi.com/uk/en-gb",
     },
     {
@@ -131,7 +131,7 @@ export const profile = {
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
        "Frontend: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
       ],
-      tech: ["aws","GitHub Actions","React","TypeScript", "vite", "Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
+      tech: ["aws","GitHub Actions","React","TypeScript", "Javascript",  "CI/CD","REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
       link: "https://heisreal.today",
     },
     {
@@ -148,7 +148,7 @@ export const profile = {
         "DevOps: Managed infrastructure via Terraform.",
         "Frontend: Evolved the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "aws", "Terraform", "Confluence", "Jira", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "Rest APIs", "MongoDB", "Linux"],
+      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","Javascript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -175,7 +175,7 @@ export const profile = {
       description: " Built a real-time, scalable web chat application using (Node.js + REACT), deployed on Google Cloud. Employed APIs for translation + AI summary features and utilised Firebase PaaS.",
       repo: "https://github.com/ChatEz-Project",
       embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
+      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Code Review", "CI/CD","Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
     },
     {
       name: "Bob",

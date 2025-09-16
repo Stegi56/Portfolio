@@ -67,6 +67,7 @@ export default function App() {
         linkedin={profile.linkedin}
         resumeUrl={profile.resumeUrl}
       />
+
       <Hero/>
 
       <Section id="about" title="About">
@@ -80,6 +81,15 @@ export default function App() {
             </p>
           </div>
         </motion.article>
+      </Section>
+
+      <Section id="skills" title="Skills">
+        <h5> 
+          Select those of interest
+        </h5>
+        <div className="card" style={{padding:"18px"}}>
+          <TechPills displayTech={Array.from(allTech.keys())} allTech={allTech} toggleTech={toggleTech} />
+        </div>
       </Section>
 
       <Section id="experience" title="Experience">
@@ -106,12 +116,9 @@ export default function App() {
         </Masonry>
       </Section>
 
-      <Section id="skills" title="Skills">
-        <h5> 
-          Select those of interest
-        </h5>
-        <div className="card" style={{padding:"18px"}}>
-          <TechPills displayTech={Array.from(allTech.keys())} allTech={allTech} toggleTech={toggleTech} />
+      <Section id="education" title="Education">
+        <div className="col">
+          {profile.education.map((ed, i) => <EducationCard ed={ed} allTech={allTech} toggleTech={toggleTech} key={i} />)}
         </div>
       </Section>
 
@@ -127,12 +134,6 @@ export default function App() {
           columnClassName="masonry-grid_column">
             {profile.certifications.map((c, i) => <CertificationCard cert={c} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </Masonry>
-      </Section>
-
-      <Section id="education" title="Education">
-        <div className="col">
-          {profile.education.map((ed, i) => <EducationCard ed={ed} allTech={allTech} toggleTech={toggleTech} key={i} />)}
-        </div>
       </Section>
 
       <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5f551af6-ca28-4186-97a4-e646d0e27d46" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>

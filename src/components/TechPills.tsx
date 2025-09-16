@@ -10,7 +10,7 @@ interface TechPillsProps {
 export default function TechPills({ displayTech, allTech, toggleTech }: TechPillsProps) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-      {displayTech.map(tech => (
+      {displayTech.sort((a, b) => a[0].localeCompare(b[0])).map(tech => (
         <button
           onClick={() => toggleTech(tech)}
           className={`chip glass ${(allTech.get(tech)?? false) ? 'selected' : ''}`}
