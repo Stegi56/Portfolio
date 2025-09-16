@@ -189,7 +189,7 @@ export const profile = {
       description: "Made a tool that gets match data to provide post-match performance analysis",
       embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wg3HJdyKrVg?si=me1_7p9EpbMllM0H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       about: "Joelis Staugaitis NEA - Lol Analytics.pdf",
-      tech: ["Python", "TKinter", "matplotlib", "Numpy", "REST APIs"],
+      tech: ["Python", "TKinter", "matplotlib", "NumPy", "REST APIs"],
     },
     {
       name: "Regression Body Fat Estimator",
