@@ -131,7 +131,7 @@ export const profile = {
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
        "Frontend: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
       ],
-      tech: ["aws","GitHub Actions","React","TypeScript", "Javascript",  "CI/CD","REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
+      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD","REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
       link: "https://heisreal.today",
     },
     {
@@ -148,7 +148,7 @@ export const profile = {
         "DevOps: Managed infrastructure via Terraform.",
         "Frontend: Evolved the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","Javascript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux"],
+      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -189,7 +189,7 @@ export const profile = {
       description: "Made a tool that gets match data to provide post-match performance analysis",
       embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wg3HJdyKrVg?si=me1_7p9EpbMllM0H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       about: "Joelis Staugaitis NEA - Lol Analytics.pdf",
-      tech: ["Python", "TKinter", "Matplotlib", "Numpy", "REST APIs"],
+      tech: ["Python", "TKinter", "matplotlib", "NumPy", "REST APIs"],
     },
     {
       name: "Regression Body Fat Estimator",
