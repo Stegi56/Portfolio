@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Masonry from "react-masonry-css";
 import { motion } from "framer-motion";
 
@@ -39,7 +39,7 @@ export default function App() {
     profile.projects.flatMap(c => c.tech).forEach(t => allTech.set(t, false));
     profile.education.flatMap(c => c.tech).forEach(t => allTech.set(t, false));
         
-    return new Map([...allTech.entries()].sort((a, b) => a[0].localeCompare(b[0])));
+    return new Map([...allTech.entries()].sort((a, b) => a[0].localeCompare(b[0]))).set("aws", true);
   });
 
   const toggleTech = (techToToggle: string) => {
