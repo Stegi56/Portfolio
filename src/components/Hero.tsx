@@ -71,6 +71,7 @@ export default function Hero() {
                   <img
                     key={e.logo + " hero badge"}
                     src={e.logo}
+                    className="p-1"
                     width="75"
                     height="75"
                     loading="lazy" 

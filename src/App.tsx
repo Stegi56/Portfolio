@@ -12,13 +12,24 @@ import CertificationCard from "./components/CertificationCard";
 import ProjectCard from "./components/ProjectCard";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import { profile } from "./data/profile";
-import { useTitleCarousel } from './hooks/useTitleCarousel';
 import EducationCard from "./components/Education";
 import TechPills from "./components/TechPills";
+
+import { useTitleCarousel } from './hooks/useTitleCarousel';
+import { useBreakpoint } from './hooks/useBreakpoint';
 
 export default function App() {
   //const carouselTitle = profile.name + " - " + profile.headline;
   // useTitleCarousel(carouselTitle, 200);
+
+  const breakpoint = useBreakpoint();
+    const backgroundConfig = {
+    lg: { cols: 24, rows: 16 },
+    md: { cols: 18, rows: 18 },
+    sm: { cols: 10, rows: 16 },
+  };
+  const { cols, rows } = backgroundConfig[breakpoint];
+
   
   const [allTech, setAllTech] = useState(() => {
     let allTech = new Map<string, boolean>();
@@ -50,8 +61,8 @@ export default function App() {
         parallax={25}      // stronger mouse shift
         glow={0.2}         // brighter near cursor
         glowRadius={150}   // larger glow area
-        cols={24}
-        rows={16}
+        cols={cols}
+        rows={rows}
         dprCap={1.5}         // tame high-DPI cost
         from={{ r: 45, g: 58, b: 99 }}
         to={{ r: 70, g: 58, b: 140 }}

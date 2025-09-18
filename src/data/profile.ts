@@ -56,7 +56,7 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A keen generalist who enjoys staying up to date with the latest tech, and doing deep dives into new libraries, frameworks and languages. Has experience engineering for a platform that serves 45+ million users.",
+    "A generalist who is keen on staying up to date with the latest tech - doing deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users.",
   education: <Education[]>[
     {
       title: "BSc Computer Science (1st Class Honours)",
@@ -115,7 +115,7 @@ export const profile = {
       start: "Jul 2025",
       end: "Present",
       bullets: [
-        "Delivering infrastructure for a public sector client."
+        "Delivering to a public sector client."
       ],
       tech: ["aws","Terraform","GitLab", "CI/CD", "BASH", "Java"],
       link: "https://www.cgi.com/uk/en-gb",
