@@ -148,7 +148,7 @@ export const profile = {
         "DevOps: Managed infrastructure via Terraform.",
         "Frontend: Evolved the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux"],
+      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
