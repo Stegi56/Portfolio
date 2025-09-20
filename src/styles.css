@@ -16,14 +16,31 @@
 }
 
 *{box-sizing:border-box}
-html,body,#root{min-height:100dvh;min-height: 100vh;}
+html, body {
+  min-height: 100%; /* Or 100% */
+  min-height: 100vh;
+}
+
 html{scroll-behavior:smooth}
 body{
   margin:0;
   font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--text);
   background: radial-gradient(1200px 800px at 70% -10%, #122241 0%, transparent 60%), var(--bg);
-  overflow-x:hidden;
+}
+
+html, body {
+  /* For Firefox */
+  scrollbar-width: none;
+  
+  /* For Internet Explorer and Edge */
+  -ms-overflow-style: none;
+}
+
+/* For Chrome, Safari, and Opera */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 

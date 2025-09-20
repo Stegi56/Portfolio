@@ -56,7 +56,7 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A generalist who is keen on staying up to date with the latest tech - doing deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users.",
+    "A generalist who frequently deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users and providing tech leadership to a new charity project.",
   education: <Education[]>[
     {
       title: "BSc Computer Science (1st Class Honours)",
@@ -129,9 +129,9 @@ export const profile = {
       bullets: [
        "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget and time frame, yielding zero project overrun.",
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
-       "Frontend: Implemented web components so that this infrastructure can be attached via embed links onto a Squarespace site."
+       "Frontend: Implemented web components so infrastructure can be glued via tembed links onto a Squarespace site."
       ],
-      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD","REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
+      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD", "REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
       link: "https://heisreal.today",
     },
     {
@@ -142,10 +142,10 @@ export const profile = {
       end: "Aug 2024",
       bullets: [
         "Role: Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "SPIKEs: Conducted an investigations, one identified 100+ abandoned microservices for removal across HMRC, resulting in significant infrastructture savings and improved cleanliness of the platform.",
-        "Created automations to enforce platform opinions and prevent future need for an investigations.",
-        "Microservices: Using Scala constructed new fallbacks and expanded backend microservices.",
-        "DevOps: Managed infrastructure via Terraform.",
+        "SPIKEs: Conducted investigations, one identified 100+ abandoned microservices for removal across HMRC, resulting in significant infrastructture savings and improved cleanliness of the platform.",
+        "Automations: Improved visibility and enforcement platform opinions and prevent future need for an investigations.",
+        "Microservices: Constructed new fallbacks and expanded backend microservices.",
+        "DevOps: Managed infrastructure.",
         "Frontend: Evolved the frontend for a self-service Catalogue tool."
       ],
       tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
@@ -157,14 +157,14 @@ export const profile = {
     {
       name: "ZeroCam",
       logo: "logos/zerocam.png",
-      description: "Developed an embedded dashcam system in Rust with Tauri and REACT for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process. ",
+      description: "Developed an embedded dashcam system for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process. ",
       repo: "https://github.com/Stegi56/ZeroCam",
       embed: '<iframe src="https://www.youtube.com/embed/hgGenb6m6fY?si=VgECMOTRG2hlCbff" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       tech: ["Rust", "Tauri", "React", "TypeScript", "FFmpeg", "MediaMTX", "Raspberry Pi", "Cloudflare", "Linux"],
     },
     {
       name: "Face Covering Detection",
-      description: "Built a Python computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
+      description: "Built a computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
       photo: "demos/mask detection.png",
       repo: "https://github.com/Stegi56/Face-Covering-Detection",
       tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Scikit-image", "NumPy", "matplotlib"],
@@ -172,14 +172,14 @@ export const profile = {
     {
       name: "ChatEz",
       logo: "logos/chatez.png",
-      description: " Built a real-time, scalable web chat application using (Node.js + REACT), deployed on Google Cloud. Employed APIs for translation + AI summary features and utilised Firebase PaaS.",
+      description: " Built a real-time, scalable web chat application.",
       repo: "https://github.com/ChatEz-Project",
       embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       tech: ["Node.js", "React", "TypeScript", "JavaScript", "Code Review", "CI/CD","Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
     },
     {
       name: "Bob",
-      description: "Created a platform game “Bob” using a variation of the box2D engine in Java.",
+      description: "Created a platform game “Bob”.",
       embed: '<iframe src="https://www.youtube.com/embed/xg0nEpYkc2w?si=Ikpy2SrWjRXQRDdS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       tech: ["Java", "Swing UI", "OOAD"],
     },
@@ -194,7 +194,7 @@ export const profile = {
     {
       name: "Regression Body Fat Estimator",
       logo: "logos/body fat estimator.jpg",
-      description: "Made a ML model for body fat estimation using TensorFlow.",
+      description: "Made a ML model and app for body fat estimation.",
       repo: "https://github.com/Stegi56/Body-Fat-Estimator",
       about: "https://www.linkedin.com/feed/update/urn:li:activity:7083426688864276480/",
       video: "demos/Body Fat Estimator.mp4",
