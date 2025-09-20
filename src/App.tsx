@@ -152,6 +152,7 @@ export default function App() {
 
       <Section id="contact" title="Contact">
         <div className="card p-3 align-items-center">
+          <div cl></div>
           <TechPills 
             displayTech={Array.from(allTech).filter(t => t[1] == true).map(t => t[0])} 
             allTech={allTech} toggleTech={toggleTech}
