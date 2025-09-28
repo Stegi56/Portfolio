@@ -56,7 +56,7 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A generalist who frequently deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users and providing tech leadership to a new charity project.",
+    "A generalist who frequently deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users and providing tech leadership to a new charity.",
   education: <Education[]>[
     {
       title: "BSc Computer Science (1st Class Honours)",
