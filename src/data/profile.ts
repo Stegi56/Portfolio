@@ -129,7 +129,7 @@ export const profile = {
       bullets: [
        "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget and time frame, yielding zero project overrun.",
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
-       "Frontend: Implemented web components so infrastructure can be glued via tembed links onto a Squarespace site."
+       "Frontend: Implemented web components so infrastructure can be glued via embed links onto a Squarespace site."
       ],
       tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD", "REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
       link: "https://heisreal.today",
