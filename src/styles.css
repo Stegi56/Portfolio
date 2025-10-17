@@ -2,10 +2,10 @@
   isolation: isolate;
   
   --fs-xl: clamp(1.4rem, 3.5vw + 1rem, 3rem);
-  --fs-l: clamp(1.1rem, 1.5vw + 1rem, 1.5rem);
-  --fs-m: clamp(.8rem, 1.2vw + .5rem, 1.5rem);
-  --fs-s: clamp(.7rem, .8vw + .5rem, 1rem);
-  --fs-xs: clamp(.65rem, 0.5vw + .5rem, .8rem);
+  --fs-l: clamp(1.2rem, 1.5vw + 1rem, 1.5rem);
+  --fs-m: clamp(1rem, 1.2vw + .5rem, 1.5rem);
+  --fs-s: clamp(.95rem, .8vw + .5rem, 1rem);
+  --fs-xs: clamp(.75rem, 0.5vw + .5rem, .8rem);
 
   font-size: var(--fs-s);
 }
