@@ -16,7 +16,7 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "clamp(.2rem, 0.2vw + .3rem, 12px)" }}>
         <img
           src={ed.logo}
           width="60"
@@ -27,11 +27,12 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />
 
-        <div style={{ flex: 1, minWidth: 200 }}>
+        <div style={{ flex: 1, minWidth: 150, maxWidth:"80%"}}>
           <strong style={{ fontWeight: 700 }}>{ed.title}</strong>
+          <div><i className="mb-0 italic" style={{ color:"var(--muted)" }}>{ed.grade}</i></div>
           <p className="mb-0" style={{ color:"var(--muted)", display: "block" }}>{ed.institution}</p>
         </div>
-        <span className="kbd" style={{ flex: 1, minWidth: 70, maxWidth:200 ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
+        <span className="kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
       </div>
       {ed.certificate &&(
         <a className="btn glass nav-links" href={ed.certificate} target="_blank" rel="noreferrer">Certificate</a>

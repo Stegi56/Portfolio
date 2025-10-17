@@ -6,7 +6,7 @@ export default function Nav(props: { links: { id: string; label: string }[]; git
     <nav className="nav">
       <div className="container glass nav-inner">
         <div style={{display:"flex", alignItems:"center"}}>
-          <a aria-hidden className="kbd ps-1 pe-0" href="#home"
+          <a aria-hidden className="kbd kbd-xl ps-0 pe-0" href="#home"
           style={{
             background:"linear-gradient(90deg,#9881fc,#3b82f6)", WebkitBackgroundClip:"text", color:"transparent", 
             fontSize:32, fontWeight:800

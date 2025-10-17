@@ -22,11 +22,11 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
           height="60"
           loading="lazy" 
           decoding="async"
-          style={{alignSelf:"center"}}
+          style={{alignSelf:"center", maxWidth:"14dvw", maxHeight:"14dvw"}}
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />
 
-        <div style={{ flex: 1, minWidth: 200 }}>
+        <div style={{ flex: 1, minWidth: 150, maxWidth:"80%" }}>
           <strong style={{ fontWeight: 700 }}>{exp.role}</strong>
           {exp.link != undefined ? (
             <a className="url" href={exp.link} target="_blank" rel="noreferrer" style={{ display: "block" }}>{exp.company}</a>
@@ -34,7 +34,7 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
             <a href={exp.link} target="_blank" rel="noreferrer" style={{ color:"var(--muted)", display: "block" }}>{exp.company}</a>
           )}
         </div>
-        <span className="kbd" style={{ flex: 1, minWidth: 70, maxWidth:210 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
+        <span className="kbd kbd-s" style={{ flex: 1, minWidth: 70, maxWidth:210 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
       </div>
       {exp.poster &&(
         <a className="btn glass nav-links" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>

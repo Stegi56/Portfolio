@@ -2,6 +2,7 @@ import { i, ins } from "framer-motion/client";
 
 export type Education = {
   title: string;
+  grade: string;
   logo: string;
   institution: string;
   start: string; // "Mar 2022"
@@ -59,13 +60,15 @@ export const profile = {
     "A generalist who frequently deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users and providing tech leadership to a new charity.",
   education: <Education[]>[
     {
-      title: "BSc Computer Science (1st Class Honours)",
+      title: 'BSc Computer Science',
+      grade: '1st Class Honours & Recipient of the "Best BSc Student Prize"',
       institution: "City, University of London",
       start: "Sep 2021",
       end: "Jul 2025",
       certificate: "certificates/1752672801343.pdf",
       logo: "logos/output-onlinepngtools.png",
       bullets: [
+        '"Best BSc Student Prize" for ranking #1 at graduation',
         "Mathematics for Computing, Theory of Computation",
         "Databases, Data Structures and Algorithms",
         "Systems Architecture, Operating Systems",

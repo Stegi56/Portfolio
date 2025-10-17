@@ -28,9 +28,9 @@ export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & 
           />
         )}
         <strong>{p.name}</strong>
-        <div className="ms-auto" style={{gap:"8px", display:"flex"}}>
-          {p.repo && <a className="btn glass" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
-          {p.about && <a className="btn glass" href={p.about} target="_blank" rel="noreferrer">About</a>}
+        <div className="ms-auto" style={{gap:"6px", display:"flex"}}>
+          {p.repo && <a className="btn glass ps-2 pe-2" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
+          {p.about && <a className="btn glass ps-2 pe-2" href={p.about} target="_blank" rel="noreferrer">About</a>}
         </div>
       </header>
       <p className="p mb-0">{p.description}</p>

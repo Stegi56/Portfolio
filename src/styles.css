@@ -1,4 +1,14 @@
-#root { isolation: isolate; }
+#root { 
+  isolation: isolate;
+  
+  --fs-xl: clamp(1.4rem, 3.5vw + 1rem, 3rem);
+  --fs-l: clamp(1.1rem, 1.5vw + 1rem, 1.5rem);
+  --fs-m: clamp(.8rem, 1.2vw + .5rem, 1.5rem);
+  --fs-s: clamp(.7rem, .8vw + .5rem, 1rem);
+  --fs-xs: clamp(.65rem, 0.5vw + .5rem, .8rem);
+
+  font-size: var(--fs-s);
+}
 
 :root{
   --bg:#0b0d11;     
@@ -15,14 +25,13 @@
   --shadow:0 10px 30px rgba(0,0,0,.45);
 }
 
-*{box-sizing:border-box}
-html, body {
-  min-height: 100%; /* Or 100% */
-  min-height: 100vh;
+html{
+  height: 100lvh;
+  scroll-behavior:smooth;
 }
 
-html{scroll-behavior:smooth}
 body{
+  height: 100lvh;
   margin:0;
   font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--text);
@@ -32,9 +41,6 @@ body{
 html, body {
   /* For Firefox */
   scrollbar-width: none;
-  
-  /* For Internet Explorer and Edge */
-  -ms-overflow-style: none;
 }
 
 /* For Chrome, Safari, and Opera */
@@ -48,7 +54,7 @@ a{color:inherit;text-decoration:none}
 button{font:inherit}
 
 .container{
-  width:min(1140px,92vw);
+  width:min(1140px,92dvw);
 }
 
 .glass{
@@ -67,43 +73,62 @@ button{font:inherit}
 
 .chip{
   display:inline-flex;align-items:center;gap:.5rem;
-  padding:.4rem .7rem;border-radius:999px;
+  padding:.3rem .5rem;border-radius:999px;
   border:1px solid var(--edge);
   background:rgba(255,255,255,.04);
-  font-size:.9rem;color:var(--text);
+  font-size:var(--fs-xs);
+  color:var(--text);
   white-space:nowrap;
+}
+
+.chip:hover{
+  background:rgba(255, 255, 255, 0.123); color:white
 }
 
 .section{
   scroll-margin-top:110px;
 }
 
-.fs-0,.fs-1,.fs-2,.fs-3,.fs-4,.fs-5, strong{
+strong{
   color: var(--text);
   font-weight: 700;
-}
-
-.h1{
-  font-size:clamp(2rem, 7vw, 3.5rem);
-  line-height:1.1;
-  letter-spacing:-.01em;
-  font-weight:800;
-  color:var(--text)
 }
 
 .text-color{
   color:var(--text)
 }
 
+.h1{
+  font-size:var(--fs-xl);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  font-weight:800;
+  color:var(--text)
+}
+
 .h2{
-  font-size:clamp(1.4rem,4vw,2rem);
+  font-size:var(--fs-l);
   line-height:1.2;font-weight:700;margin:0 0 .75rem 0;
   color:var(--text);
 }
 
-.p{color:var(--muted);font-size:1.05rem;line-height:1.65}
+.h3{
+  font-size:var(--fs-m);
+  line-height:1.2;font-weight:700;margin:0 0 .75rem 0;
+  color:var(--text);
+}
+
+.p{
+  color:var(--muted);
+  font-size:var(--fs-s);
+  line-height:1.65}
+
+.p.p-m{
+  font-size:var(--fs-m);
+}
 
 .btn{
+  font-size: var(--fs-s);
   display:inline-flex;align-items:center;gap:.6rem;
   padding:.7rem 1rem;border-radius:12px;
   opacity:.9; padding:.3rem .8rem;border-radius:10px;
@@ -111,9 +136,8 @@ button{font:inherit}
   transition:0.3s;
 }
 .btn:hover{background:rgba(255, 255, 255, 0.123); color:white}
-.btn:first-child:active{color:white}
-.btn:active{color:white}
-.btn-group .btn:active{color:white}
+.btn:active{color:white !important}
+.btn-group.btn:active{color:white}
 .btn.primary{background:var(--accent);color:white;border:none}
 .btn.primary:hover{transform: translateY(-3px)}
 
@@ -129,13 +153,31 @@ button{font:inherit}
   display:flex;gap:.2rem;flex-wrap:wrap;;
 }
 .nav a{opacity:.9;padding:.3rem .8rem;border-radius:10px}
-.nav a:hover{background:rgba(255,255,255,.06)}
+.nav a:hover{background:rgba(255, 255, 255, 0.123)}
 .nav a:hover.btn.primary{transform: translateY(-2px);background:var(--accent);color:white;border:white}
 
 .kbd{
   font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size:.85rem;
+  font-size:var(--fs-m);
+  color:var(--text);
 }
+
+.kbd.kbd-xs{
+  font-size:var(--fs-xs);
+}
+
+.kbd.kbd-s{
+  font-size:var(--fs-s);
+}
+
+.kbd.kbd-l{
+  font-size:var(--fs-l);
+}
+
+.kbd.kbd-xl{
+  font-size:var(--fs-xl);
+}
+
 hr.sep{
   border:0;height:3px;background:linear-gradient(90deg, transparent, white, transparent);
   margin-bottom:16px 0;
@@ -185,7 +227,7 @@ a.url{
 }
 
 .selected {
-  background-color: #3df881;
-  color: rgb(26, 26, 26);
+  background-color: #3df881 !important;
+  color: rgb(26, 26, 26) !important;
   font-weight: 501;
 }

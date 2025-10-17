@@ -35,8 +35,8 @@ export default function Hero() {
           }}
         >
           <div className="row">
-            <div className="col mb-2">
-              <div style={{display:"grid", gridTemplateColumns:"130px 1fr", gap:"18px", alignItems:"center"}}>
+            <div className="col mb-2 ps-2" style={{maxWidth:"80%"}}>
+              <div style={{display:"grid", gridTemplateColumns:"auto 1fr",  alignItems:"center"}}>
                 <img
                   src="favicon.svg"
                   width="130"
@@ -44,18 +44,18 @@ export default function Hero() {
                   loading="lazy" 
                   decoding="async"
                   alt={`${profile.name} avatar`}
-                  style={{borderRadius:"16px", border:"1px solid var(--edge)"}}
+                  style={{borderRadius:"16px", border:"1px solid var(--edge)", maxWidth:"30dvw", maxHeight:"30dvw"}}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
-                <h1 className="h1" style={{margin:0}}>{profile.name}</h1>
+                <h1 className="h1 ms-2" style={{margin:0}}>{profile.name}</h1>
               </div>
               <div>
-                <p className="kbd fs-5" style={{margin:0, whiteSpace:"nowrap"}}>{profile.headline}</p>
-                <p className="p" style={{margin:0}}>{profile.location}</p>
+                <p className="kbd kbd-l" style={{margin:0, whiteSpace:"nowrap"}}>{profile.headline}</p>
+                <p className="p p-m" style={{margin:0}}>{profile.location}</p>
               </div>
             </div>
-            <div className="col">            
-              <ul className="ps-1">
+            <div className="col ps-1">            
+              <ul className="ps-0 mb-0">
                 {profile.certifications.map(c => 
                   <img
                     key={c.image + " hero badge"}
@@ -64,6 +64,7 @@ export default function Hero() {
                     height="75"
                     loading="lazy" 
                     decoding="async"
+                    style={{maxWidth:"19dvw", maxHeight:"19dvw"}}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}
@@ -76,6 +77,7 @@ export default function Hero() {
                     height="75"
                     loading="lazy" 
                     decoding="async"
+                    style={{maxWidth:"19dvw", maxHeight:"19dvw"}}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}

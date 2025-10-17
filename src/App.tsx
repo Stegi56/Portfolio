@@ -156,10 +156,10 @@ export default function App() {
             displayTech={Array.from(allTech).filter(t => t[1] == true).map(t => t[0])} 
             allTech={allTech} toggleTech={toggleTech}
           />
-          <span className="kbd p-2" style={{fontSize:27, color:"var(--text)"}}>Let’s talk:</span>
+          <span className="kbd lbd-l p-2" style={{fontSize:27, color:"var(--text)"}}>Let’s talk:</span>
 
             <div className="btn-group pb-2" role="group">
-              <a className="btn primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+              <a className="btn primary" style={{fontSize:".9rem"}} href={`mailto:${profile.email}`}>{profile.email}</a>
               <button className="btn glass" title="copy to clipboard" onClick={() => navigator.clipboard.writeText(profile.email)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="p-0 m-0 bi bi-copy" viewBox="0 0 16 16">
                   <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
@@ -168,7 +168,7 @@ export default function App() {
             </div>
 
             <div style={{display:"flex", flexWrap:"wrap", gap:"8px", justifyContent:"center"}}>
-              <a className="btn glass ps-0 pt-0 pb-0" href={profile.linkedin} target="_blank" rel="noreferrer">
+              <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.linkedin} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
                   src={"logos/LI.png"}
@@ -181,7 +181,7 @@ export default function App() {
                 />
                 LinkedIn
               </a>
-              <a className="btn glass ps-0 pt-0 pb-0" href={profile.github} target="_blank" rel="noreferrer">
+              <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.github} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
                   src={"logos/GitHub.png"}
@@ -194,7 +194,7 @@ export default function App() {
                 />
                 GitHub
               </a>
-              <a className="btn glass ps-0 pt-0 pb-0" href={profile.instagram} target="_blank" rel="noreferrer">
+              <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.instagram} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
                   src={"logos/insta.png"}
