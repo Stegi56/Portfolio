@@ -154,7 +154,7 @@ export default function App() {
         <div className="card p-3 align-items-center">
           <TechPills 
             displayTech={Array.from(allTech).filter(t => t[1] == true).map(t => t[0])} 
-            allTech={allTech} toggleTech={toggleTech}
+            allTech={allTech} toggleTech={toggleTech} justifyContent="center"
           />
           <span className="kbd lbd-l p-2" style={{fontSize:27, color:"var(--text)"}}>Let’s talk:</span>
 
@@ -176,7 +176,7 @@ export default function App() {
                   height="42"
                   loading="lazy" 
                   decoding="async"
-                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px"}}
+                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
                 LinkedIn
@@ -189,7 +189,7 @@ export default function App() {
                   height="42"
                   loading="lazy" 
                   decoding="async"
-                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px"}}
+                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
                 GitHub
@@ -202,7 +202,7 @@ export default function App() {
                   height="42"
                   loading="lazy" 
                   decoding="async"
-                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px"}}
+                  style={{alignSelf:"center", borderRadius:"10px 0px 0px 10px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
                 Insta

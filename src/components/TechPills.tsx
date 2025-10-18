@@ -5,11 +5,13 @@ interface TechPillsProps {
 
   allTech: Map<string, boolean>;
   toggleTech: (tech: string) => void;
+
+  justifyContent?: "center" | "flex-start";
 }
 
-export default function TechPills({ displayTech, allTech, toggleTech }: TechPillsProps) {
+export default function TechPills({ displayTech, allTech, toggleTech, justifyContent="flex-start"}: TechPillsProps) {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", justifyContent:justifyContent}}>
       {displayTech.sort((a, b) => a[0].localeCompare(b[0])).map(tech => (
         <button
           onClick={() => toggleTech(tech)}

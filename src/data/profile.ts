@@ -120,7 +120,7 @@ export const profile = {
       bullets: [
         "Delivering to a public sector client."
       ],
-      tech: ["aws","Terraform","GitLab", "CI/CD", "BASH", "Java"],
+      tech: ["aws","Terraform","GitLab", "CI/CD", "BASH", "Java", "Vault"],
       link: "https://www.cgi.com/uk/en-gb",
     },
     {
