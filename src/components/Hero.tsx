@@ -60,8 +60,8 @@ export default function Hero() {
                   <img
                     key={c.image + " hero badge"}
                     src={c.image}
-                    width="75"
-                    height="75"
+                    width="90"
+                    height="90"
                     loading="lazy" 
                     decoding="async"
                     style={{maxWidth:"19dvw", maxHeight:"19dvw"}}
@@ -73,8 +73,8 @@ export default function Hero() {
                     key={e.logo + " hero badge"}
                     src={e.logo}
                     className="p-1"
-                    width="75"
-                    height="75"
+                    width="90"
+                    height="90"
                     loading="lazy" 
                     decoding="async"
                     style={{maxWidth:"19dvw", maxHeight:"19dvw"}}

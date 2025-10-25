@@ -70,8 +70,8 @@ export default function App() {
       <ScrollProgressBar />
       <Nav
         links={[
-          { id: "experience", label: "Experience" },
           { id: "skills", label: "Skills" },
+          { id: "experience", label: "Experience" },
           { id: "contact", label: "Contact" },
         ]}
         github={profile.github}

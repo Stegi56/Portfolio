@@ -5,6 +5,7 @@ export type Education = {
   grade: string;
   logo: string;
   institution: string;
+  link: string;
   start: string; // "Mar 2022"
   end: string;   // "Present" or "Aug 2024"
   bullets: string[];
@@ -63,6 +64,7 @@ export const profile = {
       title: 'BSc Computer Science',
       grade: '1st Class Honours & Recipient of the "Best BSc Student Prize"',
       institution: "City, University of London",
+      link: "https://city.ac.uk/",
       start: "Sep 2021",
       end: "Jul 2025",
       certificate: "certificates/1752672801343.pdf",
@@ -108,6 +110,15 @@ export const profile = {
       issueDate: "2025-09",
       tech: ["GitLab", "CI/CD", "DevOps", "BASH"],
       link: "https://university.gitlab.com/learning-paths/gitlab-ci-fundamentals"
+    },
+    {
+      name: "HashiCorp Certified: Vault Associate",
+      image: "logos/vault.png",
+      certificate: "certificates/vault.pdf",
+      issuer: "HashiCorp",
+      issueDate: "2025-10",
+      tech: ["Vault", "DevOps", "Data Security", "Security Automation"],
+      link: "https://developer.hashicorp.com/certifications/security-automation"
     }
   ],
   experience: <Experience[]>[
