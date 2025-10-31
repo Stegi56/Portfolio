@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { Certification } from "../data/profile";
+import type { Certification } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
 

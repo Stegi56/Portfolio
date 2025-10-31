@@ -1,52 +1,4 @@
-import { i, ins } from "framer-motion/client";
-
-export type Education = {
-  title: string;
-  grade: string;
-  logo: string;
-  institution: string;
-  link: string;
-  start: string; // "Mar 2022"
-  end: string;   // "Present" or "Aug 2024"
-  bullets: string[];
-  certificate?: string; // URL or path to certificate PDF
-  tech: string[];
-}
-
-export type Certification = {
-  name: string;
-  image: string; // URL or path to logo image
-  certificate?: string; // URL or path to certificate PDF
-  issuer: string;
-  link?: string;
-  issueDate: string; // "2023-08"
-  tech: string[];
-}
-
-export type Experience = {
-  company: string;
-  logo: string; // URL or path to logo image
-  role: string;
-  start: string; // "Mar 2022"
-  end: string;   // "Present" or "Aug 2024"
-  bullets: string[];
-  tech: string[];
-  link?: string;
-  poster?: string;
-};
-
-export type Project = {
-  name: string;
-  logo?: string;
-  description: string;
-  bullets?: string[];
-  tech: string[];
-  photo?: string;
-  video?: string;
-  embed?: string;
-  repo?: string;
-  about?: string;
-};
+import type { Education, Certification, Experience, Project } from "../typeDefs/profile";
 
 export const profile = {
   name: "Joel Staugaitis",                  
@@ -156,11 +108,11 @@ export const profile = {
       end: "Aug 2024",
       bullets: [
         "Role: Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "SPIKEs: Conducted investigations, one identified 100+ abandoned microservices for removal across HMRC, resulting in significant infrastructture savings and improved cleanliness of the platform.",
-        "Automations: Improved visibility and enforcement platform opinions and prevent future need for an investigations.",
+        "SPIKEs: Conducted investigations, one identified 100+ abandoned microservices for removal across HMRC.",
+        "Automations: Improved visibility and enforcement of platform opinions to prevent future need for an investigations.",
         "Microservices: Constructed new fallbacks and expanded backend microservices.",
-        "DevOps: Managed infrastructure.",
-        "Frontend: Evolved the frontend for a self-service Catalogue tool."
+        "DevOps: Managed aws infrastructure.",
+        "Frontend: Contributed to the frontend for a self-service Catalogue tool."
       ],
       tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",

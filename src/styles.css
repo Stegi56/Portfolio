@@ -2,6 +2,7 @@
   isolation: isolate;
   
   --fs-xl: clamp(1.4rem, 3.5vw + 1rem, 3rem);
+  --fs-brand: clamp(1.3rem, 2.2vw + 1rem, 1.6rem);
   --fs-l: clamp(1.2rem, 1.5vw + 1rem, 1.5rem);
   --fs-m: clamp(1rem, 1.2vw + .5rem, 1.5rem);
   --fs-s: clamp(.95rem, .8vw + .5rem, 1rem);
@@ -158,7 +159,6 @@ strong{
 
 .kbd{
   font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size:var(--fs-m);
   color:var(--text);
 }
 
@@ -168,6 +168,10 @@ strong{
 
 .kbd.kbd-s{
   font-size:var(--fs-s);
+}
+
+.kbd.kbd-m{
+  font-size:var(--fs-m);
 }
 
 .kbd.kbd-l{
@@ -203,6 +207,10 @@ hr.sep{
 
 .masonry-grid_column > div { 
   margin-bottom: 20px;
+}
+
+.card a {
+  color: var(--urlColour);
 }
 
 a.url{

@@ -9,10 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdx-js/rollup": "^3.1.1",
     "framer-motion": "^11.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-masonry-css": "^1.0.16"
+    "react-masonry-css": "^1.0.16",
+    "react-router-dom": "^7.9.4",
+    "react-router-hash-link": "^2.4.3",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^5.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

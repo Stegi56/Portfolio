@@ -82,7 +82,6 @@ export default function LowPolyBackground(props: LowPolyProps) {
       const shiftX = (mouse.x - 0.5) * cfg.parallax;
       const shiftY = (mouse.y - 0.5) * cfg.parallax;
 
-      // --- NEW: overscan / edge locking setup
       const autoBleed = cfg.parallax + cfg.wobble + 8; // safety margin
       const bleedPx = cfg.lockEdges ? 0 : Math.max(cfg.overscan ?? 0, autoBleed);
       const ex = Math.ceil(bleedPx / cellW); // extra cells per side (x)
@@ -166,7 +165,6 @@ export default function LowPolyBackground(props: LowPolyProps) {
     cfg.cols, cfg.rows, cfg.speed, cfg.wobble, cfg.parallax,
     cfg.glow, cfg.glowRadius, cfg.colorJitter, cfg.dprCap,
     cfg.from.r, cfg.from.g, cfg.from.b, cfg.to.r, cfg.to.g, cfg.to.b,
-    // NEW deps
     cfg.overscan, cfg.lockEdges,
   ]);
 

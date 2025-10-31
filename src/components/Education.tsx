@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { Education } from "../data/profile";
+import type { Education } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
 
@@ -30,7 +30,7 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
         <div style={{ flex: 1, minWidth: 150, maxWidth:"80%"}}>
           <strong style={{ fontWeight: 700 }}>{ed.title}</strong>
           <div><i className="mb-0 italic" style={{ color:"var(--muted)" }}>{ed.grade}</i></div>
-          <p className="mb-0" style={{ color:"var(--muted)", display: "block" }}>{ed.institution}</p>
+          <a className="url" href={ed.link} target="_blank" rel="noreferrer" >{ed.institution}</a>
         </div>
         <span className="kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
       </div>
