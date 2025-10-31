@@ -24,7 +24,6 @@ jobs:
       - run: npm ci
       - name: Build for custom domain root
         run: |
-          npm ci
           npm run build -- --base="/"
       - uses: actions/upload-pages-artifact@v3
         with:
