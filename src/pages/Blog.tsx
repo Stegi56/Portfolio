@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { profile } from "../data/profile";
 import LowPolyBackground from "../components/LowPolyBackground";
@@ -15,8 +16,6 @@ export default function Blog() {
 
   //const carouselTitle = profile.name + " - " + profile.headline;
   // useTitleCarousel(carouselTitle, 200);
-  document.title = "Joel's Blog";
-
   const breakpoint = useBreakpoint();
     const backgroundConfig = {
     lg: { cols: 24, rows: 16 },
@@ -31,10 +30,22 @@ export default function Blog() {
     Content: mod.default,
   };
 
+  document.title = blog.title;
+
   const Content = blog.Content;
 
   return (
     <>
+      <Helmet>
+        <title>{blog.title}</title>
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:image" content={"https://stegi56.com" + blog.cover} />
+        <meta property="og:type" content="article" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={blog.title} />
+        <meta name="twitter:image" content={"https://stegi56.com" + blog.cover} />
+      </Helmet>
       <LowPolyBackground
         speed={2.5}        // slower animation
         wobble={15}        // stronger vertex wobble
