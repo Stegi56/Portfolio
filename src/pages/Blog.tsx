@@ -10,7 +10,7 @@ import type { MDXModule, Blog } from "../typeDefs/blog";
 
 const allBlogModules = import.meta.glob<MDXModule>('../data/blogs/*/blog.mdx', { eager: true });
 
-export default function BlogList() {
+export default function Blog() {
   const { slug } = useParams();
 
   //const carouselTitle = profile.name + " - " + profile.headline;

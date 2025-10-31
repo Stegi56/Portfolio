@@ -1,5 +1,3 @@
-// components/Nav.tsx (inside your buttons/links area)
-
 import { profile } from "../data/profile";
 import LowPolyBackground from "../components/LowPolyBackground";
 import Nav from "../components/Nav";
@@ -56,9 +54,7 @@ export default function BlogList() {
         <Section id="blog" title="Blog">
           {blogs.map(blog => (
             <div>
-              {profile.education.map((ed, i) =>
-                <BlogPeekCard blog={blog} />
-              )}
+              <BlogPeekCard blog={blog} />
             </div>
           ))}
         </Section>
