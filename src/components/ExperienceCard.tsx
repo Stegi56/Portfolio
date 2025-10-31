@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { Experience } from "../data/profile";
+import type { Experience } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
 interface TechProps{

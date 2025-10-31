@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { Project } from "../data/profile";
+import type { Project } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
 
