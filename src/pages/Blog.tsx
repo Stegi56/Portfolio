@@ -8,7 +8,7 @@ import { useBreakpoint } from '../hooks/useBreakpoint';
 
 import type { MDXModule, Blog } from "../typeDefs/blog";
 
-const allBlogModules = import.meta.glob<MDXModule>('../data/blogs/*/blog.mdx', { eager: true });
+const allBlogModules = import.meta.glob<MDXModule>('../data/blog/*/blog.mdx', { eager: true });
 
 export default function Blog() {
   const { slug } = useParams();
@@ -25,7 +25,7 @@ export default function Blog() {
   };
   const { cols, rows } = backgroundConfig[breakpoint];
 
-  const mod = allBlogModules[`../data/blogs/${slug}/blog.mdx`];
+  const mod = allBlogModules[`../data/blog/${slug}/blog.mdx`];
   const blog: Blog = {
     ...mod.frontmatter,
     Content: mod.default,

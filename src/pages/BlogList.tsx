@@ -24,7 +24,7 @@ export default function BlogList() {
   const { cols, rows } = backgroundConfig[breakpoint];
 
 
-  const blogFiles = import.meta.glob<MDXModule>('../data/blogs/**/blog.mdx',{ eager: true });
+  const blogFiles = import.meta.glob<MDXModule>('../data/blog/**/blog.mdx',{ eager: true });
   const blogs: Blog[] = Object.values(blogFiles)
     .map((mod) => ({
       ...mod.frontmatter,
