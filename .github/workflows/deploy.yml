@@ -27,11 +27,10 @@ jobs:
         run: npm run build --base="/"
 
       - name: Create 404.html fallback
-        run: cp dist/index.html dist/404.html
+        run:  mkdir -p dist/client && touch dist/client/.nojekyll
         
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+        with: { path: dist/client }
   deploy:
     needs: build
     runs-on: ubuntu-latest

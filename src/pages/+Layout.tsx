@@ -1,20 +1,10 @@
-import { profile } from "../data/profile";
 import LowPolyBackground from "../components/LowPolyBackground";
+import { profile } from "../data/profile";
 import Nav from "../components/Nav";
 import ScrollProgressBar from "../components/ScrollProgressBar";
 import { useBreakpoint } from '../hooks/useBreakpoint';
-import Section from "../components/Section";
-import Hero from "../components/Hero";
-import BlogPeekCard from "../components/BlogPeekCard";
 
-import type { MDXModule, Blog } from "../typeDefs/blog";
-
-export default function BlogList() {
-  //const carouselTitle = profile.name + " - " + profile.headline;
-  // useTitleCarousel(carouselTitle, 200);
-  document.title = "Joel's Blog";
-
-
+export function Layout({ children }: { children: React.ReactNode }) {
   const breakpoint = useBreakpoint();
     const backgroundConfig = {
     lg: { cols: 24, rows: 16 },
@@ -22,15 +12,7 @@ export default function BlogList() {
     sm: { cols: 10, rows: 16 },
   };
   const { cols, rows } = backgroundConfig[breakpoint];
-
-
-  const blogFiles = import.meta.glob<MDXModule>('../data/blog/**/blog.mdx',{ eager: true });
-  const blogs: Blog[] = Object.values(blogFiles)
-    .map((mod) => ({
-      ...mod.frontmatter,
-      Content: mod.default,
-    }))
-
+    
   return (
     <>
       <LowPolyBackground
@@ -47,18 +29,7 @@ export default function BlogList() {
       />
       <ScrollProgressBar />
       <Nav resumeUrl={profile.resumeUrl}/>
-
-      <Hero/>
-
-      <div>
-        <Section id="blog" title="Blog">
-          {blogs.map(blog => (
-            <div>
-              <BlogPeekCard blog={blog} />
-            </div>
-          ))}
-        </Section>
-      </div>
+      {children}
     </>
   )
 }

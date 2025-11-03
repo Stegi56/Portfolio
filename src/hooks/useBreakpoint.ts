@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
 
-const getBreakpoint = (width: number): 'sm' | 'md' | 'lg' => {
+type Breakpoint = 'sm' | 'md' | 'lg';
+
+const DEFAULT_BREAKPOINT: Breakpoint = 'lg';
+
+const getBreakpoint = (): Breakpoint => {
+  const width = window.innerWidth;
   if (width < 768) return 'sm';
   if (width < 992) return 'md';
   return 'lg';
 };
 
-export const useBreakpoint = (): 'sm' | 'md' | 'lg' => {
-  const [breakpoint, setBreakpoint] = useState(() => getBreakpoint(window.innerWidth));
+export const useBreakpoint = (): Breakpoint => {
+  const [breakpoint, setBreakpoint] = useState<Breakpoint>(DEFAULT_BREAKPOINT);
 
   useEffect(() => {
+    setBreakpoint(getBreakpoint());
+
     const handleResize = () => {
-      setBreakpoint(getBreakpoint(window.innerWidth));
+      setBreakpoint(getBreakpoint());
     };
 
     window.addEventListener('resize', handleResize);
