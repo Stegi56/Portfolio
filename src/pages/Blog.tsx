@@ -50,10 +50,11 @@ export default function Blog() {
       <ScrollProgressBar />
       <Nav resumeUrl={profile.resumeUrl}/>
 
-      <section className=" container mb-2 pt-3 ps-0 pe-0 pb-2">
+      <section className=" container mb-2 pt-3 ps-0 pe-0 pb-2"
+      style={{backdropFilter: "blur(5px)" }}>
         <div
           className="card mb-3"
-          style={{ padding: "16px", color: "var(--text)" }}
+          style={{ padding: "16px", color: "var(--text)"}}
         >
           <Content />
         </div>
