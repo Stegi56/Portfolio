@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import {useState} from "react";
 import Masonry from "react-masonry-css";
 import { motion } from "framer-motion";
 
