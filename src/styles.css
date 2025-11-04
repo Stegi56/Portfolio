@@ -189,7 +189,7 @@ hr.sep{
 
 /* tiny scroll progress bar */
 .progress{
-  position:fixed;top:0;left:0;height:12px;width:100%;z-index:60;pointer-events:none;
+  position:fixed;top:0;left:0;height:9px;width:100%;z-index:60;pointer-events:none;
   background:linear-gradient(90deg, var(--violet), var(--blue));
   transform-origin:0 0; transform:scaleX(0);
 }
