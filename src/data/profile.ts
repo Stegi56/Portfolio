@@ -191,7 +191,7 @@ export const profile = {
       title: "DevOps",
       techList: [
         "aws", "Cloudflare", "Bunny.net", "CI/CD", "Docker", "GitHub Actions", "GitLab",
-        "Google Cloud Platform", "Firebase", "Jenkins", "IaC", "Terraform", "Vault"
+        "Google Cloud Platform", "Firebase", "Jenkins", "IaC", "Terraform", "Vault",
       ]
     },
     {
