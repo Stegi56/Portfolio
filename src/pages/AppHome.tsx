@@ -90,48 +90,21 @@ export default function AppHome() {
           Select those of interest
         </h5>
         <div className="card p-3" style={{padding:"18px"}}>
-          <div>
-            <p className="p mb-0"> Languages</p>
-            <TechPills 
-              displayTech={
-                profile.techCategories.filter( category => 
-                  category.title == "Languages"
-                ).flatMap(c => c.techList)
-              }
-              allTech={allTech} toggleTech={toggleTech} 
-            />
-          </div>
-          <div>
-            <p className="p mb-0"> DevOps</p>
-            <TechPills 
-              displayTech={
-                profile.techCategories.filter( category => 
-                  category.title == "DevOps"
-                ).flatMap(c => c.techList)
-              }
-              allTech={allTech} toggleTech={toggleTech} 
-            />
-          </div>
-          <Masonry
-            breakpointCols={{
-              default: 2
-            }}
-            className="masonry-grid"
-            columnClassName="masonry-grid_column">
-            {profile.techCategories.filter(c => !["Languages", "DevOps"].includes(c.title)).map(category => (
+
+            {profile.techCategories.map(category => (
               <div className="p-0 m-0 mt-1 mb-1">
                 <p className="p mb-0"> {category.title}</p>
                 <TechPills displayTech={category.techList} allTech={allTech} toggleTech={toggleTech} />
               </div>
             ))}
-          </Masonry>
-            <div>
-              <p className="p mb-0"> Other</p>
-              <TechPills 
-                displayTech={Array.from(allTech.keys()).filter(k => !profile.techCategories.flatMap(category => category.techList).includes(k))} 
-                allTech={allTech} toggleTech={toggleTech} 
-              />
-            </div>
+
+          <div>
+            <p className="p mb-0"> Other</p>
+            <TechPills 
+              displayTech={Array.from(allTech.keys()).filter(k => !profile.techCategories.flatMap(category => category.techList).includes(k))} 
+              allTech={allTech} toggleTech={toggleTech} 
+            />
+          </div>
         </div>
       </Section>
 

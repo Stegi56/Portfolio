@@ -205,18 +205,6 @@ export const profile = {
       techList: [
         "FFmpeg", "MediaMTX"
       ]
-    },
-    {
-      title: "OS",
-      techList: [
-        "Raspberry Pi", "Linux"
-      ]
-    },
-    {
-      title: "Tools & Libraries",
-      techList: [
-        "GitHub", "Android Studio", "Confluence", "Grafana", "Jira", "TKinter", "Swing UI","Node.js",
-      ]
     }
   ]
 };
