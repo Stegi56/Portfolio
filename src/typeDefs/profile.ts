@@ -45,3 +45,8 @@ export type Project = {
   repo?: string;
   about?: string;
 };
+
+export type TechCategory = {
+  title: string;
+  techList: string[];
+}

@@ -90,7 +90,14 @@ export default function AppHome() {
           Select those of interest
         </h5>
         <div className="card" style={{padding:"18px"}}>
-          <TechPills displayTech={Array.from(allTech.keys())} allTech={allTech} toggleTech={toggleTech} />
+          {profile.techCategories.map(category => (
+            <div className="pt-2">
+              <p className="p mb-0"> {category.title}:</p>
+              <TechPills displayTech={category.techList} allTech={allTech} toggleTech={toggleTech} />
+            </div>
+          ))}
+          <p className="p mb-0"> Other:</p>
+          <TechPills displayTech={Array.from(allTech.keys()).filter(k => !profile.techCategories.flatMap(category => category.techList).includes(k))} allTech={allTech} toggleTech={toggleTech} />
         </div>
       </Section>
 

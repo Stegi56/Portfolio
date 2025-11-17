@@ -1,4 +1,4 @@
-import type { Education, Certification, Experience, Project } from "../typeDefs/profile";
+import type { Education, Certification, Experience, Project, TechCategory } from "../typeDefs/profile";
 
 export const profile = {
   name: "Joel Staugaitis",                  
@@ -65,7 +65,7 @@ export const profile = {
     },
     {
       name: "HashiCorp Certified: Vault Associate",
-      image: "logos/vault.png",
+      image: "logos/vault badge.png",
       certificate: "certificates/vault.pdf",
       issuer: "HashiCorp",
       issueDate: "2025-10",
@@ -114,7 +114,7 @@ export const profile = {
         "DevOps: Managed aws infrastructure.",
         "Frontend: Contributed to the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "aws", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
+      tech: ["Scala", "GitHub", "aws", "Play Framework", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -166,5 +166,57 @@ export const profile = {
       video: "demos/Body Fat Estimator.mp4",
       tech: ["Python", "TensorFlow", "Android Studio", "Java", "NumPy", "Pandas", "matplotlib"],
     },
+  ],
+  techCategories: <TechCategory[]>[
+    {
+      title: "Languages",
+      techList: [
+        "Rust", "Java", "Scala", "BASH", "C++", "Haskell", "JavaScript", "TypeScript",
+        "Python"
+      ]
+    },
+    {
+      title: "Frameworks",
+      techList: [
+        "Tauri", "React", "Next.js", "Play Framework"
+      ]
+    },
+    {
+      title: "Data",
+      techList: [
+        "SQL", "MongoDB", "DynamoDB"
+      ]
+    },    
+    {
+      title: "DevOps",
+      techList: [
+        "aws", "Cloudflare", "Bunny.net", "CI/CD", "Docker", "GitHub Actions", "GitLab",
+        "Google Cloud Platform", "Firebase", "Jenkins", "IaC", "Terraform", "Vault"
+      ]
+    },
+    {
+      title: "AI, Modeling & Codecs",
+      techList: [
+        "matplotlib", "OpenCV", "NumPy", "TensorFlow", "Pandas", "Scikit-image"
+      ]
+    },
+    {
+      title: "Codecs",
+      techList: [
+        "FFmpeg", "MediaMTX"
+      ]
+    },
+    {
+      title: "Operating Systems",
+      techList: [
+        "Raspberry Pi", "Linux"
+      ]
+    },
+    {
+      title: "Tools & Libraries",
+      techList: [
+        "GitHub", "Android Studio", "Confluence", "Grafana", "Jira", "TKinter", "Swing UI","Node.js",
+      ]
+    }
   ]
 };

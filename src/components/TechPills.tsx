@@ -14,10 +14,27 @@ export default function TechPills({ displayTech, allTech, toggleTech, justifyCon
       {displayTech.sort((a, b) => a[0].localeCompare(b[0])).map(tech => (
         <button
           onClick={() => toggleTech(tech)}
-          className={`chip glass ${(allTech.get(tech)?? false) ? 'selected' : ''}`}
+          className={`chip ps-0 pt-0 pb-0 glass ${(allTech.get(tech)?? false) ? 'selected' : ''}`}
           key={tech}
+          style={{gap:"0px"}}
         >
-          {tech}
+          <img
+            className="p-0 m-0"
+            src={"logos/" + tech + ".png"}
+            loading="lazy" 
+            decoding="async"
+            style={{alignSelf:"center", borderRadius:"18px 0px 0px 18px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
+          <img
+            className="p-0 m-0"
+            src={"logos/" + tech + ".jpg"}
+            loading="lazy" 
+            decoding="async"
+            style={{alignSelf:"center", borderRadius:"18px 0px 0px 18px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
+          <div className="ps-2 pt-1 pb-1">{tech}</div>
         </button>
       ))}
     </div>
