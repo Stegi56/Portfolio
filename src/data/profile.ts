@@ -97,7 +97,7 @@ export const profile = {
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
        "Frontend: Implemented web components so infrastructure can be glued via embed links onto a Squarespace site."
       ],
-      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD", "REST APIs","Next.js", "Bunny.net", "Google Cloud Platform", "DynamoDB"],
+      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD", "REST APIs","Next.js", "Bunny.net", "GCP", "DynamoDB"],
       link: "https://heisreal.today",
     },
     {
@@ -114,7 +114,7 @@ export const profile = {
         "DevOps: Managed aws infrastructure.",
         "Frontend: Contributed to the frontend for a self-service Catalogue tool."
       ],
-      tech: ["Scala", "GitHub", "aws", "Play Framework", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
+      tech: ["Scala", "GitHub", "aws", "Play", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -141,7 +141,7 @@ export const profile = {
       description: " Built a real-time, scalable web chat application.",
       repo: "https://github.com/ChatEz-Project",
       embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Code Review", "CI/CD","Firebase", "MongoDB", "Google Cloud Platform", "WebSockets", "REST APIs"], 
+      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Code Review", "CI/CD","Firebase", "MongoDB", "GCP", "WebSockets", "REST APIs"], 
     },
     {
       name: "Bob",
@@ -178,7 +178,7 @@ export const profile = {
     {
       title: "Frameworks",
       techList: [
-        "Tauri", "React", "Next.js", "Play Framework"
+        "Tauri", "React", "Next.js", "Play"
       ]
     },
     {
@@ -191,7 +191,7 @@ export const profile = {
       title: "DevOps",
       techList: [
         "aws", "Cloudflare", "Bunny.net", "CI/CD", "Docker", "GitHub Actions", "GitLab",
-        "Google Cloud Platform", "Firebase", "Jenkins", "IaC", "Terraform", "Vault",
+        "GCP", "Firebase", "Jenkins", "IaC", "Terraform", "Vault",
       ]
     },
     {
@@ -207,7 +207,7 @@ export const profile = {
       ]
     },
     {
-      title: "Operating Systems",
+      title: "OS",
       techList: [
         "Raspberry Pi", "Linux"
       ]
