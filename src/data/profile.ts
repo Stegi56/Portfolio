@@ -195,7 +195,7 @@ export const profile = {
       ]
     },
     {
-      title: "AI, Modeling & Codecs",
+      title: "AI & Modeling",
       techList: [
         "matplotlib", "OpenCV", "NumPy", "TensorFlow", "Pandas", "Scikit-image"
       ]
