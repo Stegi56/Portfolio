@@ -89,23 +89,31 @@ export default function AppHome() {
         <h5 className=""> 
           Select those of interest
         </h5>
-        <div className="card p-3" style={{padding:"18px"}}>
 
-            {profile.techCategories.map(category => (
-              <div className="p-0 m-0 mt-1 mb-1">
-                <p className="p mb-0"> {category.title}</p>
-                <TechPills displayTech={category.techList} allTech={allTech} toggleTech={toggleTech} />
-              </div>
-            ))}
+        <Masonry
+          breakpointCols={{
+            default: 2,
+            1000: 1,
+          }}
+          className="masonry-grid"
+          columnClassName="masonry-grid_column">
 
-          <div>
-            <p className="p mb-0"> Other</p>
+          {profile.techCategories.map(category => (
+            <div className="card p-2 align-items-center" style={{padding:"18px"}}>
+              <p className="p mb-1"> {category.title}</p>
+              <TechPills displayTech={category.techList} allTech={allTech} toggleTech={toggleTech } justifyContent="center"/>
+            </div>
+          ))}
+
+          <div className="card p-2 align-items-center" style={{padding:"18px"}}>
+            <p className="p mb-1"> Other</p>
             <TechPills 
               displayTech={Array.from(allTech.keys()).filter(k => !profile.techCategories.flatMap(category => category.techList).includes(k))} 
-              allTech={allTech} toggleTech={toggleTech} 
+              allTech={allTech} toggleTech={toggleTech} justifyContent="center"
             />
           </div>
-        </div>
+
+          </Masonry>
       </Section>
 
       <Section id="experience" title="Experience">

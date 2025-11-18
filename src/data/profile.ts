@@ -195,16 +195,16 @@ export const profile = {
       ]
     },
     {
+      title: "Codecs",
+      techList: [
+        "FFmpeg", "MediaMTX"
+      ]
+    },
+    {
       title: "AI & Modeling",
       techList: [
         "matplotlib", "OpenCV", "NumPy", "TensorFlow", "Pandas", "Scikit-image"
       ]
     },
-    {
-      title: "Codecs",
-      techList: [
-        "FFmpeg", "MediaMTX"
-      ]
-    }
   ]
 };
