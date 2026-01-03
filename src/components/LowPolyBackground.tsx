@@ -1,4 +1,3 @@
-// LowPolyBackground.tsx
 import { useEffect, useRef } from "react";
 
 type RGB = { r: number; g: number; b: number };
@@ -9,7 +8,6 @@ export type LowPolyProps = Partial<{
   glow: number; glowRadius: number; colorJitter: number;
   opacity: number; zIndex: number; dprCap: number;
   from: RGB; to: RGB;
-
   overscan: number;       
   lockEdges: boolean;  
 }>;
@@ -43,15 +41,15 @@ export default function LowPolyBackground(props: LowPolyProps) {
     let rafId = 0;
 
     const vp = () => ({
-      vw: Math.round(visualViewport?.width ?? window.innerWidth),
-      vh: Math.round(visualViewport?.height ?? window.innerHeight),
+      vw:  window.innerWidth,
+      vh:  window.innerHeight,
     });
 
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
       const { vw, vh } = vp();
-      canvas.style.width = vw + "px";
-      canvas.style.height = vh + "px";
+      canvas.style.width = "100vw";
+      canvas.style.height = "100vh";
       canvas.width = Math.round(vw * dpr);
       canvas.height = Math.round(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

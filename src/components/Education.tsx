@@ -35,7 +35,7 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
         <span className="kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
       </div>
       {ed.certificate &&(
-        <a className="btn glass nav-links" href={ed.certificate} target="_blank" rel="noreferrer">Certificate</a>
+        <a className="btn glass nav-links text-white" href={ed.certificate} target="_blank" rel="noreferrer">Certificate</a>
       )}
       <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
         {ed.bullets.map((b, i) => <li key={i}>{b}</li>)}

@@ -29,7 +29,7 @@ export default function BlogList() {
     .map((mod) => ({
       ...mod.frontmatter,
       Content: mod.default,
-    }))
+    })).toReversed()
 
   return (
     <>

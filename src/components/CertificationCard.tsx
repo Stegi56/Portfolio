@@ -35,7 +35,7 @@ export default function CertificationCard({ cert, allTech, toggleTech }: { cert:
         <span className="col-md-5 col-sm-12 kbd kbd-s text-md-end text-sm-start" style={{flex: 1, minWidth: 0, maxWidth:150 ,color: "var(--muted)"}}>{cert.issueDate}</span>
       </div>
       {cert.certificate &&(
-        <a className="btn glass mb-1" href={cert.certificate} target="_blank" rel="noreferrer">Certificate</a>
+        <a className="btn glass mb-1 text-white" href={cert.certificate} target="_blank" rel="noreferrer">Certificate</a>
       )}
 
       <TechPills displayTech={cert.tech} allTech={allTech} toggleTech={toggleTech}/>

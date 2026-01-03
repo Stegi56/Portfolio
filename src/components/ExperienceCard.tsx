@@ -37,7 +37,7 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
         <span className="kbd kbd-s" style={{ flex: 1, minWidth: 70, maxWidth:210 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
       </div>
       {exp.poster &&(
-        <a className="btn glass nav-links" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>
+        <a className="btn glass nav-links text-white" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>
       )}
       <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
         {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
