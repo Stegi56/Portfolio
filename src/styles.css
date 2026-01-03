@@ -19,7 +19,7 @@
   --muted:#ffffff;       
   --blue:#3b82f6;        
   --violet:#7e6fff;
-  --header: #6d7aff;
+  --header: #f4f5ff;
   --urlColour: #7aacfdff;
   --accent: linear-gradient(90deg, var(--violet), var(--blue));
   --radius:14px;
@@ -220,7 +220,7 @@ a.url{
 .video-container {
   position: relative;
   overflow: hidden;
-  width: 90%;
+  width: 100%;
   /* 16:9 Aspect Ratio (9 / 16 = 0.5625) */
   padding-top: 56.25%; 
 }
