@@ -10,7 +10,7 @@ export const profile = {
   github: "https://github.com/stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A generalist who frequently deep dives into new libraries, frameworks, methodologies and languages. Has experience engineering for a platform that serves 45+ million users and providing tech leadership to a new charity.",
+    "A systems-oriented engineer fueled by novelty in deep dives into frameworks, methodologies and languages. Experienced in engineering for a 45+ million user platform, providing tech leadership and delivering in mission-critical environments.",
   education: <Education[]>[
     {
       title: 'BSc Computer Science',
@@ -83,7 +83,7 @@ export const profile = {
       bullets: [
         "Delivering to a public sector client."
       ],
-      tech: ["aws","Terraform","GitLab", "CI/CD", "BASH", "Java", "Vault"],
+      tech: ["aws","Python", "Docker", "Terraform","GitLab", "CI/CD", "BASH", "Java", "Vault"],
       link: "https://www.cgi.com/uk/en-gb",
     },
     {
@@ -93,7 +93,7 @@ export const profile = {
       start: "May 2025",
       end: "July 2025",
       bullets: [
-       "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget and time frame, yielding zero project overrun.",
+       "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget, risk tolerance and time frame, yielding zero project overrun and a balanced delivery of priorities.",
        "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
        "Frontend: Implemented web components so infrastructure can be glued via embed links onto a Squarespace site."
       ],
@@ -108,11 +108,10 @@ export const profile = {
       end: "Aug 2024",
       bullets: [
         "Role: Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "SPIKEs: Conducted investigations, one identified 100+ abandoned microservices for removal across HMRC.",
-        "Automations: Improved visibility and enforcement of platform opinions to prevent future need for an investigations.",
-        "Microservices: Constructed new fallbacks and expanded backend microservices.",
-        "DevOps: Managed aws infrastructure.",
-        "Frontend: Contributed to the frontend for a self-service Catalogue tool."
+        "R&D: One of the investigations resulted in a 100+ microservice reduction across all HMRC environments. ",
+        "Automation: Coded a config explorer tool to improve team’s efficiency. ",
+        "Micro-service & Frontend Development: Using Scala and MongoDB, worked on optimisations, improved fall-back mechanisms for microservices and evolved frontend for a self-service Catalogue tool.",
+        "DevOps: Managed aws infrastructure and enforcement of Platform opinions.",
       ],
       tech: ["Scala", "GitHub", "aws", "Play", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
