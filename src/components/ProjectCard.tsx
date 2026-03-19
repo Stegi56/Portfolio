@@ -28,10 +28,10 @@ export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & 
           />
         )}
         <strong>{p.name}</strong>
-        <div className="ms-auto row" style={{gap:"6px", display:"flex"}}>
-          {p.repo && <a className="col btn glass ps-2 pe-2 me-2 text-white justify-content-center" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
-          {p.about && <a className="col btn glass ps-2 pe-2 me-2 text-white" href={p.about} target="_blank" rel="noreferrer">About</a>}
-        </div>
+      <div className="ms-auto d-flex flex-column"style={{ gap: "6px" }}>
+        {p.repo && <a className="btn glass px-2 text-white justify-content-center" href={p.repo} target="_blank" rel="noreferrer">Repo</a>}
+        {p.about && <a className="btn glass px-2 text-white justify-content-center" href={p.about} target="_blank" rel="noreferrer">About</a>}
+      </div>
       </header>
       <p className="p mb-0">{p.description}</p>
       {!!p.bullets?.length && (

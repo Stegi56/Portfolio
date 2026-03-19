@@ -16,7 +16,6 @@ export default function BlogPeekCard({ blog}: { blog: Blog}) {
       <div style={{ display: "flex", alignItems: "flex-start", gap: "clamp(.2rem, 0.2vw + .3rem, 12px)", textAlign:"start" }}>
         <img
           src={blog.cover}
-          key={blog.slug}
           height="60"
           loading="lazy" 
           decoding="async"
