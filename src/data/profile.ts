@@ -83,7 +83,7 @@ export const profile = {
       bullets: [
         "Role: Delivering to a public sector data platform using aws, Docker, GitLab CI/CD, Python, Java, Terraform and Vault.",
         "Service Management: Ships features, fixes and updates for systems in response to client reports and needs. Also provides onboarding support.",
-        "Sev 1 Recovery: Took initiative in recovering a critical service, while analysing, sharing architecture and debugging thought process, yielding a graceful recovery without data loss.",
+        "P2 Recovery: Took initiative in recovering a critical service, while analysing, sharing architecture and debugging thought process, yielding a graceful recovery without data loss.",
         "Security: Patched dozens of vulnerabilities and implemented security opinions for prevention at library/module levels.",
         "Redesigned Onboarding Methodology: Implemented a self-service path that quadrupled adoption over 2 months.",
         "Mentoring and Knowledge Sharing: Frequently deep-dives, documents, simplifies and presents.",
