@@ -7,14 +7,14 @@ export const profile = {
   email: "56rolsj@gmail.com",             
   linkedin: "https://www.linkedin.com/in/stegi56/",
   instagram: "https://www.instagram.com/stegi__56",
-  github: "https://github.com/stegi56",
+  github: "https://github.com/Stegi56",
   resumeUrl: "Joel Staugaitis.pdf", 
   summary:
-    "A systems-oriented engineer fueled by novelty in deep dives into frameworks, methodologies and languages. Experienced in engineering for a 45+ million user platform, providing tech leadership and delivering in mission-critical environments.",
+    "A systems-oriented engineer fuelled by novelty in deep dives into frameworks, methodologies and languages. Takes pride in reducing complexity to bring others onboard across the stack. Experienced in engineering for a 45+ million user platform, providing tech leadership, security automation, DevOps and software in mission-critical environments.",
   education: <Education[]>[
     {
       title: 'BSc Computer Science',
-      grade: '1st Class Honours & Recipient of the "Best BSc Student Prize"',
+      grade: 'Graduated top of class with 1st Class Honours & Recipient of the "Best BSc Student Prize"',
       institution: "City, University of London",
       link: "https://city.ac.uk/",
       start: "Sep 2021",
@@ -32,7 +32,7 @@ export const profile = {
         "Computer Vision",
         "Ethics"
       ],
-      tech: ["Java", "Python", "C++", "Haskell", "JavaScript", "TypeScript", "React", "Node.js", "SQL", "MongoDB"],
+      tech: ["Java", "Python", "C++", "Computer Vision", "Haskell", "JavaScript", "TypeScript", "React", "Node.js", "SQL", "MongoDB"],
     }
   ],
   certifications: <Certification[]>[
@@ -81,9 +81,15 @@ export const profile = {
       start: "Jul 2025",
       end: "Present",
       bullets: [
-        "Delivering to a public sector client."
+        "Role: Delivering to a public sector data platform using aws, Docker, GitLab CI/CD, Python, Java, Terraform and Vault.",
+        "Service Management: Ships features, fixes and updates for systems in response to client reports and needs. Also provides onboarding support.",
+        "Sev 1 Recovery: Took initiative in recovering a critical service, while analysing, sharing architecture and debugging thought process, yielding a graceful recovery without data loss.",
+        "Security: Patched dozens of vulnerabilities and implemented security opinions for prevention at library/module levels.",
+        "Redesigned Onboarding Methodology: Implemented a self-service path that quadrupled adoption over 2 months.",
+        "Mentoring and Knowledge Sharing: Frequently deep-dives, documents, simplifies and presents.",
+        "Platform Consultation: Delivers analysis to steer platform engineering opinions, plans and decisions."
       ],
-      tech: ["aws","Python", "Docker", "Terraform","GitLab", "CI/CD", "BASH", "Java", "Vault"],
+      tech: ["aws", "BASH", "Python", "Docker", "Terraform", "GitLab", "CI/CD", "Java", "Vault", "Security Automation", "Knowledge Sharing"],
       link: "https://www.cgi.com/uk/en-gb",
     },
     {
@@ -93,12 +99,13 @@ export const profile = {
       start: "May 2025",
       end: "July 2025",
       bullets: [
-       "Tech Lead: Provided consultation to the project owner to set informed priorities based on budget, risk tolerance and time frame, yielding zero project overrun and a balanced delivery of priorities.",
-       "DevOps & Backend: Made a pipeline and configured infrastructure for public file upload, review and display.",
-       "Frontend: Implemented web components so infrastructure can be glued via embed links onto a Squarespace site."
+       "Role: Architected and deployed a POC for a testimony site, allowing public upload, view of stories and admin moderation.",
+       "AI Accelerated Full Stack Delivery: Developed backend, frontend, web components and workflows efficiently.",
+       "DevOps: Set up CI/CD, deployments, object storage and user management using GCP and AWS.",
+       "Client Communication: Guided the project owner through engineering choices, trade-offs and costs, resulting in on-time delivery and a project now growing with 20+ testimonies."
       ],
-      tech: ["aws","GitHub Actions","React","TypeScript", "JavaScript",  "CI/CD", "REST APIs","Next.js", "Bunny.net", "GCP", "DynamoDB"],
-      link: "https://heisreal.today",
+      tech: ["aws", "GCP", "GitHub Actions", "Bunny.net", "React", "TypeScript", "JavaScript", "CI/CD", "REST APIs", "Next.js", "DynamoDB"],
+      link: "https://www.heisreal.today/",
     },
     {
       company: "HM Revenue & Customs",
@@ -108,12 +115,12 @@ export const profile = {
       end: "Aug 2024",
       bullets: [
         "Role: Developed on team Platform Operations on the Multi-Channel Digital Tax Platform (MDTP), responsible for DevOps, paved road, aws, observability, scalability and CI/CD at HMRC.",
-        "R&D: One of the investigations resulted in a 100+ microservice reduction across all HMRC environments. ",
+        "R&D: One investigation resulted in a 100+ microservice reduction across all HMRC environments. ",
         "Automation: Coded a config explorer tool to improve team’s efficiency. ",
         "Micro-service & Frontend Development: Using Scala and MongoDB, worked on optimisations, improved fall-back mechanisms for microservices and evolved frontend for a self-service Catalogue tool.",
         "DevOps: Managed aws infrastructure and enforcement of Platform opinions.",
       ],
-      tech: ["Scala", "GitHub", "aws", "Play", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD","JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps"],
+      tech: ["Scala", "GitHub", "aws", "Play", "Terraform", "Confluence", "Code Review", "Jira", "CI/CD", "JavaScript", "Grafana", "Jenkins", "Docker", "BASH", "Microservices", "REST APIs", "MongoDB", "Linux", "DevOps", "Knowledge Sharing"],
       link: "https://www.gov.uk/government/organisations/hm-revenue-customs",
       poster: "Placement Year as a Software Developer at HMRC.pdf",
     }
@@ -122,14 +129,14 @@ export const profile = {
     {
       name: "ZeroCam",
       logo: "logos/zerocam.png",
-      description: "Developed an embedded dashcam system for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process. ",
+      description: "Embedded dashcam system in Rust with Tauri and React for Raspberry Pi, with cloud features such as streaming and cloud backup. Contributed to the Tauri open-source community in the process.",
       repo: "https://github.com/Stegi56/ZeroCam",
       embed: '<iframe src="https://www.youtube.com/embed/hgGenb6m6fY?si=VgECMOTRG2hlCbff" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       tech: ["Rust", "Tauri", "React", "TypeScript", "FFmpeg", "MediaMTX", "Raspberry Pi", "Cloudflare", "Linux"],
     },
     {
-      name: "Face Covering Detection",
-      description: "Built a computer vision pipeline to select faces and highlight incorrectly worn facemasks.",
+      name: "Face Mask Detector",
+      description: "Built an OpenCV computer vision pipeline to select faces and highlight incorrect face mask usage.",
       photo: "demos/mask detection.png",
       repo: "https://github.com/Stegi56/Face-Covering-Detection",
       tech: ["OpenCV", "Python", "Machine Learning", "Computer Vision", "Scikit-image", "NumPy", "matplotlib"],
@@ -137,10 +144,10 @@ export const profile = {
     {
       name: "ChatEz",
       logo: "logos/chatez.png",
-      description: " Built a real-time, scalable web chat application.",
+      description: " Built a scalable web chat application, with AI message summary and translation features.",
       repo: "https://github.com/ChatEz-Project",
       embed: '<iframe src="https://www.youtube.com/embed/3TdlD8Ei-GY?si=RDEWMA05RiDoTTnR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-      tech: ["Node.js", "React", "TypeScript", "JavaScript", "Code Review", "CI/CD","Firebase", "MongoDB", "GCP", "WebSockets", "REST APIs"], 
+      tech: ["Node.js", "Express", "React", "Code Review", "TypeScript", "JavaScript", "CI/CD", "Firebase", "MongoDB", "GCP", "REST APIs", "AI"],
     },
     {
       name: "Bob",
@@ -151,7 +158,7 @@ export const profile = {
     {
       name: "League of Legends Analytics",
       logo: "logos/league.png",
-      description: "Made a tool that gets match data to provide post-match performance analysis",
+      description: "Made a tool that gets match data to provide post-match performance analysis.",
       embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wg3HJdyKrVg?si=me1_7p9EpbMllM0H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
       about: "Joelis Staugaitis NEA - Lol Analytics.pdf",
       tech: ["Python", "TKinter", "matplotlib", "NumPy", "REST APIs"],
@@ -159,7 +166,7 @@ export const profile = {
     {
       name: "Regression Body Fat Estimator",
       logo: "logos/body fat estimator.jpg",
-      description: "Made a ML model and app for body fat estimation.",
+      description: "Trained a machine learning model for body fat estimation.",
       repo: "https://github.com/Stegi56/Body-Fat-Estimator",
       about: "https://www.linkedin.com/feed/update/urn:li:activity:7083426688864276480/",
       video: "demos/Body Fat Estimator.mp4",
@@ -183,7 +190,7 @@ export const profile = {
     {
       title: "Data",
       techList: [
-        "SQL", "MongoDB", "DynamoDB"
+        "SQL", "MongoDB", "DynamoDB", "Firestore"
       ]
     },    
     {

@@ -67,15 +67,9 @@ export default function Page() {
       </Section>
 
       <Section id="experience" title="Experience">
-        <Masonry
-          breakpointCols={{
-            default: 2,
-            1000: 1,
-          }}
-          className="masonry-grid"
-          columnClassName="masonry-grid_column">
-            {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
-        </Masonry>
+        <div className="col">
+          {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
+        </div>
       </Section>
 
       <Section id="projects" title="Projects">
@@ -109,8 +103,6 @@ export default function Page() {
             {profile.certifications.map((c, i) => <CertificationCard cert={c} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </Masonry>
       </Section>
-
-      <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5f551af6-ca28-4186-97a4-e646d0e27d46" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
 
 
       <Section id="contact" title="Contact">

@@ -117,15 +117,9 @@ export default function AppHome() {
       </Section>
 
       <Section id="experience" title="Experience">
-        <Masonry
-          breakpointCols={{
-            default: 2,
-            1000: 1,
-          }}
-          className="masonry-grid"
-          columnClassName="masonry-grid_column">
+        <div className="col">
             {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
-        </Masonry>
+        </div>
       </Section>
 
       <Section id="projects" title="Projects">
@@ -159,9 +153,6 @@ export default function AppHome() {
             {profile.certifications.map((c, i) => <CertificationCard cert={c} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </Masonry>
       </Section>
-
-      <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5f551af6-ca28-4186-97a4-e646d0e27d46" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
-
 
       <Section id="contact" title="Contact">
         <div className="card p-3 align-items-center">
