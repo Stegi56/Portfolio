@@ -8,7 +8,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/stegi56/",
   instagram: "https://www.instagram.com/stegi__56",
   github: "https://github.com/Stegi56",
-  resumeUrl: "Joel Staugaitis.pdf", 
+  resumeUrl: "/Joel Staugaitis.pdf", 
   summary:
     "A systems-oriented engineer fuelled by novelty in deep dives into frameworks, methodologies and languages. Takes pride in reducing complexity to bring others onboard across the stack. Experienced in engineering for a 45+ million user platform, providing tech leadership, security automation, DevOps and software in mission-critical environments.",
   education: <Education[]>[
