@@ -5,7 +5,7 @@ date: "18-July-2026"
 cover: "/blog/2/cover.jpg"
 length: "2min read"
 ---
-## Sentimentality in handwritten code
+## Declining Sentimentality in the Transition from Handwritten Code
 ##### <div className="kbd">18th July 2026</div>
 ##### *2min read*
 ---
@@ -19,33 +19,49 @@ length: "2min read"
 />
 This is a brain dump.
 
-I've been practising some NeetCode recently and I realised I have forgotten the feeling of pride in writing unassisted code 
+I've been practising some NeetCode recently and I realised I have forgotten the feeling of pride in writing code 
 how I did at university, when I coded on paper.
 
 Now with IDE autocomplete and AI help it costs next to nothing to iterate.
 
-However, NeetCode has made me very aware of [sunk-cost-fallacy](https://thedecisionlab.com/biases/the-sunk-cost-fallacy), 
-where it is painful to delete bad code I've invested time into.
+However, NeetCode has made me conscious of [Sunk Cost Fallacy](https://thedecisionlab.com/biases/the-sunk-cost-fallacy), 
+where it is painful to delete bad code I've invested time into and the 
+[IKEA effect](https://thedecisionlab.com/biases/ikea-effect), where a personally assembled product is valued more and maintained
+better by the consumer but may also be overvalued (not just a table from the store, a table I built).
 
-The positive side of sentimentality is, coding becomes an art. I have been taking more pride and placing more effort in 
-making code pretty.
+The positive side of sentimentality is, coding becomes an art. Naturally I have been taking more care and effort in 
+making code good and pleasing to read.
 
 On a side note, I have noticed a growing velocity addiction in the industry. When test suites pass - that is
 refinement complete for a change, even for production environments. 
 
-I think this can be explained by: 
+I think this can be explained by perhaps an inverse ikea effect/ sunk-cost fallacy. Since the equivalent of assembling a
+table is gone, people take the output from an llm like it's free assembled furniture from the store and naturally use it 
+with less care. It is human nature.
 
 ```
-  lower time to make a change = lower mental effect of sentimental attachment to the change
+  lower time invested into a change = lower sentimentality for the change
 ```
 
-Even for me pride in what is shipped is starting to feel more intentional than natural, because of the higher velocity for any given change.
+Even for me pride in what is shipped is starting to feel more intentional than natural, because of the lower time investment.
+
+Linus Torvalds, lead Linux Kernel developer. Has allowed AI for kernel development, but with a rule that you must take full
+ownership of the AI code you ship - you cannot say "Ooops, I blame the AI - it hallucinated". [See rule ref](https://docs.kernel.org/process/coding-assistants.html).
+
+I think without realising he is not just increasing ownership but also sentimentality.
+
+To stretch my analogy further, you may not be assembling IKEA furniture anymore and instead be buying pre-assembled furniture. 
+But when you place it in the office lobby, the furniture shall have your name on it instead of having the furniture point to the store.
+
+I'm not sure how well this will work to bring back the pride and care we used to feel in what we shipped, but I like this direction.
 
 I've heard the argument *"Prettiness rarely delivers business value and it will be mostly agents who deal with this substandard code 
 anyway, why be concerned with this?"*
 
 That may be right in the future - time will tell. But definitely not right now. Read: [Claude Code's Source Code Leaked. Here's What We Found Inside.](https://techtrenches.dev/p/the-snake-that-ate-itself-what-claude)
 
-Claude Code CLI source code slop is an extreme example. 
+Claude Code CLI source code slop, what is a minimal human input exemplar project by Anthropic - is an extreme example if I am being fair.
 
-In more sensible projects despite green test suites, it feels like something important is being lost right now.
+In more sensible projects where there is still a good amount of human input. Despite green test suites, it feels like 
+something important is being lost right now and good review process is starting to become more of a discipline rather than
+what used to be natural.
