@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-import type { BlogFrontmatter } from "../typeDefs/blog";
+import type { BlogSummary } from "../typeDefs/blog";
 
-export default function BlogPeekCard({ blog}: { blog: BlogFrontmatter}) {
+export default function BlogPeekCard({ blog}: { blog: BlogSummary}) {
 
 
   return (
@@ -28,9 +28,9 @@ export default function BlogPeekCard({ blog}: { blog: BlogFrontmatter}) {
         />
         <div style={{ flex: 1, minWidth: 150, maxWidth:"80%"}}>
           <strong style={{ fontWeight: 700 }}>{blog.title}</strong>
-          <div><i className="mb-0 italic" style={{ color:"var(--muted)" }}>{blog.length}</i></div>
+          <div><i className="mb-0 italic" style={{ color:"var(--muted)" }}>{blog.readingTime}</i></div>
         </div>
-        <span className="kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{blog.date}</span>
+        <span className="blog-date kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{blog.date}</span>
       </div>
       </motion.article>
     </Link>

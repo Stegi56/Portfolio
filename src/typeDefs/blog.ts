@@ -1,13 +1,15 @@
-export type BlogFrontmatter = {
+export type BlogMetadata = {
   title: string;
-  slug: string;
   date: string;
+};
+
+export type BlogSummary = BlogMetadata & {
+  slug: string;
   cover: string;
-  length: string;
-  embed?: string;
+  readingTime: string;
 };
 
 export type BlogEntry = {
-  frontmatter: BlogFrontmatter;
+  frontmatter: BlogSummary;
   Content: React.ComponentType;
 };

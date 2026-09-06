@@ -8,9 +8,9 @@ import Section from "../components/Section";
 import Hero from "../components/Hero";
 import BlogPeekCard from "../components/BlogPeekCard";
 
-import type { BlogFrontmatter } from "../typeDefs/blog";
+import type { BlogSummary } from "../typeDefs/blog";
 
-export default function BlogList({ blogs }: { blogs: BlogFrontmatter[] }) {
+export default function BlogList({ blogs }: { blogs: BlogSummary[] }) {
   return (
     <>
       <ResponsiveBackground />

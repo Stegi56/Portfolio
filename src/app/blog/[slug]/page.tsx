@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Blog from "../../../views/Blog";
-import { blogEntries, getBlog } from "../../../data/blog";
+import { blogSummaries, getBlog } from "../../../data/blog";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return blogEntries.map(({ frontmatter }) => ({ slug: frontmatter.slug }));
+  return blogSummaries.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -15,10 +15,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const blog = getBlog(slug);
+  const blog = await getBlog(slug);
   if (!blog) return {};
 
-  const description = `${blog.frontmatter.length} by Joel Staugaitis.`;
+  const description = `${blog.frontmatter.readingTime} by Joel Staugaitis.`;
   return {
     title: `${blog.frontmatter.title} | Joel's Blog`,
     description,
@@ -35,8 +35,8 @@ export async function generateMetadata({
 
 export default async function BlogPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const blog = getBlog(slug);
+  const blog = await getBlog(slug);
   if (!blog) notFound();
 
-  return <main><Blog Content={blog.Content} /></main>;
+  return <main><Blog Content={blog.Content} blog={blog.frontmatter} /></main>;
 }

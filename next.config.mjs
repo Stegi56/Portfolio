@@ -1,11 +1,8 @@
 import createMDX from "@next/mdx";
-import { fileURLToPath } from "node:url";
-
-const yamlFrontmatterPlugin = fileURLToPath(new URL("./remark-yaml-frontmatter.mjs", import.meta.url));
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: ["remark-frontmatter", yamlFrontmatterPlugin],
+    remarkPlugins: ["remark-frontmatter"],
   },
 });
 

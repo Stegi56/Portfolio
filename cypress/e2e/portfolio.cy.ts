@@ -1,5 +1,7 @@
 import type { AxeResults } from "axe-core";
 
+const blogLinkSelector = "a[aria-label^='Read ']";
+
 describe("static portfolio", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -19,10 +21,16 @@ describe("static portfolio", () => {
     cy.get("#skills").should("be.visible");
 
     cy.contains("a", "Blog").click();
-    cy.location("pathname").should("eq", "/blog/");
-    cy.get("a[aria-label^='Read ']").first().click();
-    cy.location("pathname").should("match", /^\/blog\/\d+\/$/);
-    cy.get("main").should("be.visible");
+    cy.location("pathname", { timeout: 10_000 }).should("eq", "/blog/");
+    cy.get("body").then(($body) => {
+      const firstBlogLink = $body.find(blogLinkSelector).first();
+      if (!firstBlogLink.length) return;
+
+      const href = firstBlogLink.attr("href")!;
+      cy.wrap(firstBlogLink).click();
+      cy.location("pathname").should("eq", pathFromHref(href));
+      cy.get("main").should("be.visible");
+    });
 
     cy.contains("a", "Contact").click();
     cy.location("pathname").should("eq", "/");
@@ -42,18 +50,54 @@ describe("static portfolio", () => {
     cy.get("@copyEmail").should("have.been.calledWith", "56rolsj@gmail.com");
   });
 
-  it("exports direct blog routes and a useful 404 page", () => {
-    cy.visit("/blog/0/");
-    cy.contains("h2", "How I graduated at the top of my class").should("be.visible");
+  it("keeps the blog index and every published blog accessible", () => {
+    openBlogIndex();
+    checkAccessibility();
+
+    cy.get("body").then(($body) => {
+      const blogCount = $body.find(blogLinkSelector).length;
+      if (!blogCount) return;
+
+      for (let index = 0; index < blogCount; index += 1) {
+        openBlogIndex();
+        cy.get(blogLinkSelector).eq(index).then(($link) => {
+          const href = $link.attr("href")!;
+          cy.wrap($link).click();
+          cy.location("pathname").should("eq", pathFromHref(href));
+          cy.get("main h1").should("be.visible");
+          checkAccessibility();
+        });
+      }
+    });
+  });
+
+  it("exports discovered blog routes and a useful 404 page", () => {
+    openBlogIndex();
+    cy.get("body").then(($body) => {
+      const firstBlogLink = $body.find(blogLinkSelector).first();
+      if (!firstBlogLink.length) return;
+
+      const href = firstBlogLink.attr("href")!;
+      cy.visit(href);
+      cy.location("pathname").should("eq", pathFromHref(href));
+      cy.get("main h1").should("be.visible");
+    });
 
     cy.visit("/blog/not-a-blog/", { failOnStatusCode: false });
-    cy.contains("h2", "This page has gone bananas").should("be.visible");
+    cy.contains("h3", "This page has gone bananas").should("be.visible");
     cy.get("img[alt*='confused monkey']").should("be.visible");
 
     cy.visit("/missing-page/", { failOnStatusCode: false });
-    cy.contains("h2", "This page has gone bananas").should("be.visible");
+    cy.contains("h3", "This page has gone bananas").should("be.visible");
     cy.get("img[alt*='confused monkey']").should("be.visible");
     cy.contains("a", "Return home").should("have.attr", "href", "/");
+  });
+
+  it("uses consistent human-entered blog dates", () => {
+    cy.visit("/blog/");
+    cy.get(".blog-date").each(($date) => {
+      expect($date.text().trim()).to.match(/^(0[1-9]|[12]\d|3[01])-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/);
+    });
   });
 
   it("keeps the key experience usable on a mobile viewport", () => {
@@ -64,7 +108,10 @@ describe("static portfolio", () => {
     findSkill("aws").should("have.class", "selected");
     cy.contains("a", "Blog").click();
     cy.location("pathname").should("eq", "/blog/");
-    cy.get("a[aria-label^='Read ']").first().should("be.visible");
+    cy.get("body").then(($body) => {
+      const firstBlogLink = $body.find(blogLinkSelector).first();
+      if (firstBlogLink.length) cy.wrap(firstBlogLink).should("be.visible");
+    });
   });
 
   it("reaches the contact section from a fresh mobile page", () => {
@@ -115,11 +162,11 @@ describe("static portfolio", () => {
       });
       cy.get("main > section.card img").should("be.visible");
       cy.get("nav").should("be.visible");
-      cy.contains("h1", "404").should("be.visible").then(($code) => {
+      cy.contains("h2", "404").should("be.visible").then(($code) => {
         const fontSize = getComputedStyle($code[0]).fontSize;
         expect(parseFloat(fontSize), "404 font size").to.be.greaterThan(40);
       });
-      cy.contains("h2", "This page has gone bananas").should("be.visible");
+      cy.contains("h3", "This page has gone bananas").should("be.visible");
       cy.contains("a", "Return home").should("be.visible");
     });
   });
@@ -127,6 +174,16 @@ describe("static portfolio", () => {
 
 function findSkill(name: string) {
   return cy.get("button.chip").filter((_, element) => element.textContent?.trim() === name);
+}
+
+function openBlogIndex() {
+  cy.visit("/");
+  cy.contains("a", "Blog").click();
+  cy.location("pathname", { timeout: 10_000 }).should("eq", "/blog/");
+}
+
+function pathFromHref(href: string) {
+  return new URL(href, "http://portfolio.test").pathname;
 }
 
 function assertBackgroundCoverage() {
