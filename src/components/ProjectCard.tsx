@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { Project } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
+import { publicPath } from "../lib/publicPath";
 
 interface TechProps{
   allTech: Map<string, boolean>;
@@ -20,7 +21,8 @@ export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & 
         {!!p.logo && (
           <img
             className="me-2"
-            src={p.logo}
+            src={publicPath(p.logo)}
+            alt={`${p.name} logo`}
             width="60"
             height="60"
             loading="lazy" 
@@ -45,7 +47,8 @@ export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & 
       {!!p.photo && (
         <img
           className=""
-          src={p.photo}
+          src={publicPath(p.photo)}
+          alt={`${p.name} demonstration`}
           width="100%"
           loading="lazy" 
           decoding="async"
@@ -54,7 +57,7 @@ export default function ProjectCard({ p, allTech, toggleTech}: { p: Project } & 
 
       {!!p.video && (
         <video className="" width="100%" height="auto" controls>
-          <source src={p.video} type="video/mp4"/>
+          <source src={publicPath(p.video)} type="video/mp4"/>
           Your browser does not support the video tag.
         </video>
       )}

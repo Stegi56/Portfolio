@@ -1,6 +1,7 @@
 import type { Education, Certification, Experience, Project, TechCategory } from "../typeDefs/profile";
 
 export const profile = {
+  brand: "STEGI56",
   name: "Joel Staugaitis",                  
   headline: "Software Engineer",
   location: "United Kingdom & EU",      

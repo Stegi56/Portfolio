@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
 export default function ScrollProgressBar() {
@@ -15,5 +17,5 @@ export default function ScrollProgressBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return <div className="progress" ref={bar} />;
+  return <div className="progress" ref={bar} aria-hidden="true" />;
 }

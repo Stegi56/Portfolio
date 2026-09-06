@@ -1,14 +1,13 @@
-export type Blog = {
+export type BlogFrontmatter = {
   title: string;
   slug: string;
   date: string;
   cover: string;
   length: string;
-  embed: string;
-  Content: React.ComponentType;
+  embed?: string;
 };
 
-export type MDXModule = {
-  default: React.ComponentType;
-  frontmatter: Pick<Blog, 'title' | 'slug' | 'date' | 'cover' | 'length' | 'embed'>;
+export type BlogEntry = {
+  frontmatter: BlogFrontmatter;
+  Content: React.ComponentType;
 };

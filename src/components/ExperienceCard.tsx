@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { Experience } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
+import { publicPath } from "../lib/publicPath";
 
 interface TechProps {
   allTech: Map<string, boolean>;
@@ -18,7 +19,8 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
     >
       <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
         <img
-          src={exp.logo}
+          src={publicPath(exp.logo)}
+          alt={`${exp.company} logo`}
           width="60"
           height="60"
           loading="lazy"
@@ -50,7 +52,7 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
       ))}
 
       {exp.poster && (
-        <a className="btn glass nav-links text-white" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>
+        <a className="btn glass nav-links text-white" href={publicPath(exp.poster)} target="_blank" rel="noreferrer">Poster</a>
       )}
       <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--muted)" }}>
         {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}

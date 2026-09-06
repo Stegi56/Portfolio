@@ -1,3 +1,6 @@
+"use client";
+
+import { publicPath } from "../lib/publicPath";
 
 interface TechPillsProps {
   displayTech: Array<string>;
@@ -20,7 +23,8 @@ export default function TechPills({ displayTech, allTech, toggleTech, justifyCon
         >
           <img
             className="p-0 m-0"
-            src={"logos/" + tech + ".png"}
+            src={publicPath("logos/" + tech + ".png")}
+            alt=""
             loading="lazy" 
             decoding="async"
             style={{alignSelf:"center", borderRadius:"18px 0px 0px 18px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}
@@ -28,7 +32,8 @@ export default function TechPills({ displayTech, allTech, toggleTech, justifyCon
           />
           <img
             className="p-0 m-0"
-            src={"logos/" + tech + ".jpg"}
+            src={publicPath("logos/" + tech + ".jpg")}
+            alt=""
             loading="lazy" 
             decoding="async"
             style={{alignSelf:"center", borderRadius:"18px 0px 0px 18px", maxHeight:"1.8rem", maxWidth:"1.8rem"}}

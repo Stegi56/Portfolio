@@ -1,5 +1,9 @@
 /node_modules
-/dist
+/.next
+/out
+# Cypress keeps failure screenshots here for local debugging.
+/cypress/screenshots
+/cypress/videos
 /tsconfig.tsbuildinfo
 !/.github/workflows
 /.idea/

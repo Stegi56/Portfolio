@@ -1,4 +1,4 @@
-name: Deploy Vite to GitHub Pages
+name: Build and deploy static Next.js site to GitHub Pages
 on:
   push: { branches: [ main ] }
   workflow_dispatch:
@@ -19,19 +19,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
       - run: npm ci
 
-      - name: Build for custom domain root
-        run: npm run build --base="/"
-
-      - name: Create 404.html fallback
-        run: cp dist/index.html dist/404.html
+      - name: Build static site
+        run: npm run build
         
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: out
   deploy:
     needs: build
     runs-on: ubuntu-latest

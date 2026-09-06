@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
 type RGB = { r: number; g: number; b: number };
@@ -40,16 +42,17 @@ export default function LowPolyBackground(props: LowPolyProps) {
     let dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
     let rafId = 0;
 
-    const vp = () => ({
-      vw:  window.innerWidth,
-      vh:  window.innerHeight,
-    });
+    const vp = () => {
+      const bounds = canvas.getBoundingClientRect();
+      return {
+        vw: Math.ceil(bounds.width),
+        vh: Math.ceil(bounds.height),
+      };
+    };
 
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
       const { vw, vh } = vp();
-      canvas.style.width = "100vw";
-      canvas.style.height = "100vh";
       canvas.width = Math.round(vw * dpr);
       canvas.height = Math.round(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -58,6 +61,8 @@ export default function LowPolyBackground(props: LowPolyProps) {
     resize();
     window.addEventListener("resize", resize);
     visualViewport?.addEventListener("resize", resize);
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(document.documentElement);
 
     const onPointer = (e: PointerEvent) => {
       mouse.x = e.clientX / window.innerWidth;
@@ -66,6 +71,23 @@ export default function LowPolyBackground(props: LowPolyProps) {
     window.addEventListener("pointermove", onPointer, { passive: true });
 
     const loop = (now: number) => {
+      const nextDpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
+      const dimensions = vp();
+
+      // A client-side navigation can briefly detach the canvas from layout.
+      // Wait for the next frame instead of calculating an infinite overscan grid.
+      if (dimensions.vw <= 0 || dimensions.vh <= 0) {
+        rafId = requestAnimationFrame(loop);
+        return;
+      }
+
+      if (
+        canvas.width !== Math.round(dimensions.vw * nextDpr) ||
+        canvas.height !== Math.round(dimensions.vh * nextDpr)
+      ) {
+        resize();
+      }
+
       const seconds = (now * 0.001) * cfg.speed;
       const angle = seconds * 0.12;
       const tNoise = seconds * 0.8;
@@ -157,6 +179,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
       visualViewport?.removeEventListener("resize", resize);
+      resizeObserver.disconnect();
       window.removeEventListener("pointermove", onPointer);
     };
   }, [
@@ -170,9 +193,13 @@ export default function LowPolyBackground(props: LowPolyProps) {
     <canvas
       ref={canvasRef}
       aria-hidden
+      data-low-poly-cols={cfg.cols}
+      data-low-poly-rows={cfg.rows}
       style={{
         position: "fixed",
         inset: 0,
+        width: "100dvw",
+        height: "100dvh",
         zIndex: cfg.zIndex,
         opacity: cfg.opacity,
         pointerEvents: "none",

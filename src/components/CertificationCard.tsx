@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { Certification } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
+import { publicPath } from "../lib/publicPath";
 
 interface TechProps{
   allTech: Map<string, boolean>;
@@ -17,7 +18,8 @@ export default function CertificationCard({ cert, allTech, toggleTech }: { cert:
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
     >
       <img
-        src={cert.image}
+        src={publicPath(cert.image)}
+        alt={`${cert.name} badge`}
         width="150"
         height="150"
         style={{placeSelf:"center", maxWidth:"30dvw", maxHeight:"30dvw"}}
@@ -35,7 +37,7 @@ export default function CertificationCard({ cert, allTech, toggleTech }: { cert:
         <span className="col-md-5 col-sm-12 kbd kbd-s text-md-end text-sm-start" style={{flex: 1, minWidth: 0, maxWidth:150 ,color: "var(--muted)"}}>{cert.issueDate}</span>
       </div>
       {cert.certificate &&(
-        <a className="btn glass mb-1 text-white" href={cert.certificate} target="_blank" rel="noreferrer">Certificate</a>
+        <a className="btn glass mb-1 text-white" href={publicPath(cert.certificate)} target="_blank" rel="noreferrer">Certificate</a>
       )}
 
       <TechPills displayTech={cert.tech} allTech={allTech} toggleTech={toggleTech}/>

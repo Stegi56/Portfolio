@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { Education } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
+import { publicPath } from "../lib/publicPath";
 
 interface TechProps{
   allTech: Map<string, boolean>;
@@ -18,7 +19,8 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
     >
       <div style={{ display: "flex", alignItems: "flex-start", gap: "clamp(.2rem, 0.2vw + .3rem, 12px)" }}>
         <img
-          src={ed.logo}
+          src={publicPath(ed.logo)}
+          alt={`${ed.institution} logo`}
           width="60"
           height="60"
           loading="lazy" 
@@ -35,7 +37,7 @@ export default function EducationCard({ ed, allTech, toggleTech}: { ed: Educatio
         <span className="kbd kbd-s ps-0 ms-0" style={{ flex: 1, minWidth: 60, maxWidth:"20%" ,color: "var(--muted)", textAlign:"end"}}>{ed.start} — {ed.end}</span>
       </div>
       {ed.certificate &&(
-        <a className="btn glass nav-links text-white" href={ed.certificate} target="_blank" rel="noreferrer">Certificate</a>
+        <a className="btn glass nav-links text-white" href={publicPath(ed.certificate)} target="_blank" rel="noreferrer">Certificate</a>
       )}
       <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
         {ed.bullets.map((b, i) => <li key={i}>{b}</li>)}

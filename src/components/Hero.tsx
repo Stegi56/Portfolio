@@ -1,4 +1,7 @@
+"use client";
+
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { publicPath } from "../lib/publicPath";
 import { profile } from "../data/profile";
 
 export default function Hero() {
@@ -38,7 +41,7 @@ export default function Hero() {
             <div className="col mb-2 ps-2" style={{maxWidth:"80%"}}>
               <div style={{display:"grid", gridTemplateColumns:"auto 1fr",  alignItems:"center"}}>
                 <img
-                  src="favicon.svg"
+                  src="/favicon.svg"
                   width="130"
                   height="130"
                   loading="lazy" 
@@ -55,11 +58,12 @@ export default function Hero() {
               </div>
             </div>
             <div className="col ps-1">            
-              <ul className="ps-0 mb-0">
+              <div className="ps-0 mb-0">
                 {profile.certifications.map(c => 
                   <img
                     key={c.image + " hero badge"}
-                    src={c.image}
+                    src={publicPath(c.image)}
+                    alt={`${c.name} badge`}
                     width="90"
                     height="90"
                     loading="lazy" 
@@ -71,7 +75,8 @@ export default function Hero() {
                 {profile.education.map(e => 
                   <img
                     key={e.logo + " hero badge"}
-                    src={e.logo}
+                    src={publicPath(e.logo)}
+                    alt={`${e.institution} logo`}
                     className="p-1"
                     width="90"
                     height="90"
@@ -81,7 +86,7 @@ export default function Hero() {
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}
-              </ul>
+              </div>
             </div>
 
           </div>

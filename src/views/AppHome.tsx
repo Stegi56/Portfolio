@@ -1,22 +1,25 @@
-import {useState} from "react";
+"use client";
+
+import {useEffect, useState} from "react";
 import Masonry from "react-masonry-css";
 import { motion } from "framer-motion";
 
 import "../styles.css";
+import ResponsiveBackground from "../components/ResponsiveBackground";
+import Nav from "../components/Nav";
 import Section from "../components/Section";
 import Hero from "../components/Hero";
 import ExperienceCard from "../components/ExperienceCard";
 import CertificationCard from "../components/CertificationCard";
 import ProjectCard from "../components/ProjectCard";
+import ScrollProgressBar from "../components/ScrollProgressBar";
 import { profile } from "../data/profile";
 import EducationCard from "../components/Education";
 import TechPills from "../components/TechPills";
+import { publicPath } from "../lib/publicPath";
 
-// import { useTitleCarousel } from './hooks/useTitleCarousel';
-
-export default function Page() {
-  //const carouselTitle = profile.name + " - " + profile.headline;
-  // useTitleCarousel(carouselTitle, 200);
+export default function AppHome() {
+  useStableHashScroll();
   
   const [allTech, setAllTech] = useState(() => {
     let allTech = new Map<string, boolean>();
@@ -42,6 +45,10 @@ export default function Page() {
 
   return (
     <>
+      <ResponsiveBackground />
+      <ScrollProgressBar />
+      <Nav resumeUrl={profile.resumeUrl}/>
+
       <Hero/>
 
       <Section id="about" title="About">
@@ -58,17 +65,39 @@ export default function Page() {
       </Section>
 
       <Section id="skills" title="Skills">
-        <h5> 
+        <h3 className="h5"> 
           Select those of interest
-        </h5>
-        <div className="card" style={{padding:"18px"}}>
-          <TechPills displayTech={Array.from(allTech.keys())} allTech={allTech} toggleTech={toggleTech} />
-        </div>
+        </h3>
+
+        <Masonry
+          breakpointCols={{
+            default: 2,
+            1000: 1,
+          }}
+          className="masonry-grid"
+          columnClassName="masonry-grid_column">
+
+          {profile.techCategories.map(category => (
+            <div className="card p-2 align-items-center" style={{padding:"18px"}} key={category.title}>
+              <p className="p mb-1"> {category.title}</p>
+              <TechPills displayTech={category.techList} allTech={allTech} toggleTech={toggleTech } justifyContent="center"/>
+            </div>
+          ))}
+
+          <div className="card p-2 align-items-center" style={{padding:"18px"}}>
+            <p className="p mb-1"> Other</p>
+            <TechPills 
+              displayTech={Array.from(allTech.keys()).filter(k => !profile.techCategories.flatMap(category => category.techList).includes(k))} 
+              allTech={allTech} toggleTech={toggleTech} justifyContent="center"
+            />
+          </div>
+
+          </Masonry>
       </Section>
 
       <Section id="experience" title="Experience">
         <div className="col">
-          {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
+            {profile.experience.map((e, i) => <ExperienceCard exp={e} key={i} allTech={allTech} toggleTech={toggleTech} />)}
         </div>
       </Section>
 
@@ -104,7 +133,6 @@ export default function Page() {
         </Masonry>
       </Section>
 
-
       <Section id="contact" title="Contact">
         <div className="card p-3 align-items-center">
           <TechPills 
@@ -126,7 +154,8 @@ export default function Page() {
               <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.linkedin} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
-                  src={"logos/LI.png"}
+                  src={publicPath("logos/LI.png")}
+                  alt=""
                   width="42"
                   height="42"
                   loading="lazy" 
@@ -139,7 +168,8 @@ export default function Page() {
               <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.github} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
-                  src={"logos/GitHub.png"}
+                  src={publicPath("logos/GitHub.png")}
+                  alt=""
                   width="42"
                   height="42"
                   loading="lazy" 
@@ -152,7 +182,8 @@ export default function Page() {
               <a className="btn glass ps-0 pt-0 pb-0" style={{fontSize:".9rem"}} href={profile.instagram} target="_blank" rel="noreferrer">
                 <img
                   className="p-0 m-0"
-                  src={"logos/insta.png"}
+                  src={publicPath("logos/insta.png")}
+                  alt=""
                   width="42"
                   height="42"
                   loading="lazy" 
@@ -168,4 +199,56 @@ export default function Page() {
       </Section>
     </>
   );
+}
+
+function useStableHashScroll() {
+  useEffect(() => {
+    let observer: ResizeObserver | undefined;
+    let stopTimer: number | undefined;
+    let animationFrame: number | undefined;
+
+    const alignWithHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const target = id && document.getElementById(id);
+      if (!target) return;
+
+      const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = "auto";
+      target.scrollIntoView({ block: "start" });
+      document.documentElement.style.scrollBehavior = previousScrollBehavior;
+    };
+
+    const stabilizeHashPosition = () => {
+      observer?.disconnect();
+      window.clearTimeout(stopTimer);
+      if (animationFrame !== undefined) cancelAnimationFrame(animationFrame);
+      if (!window.location.hash) return;
+
+      alignWithHash();
+      animationFrame = requestAnimationFrame(alignWithHash);
+
+      const page = document.getElementById("root");
+      if (page) {
+        observer = new ResizeObserver(() => {
+          if (animationFrame !== undefined) cancelAnimationFrame(animationFrame);
+          animationFrame = requestAnimationFrame(alignWithHash);
+        });
+        observer.observe(page);
+      }
+
+      // Masonry changes column count during hydration. Once that initial layout
+      // has settled, stop following the hash so normal user scrolling takes over.
+      stopTimer = window.setTimeout(() => observer?.disconnect(), 1500);
+    };
+
+    stabilizeHashPosition();
+    window.addEventListener("hashchange", stabilizeHashPosition);
+
+    return () => {
+      window.removeEventListener("hashchange", stabilizeHashPosition);
+      observer?.disconnect();
+      window.clearTimeout(stopTimer);
+      if (animationFrame !== undefined) cancelAnimationFrame(animationFrame);
+    };
+  }, []);
 }
