@@ -31,6 +31,13 @@ export type Experience = {
   tech: string[];
   link?: string;
   poster?: string;
+  promotions?: Promotion[];
+};
+
+export type Promotion = {
+  from: string;
+  to: string;
+  date: string;
 };
 
 export type Project = {

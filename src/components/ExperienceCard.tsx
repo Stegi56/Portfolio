@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import type { Experience } from "../typeDefs/profile";
 
 import TechPills from "./TechPills";
-interface TechProps{
+
+interface TechProps {
   allTech: Map<string, boolean>;
   toggleTech: (tech: string) => void;
 }
@@ -20,30 +21,41 @@ export default function ExperienceCard({ exp, allTech, toggleTech }: { exp: Expe
           src={exp.logo}
           width="60"
           height="60"
-          loading="lazy" 
+          loading="lazy"
           decoding="async"
-          style={{alignSelf:"center", maxWidth:"14dvw", maxHeight:"14dvw"}}
+          style={{ alignSelf: "center", maxWidth: "14dvw", maxHeight: "14dvw" }}
           onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />
 
-        <div style={{ flex: 1, minWidth: 150, maxWidth:"80%" }}>
+        <div style={{ flex: 1, minWidth: 150, maxWidth: "80%" }}>
           <strong style={{ fontWeight: 700 }}>{exp.role}</strong>
-          {exp.link != undefined ? (
+          {exp.link !== undefined ? (
             <a className="url" href={exp.link} target="_blank" rel="noreferrer" style={{ display: "block" }}>{exp.company}</a>
           ) : (
-            <a href={exp.link} target="_blank" rel="noreferrer" style={{ color:"var(--muted)", display: "block" }}>{exp.company}</a>
+            <span style={{ color: "var(--muted)", display: "block" }}>{exp.company}</span>
           )}
         </div>
-        <span className="kbd kbd-s" style={{ flex: 1, minWidth: 70, maxWidth:210 ,color: "var(--muted)", textAlign:"end"}}>{exp.start} — {exp.end}</span>
+        <span className="kbd kbd-s" style={{ flex: 1, minWidth: 70, maxWidth: 210, color: "var(--muted)", textAlign: "end" }}>
+          {exp.start} {"\u2014"} {exp.end}
+        </span>
       </div>
-      {exp.poster &&(
+
+      {exp.promotions?.map((promotion, i) => (
+        <div
+          key={`${promotion.from}-${promotion.to}-${promotion.date}-${i}`}
+          style={{ color: "var(--muted)", fontSize: "0.9em" }}
+        >
+          Promoted: {promotion.from} {"\u2192"} {promotion.to} {"\u00b7"} {promotion.date}
+        </div>
+      ))}
+
+      {exp.poster && (
         <a className="btn glass nav-links text-white" href={exp.poster} target="_blank" rel="noreferrer">Poster</a>
       )}
-      <ul style={{margin:0, paddingLeft:"18px", color:"var(--muted)"}}>
+      <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--muted)" }}>
         {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
       </ul>
-      <TechPills displayTech={exp.tech} allTech={allTech} toggleTech={toggleTech}/>
-
+      <TechPills displayTech={exp.tech} allTech={allTech} toggleTech={toggleTech} />
     </motion.article>
   );
 }

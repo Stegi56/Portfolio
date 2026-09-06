@@ -77,9 +77,16 @@ export const profile = {
     {
       company: "CGI",
       logo: "logos/CGI_2.png",
-      role: "Consultant Software Engineer",
+      role: "Consultant Software Engineer — Level 2",
       start: "Jul 2025",
       end: "Present",
+      promotions: [
+        {
+          from: "Level 1",
+          to: "Level 2",
+          date: "Sep 2026",
+        },
+      ],
       bullets: [
         "Role: Delivering to a public sector data platform using aws, Docker, GitLab CI/CD, Python, Java, Terraform and Vault.",
         "Service Management: Ships features, fixes and updates for systems in response to client reports and needs. Also provides onboarding support.",
