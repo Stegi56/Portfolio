@@ -17,6 +17,12 @@ export default function ResponsiveBackground() {
       speed={2.5}
       wobble={15}
       parallax={25}
+      teleportLimits={{ 
+        maxVelocity: 1200, 
+        acceleration: 9800, 
+        deceleration: 8000, 
+        minimumApproachSpeed: 400, 
+        captureDistance: 40 }}
       glow={0.2}
       glowRadius={150}
       dprCap={1.5}

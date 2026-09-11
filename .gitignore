@@ -1,7 +1,7 @@
 /node_modules
 /.next
 /out
-# Cypress keeps failure screenshots here for local debugging.
+# Cypress keeps visual review and failure screenshots here.
 /cypress/screenshots
 /cypress/videos
 /tsconfig.tsbuildinfo

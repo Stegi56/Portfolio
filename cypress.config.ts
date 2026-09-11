@@ -1,24 +1,46 @@
 import { defineConfig } from "cypress";
 import { spawn, spawnSync, type ChildProcess } from "node:child_process";
 import { createServer } from "node:net";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 let previewUrl = "";
 let previewProcess: ChildProcess | undefined;
 
 export default defineConfig({
+  expose: {
+    viewport: process.env.PORTFOLIO_VIEWPORT || "all",
+  },
   e2e: {
     baseUrl: "http://127.0.0.1:4173",
     supportFile: "cypress/support/e2e.ts",
     specPattern: "cypress/e2e/**/*.cy.ts",
     async setupNodeEvents(on, config) {
-      buildStaticSite();
+      on("before:browser:launch", (browser, launchOptions) => {
+        if (browser.family === "chromium") launchOptions.args.push("--window-size=1600,1200");
+        return launchOptions;
+      });
+      // CI workers share the build artifact; local runs build fresh by default.
+      if (process.env.PORTFOLIO_SKIP_BUILD === "1") {
+        if (!existsSync("out/index.html")) throw new Error("Expected an existing static build at out/index.html");
+      } else {
+        buildStaticSite();
+      }
       const previewPort = await findAvailablePort();
       previewUrl = `http://127.0.0.1:${previewPort}`;
       previewProcess = await startPreviewServer(previewPort);
       config.baseUrl = previewUrl;
 
       on("task", {
+        publishedBlogPaths() {
+          // Use the source files, independently of what the rendered index lists.
+          const directory = join(process.cwd(), "src", "data", "blog");
+          return readdirSync(directory, { withFileTypes: true })
+            .filter((entry) => entry.isDirectory() && existsSync(join(directory, entry.name, "blog.mdx")))
+            .map((entry) => `/blog/${entry.name}/`)
+            .sort();
+        },
         log(message: string) {
           console.log(message);
           return null;

@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { advancePointer, createPointerMotion, defaultTeleportLimits, listenForPointer, resizePointer, setPointerTarget, type TeleportLimits } from "../lib/pointerMotion";
 
 type RGB = { r: number; g: number; b: number };
 
 export type LowPolyProps = Partial<{
   cols: number; rows: number;
   speed: number; wobble: number; parallax: number;
+  teleportLimits: TeleportLimits;
   glow: number; glowRadius: number; colorJitter: number;
   opacity: number; zIndex: number; dprCap: number;
   from: RGB; to: RGB;
@@ -15,6 +17,7 @@ export type LowPolyProps = Partial<{
 }>;
 
 const DEF = {
+  teleportLimits: defaultTeleportLimits,
   cols: 28, rows: 18,
   speed: 1,
   wobble: 6,
@@ -38,9 +41,26 @@ export default function LowPolyBackground(props: LowPolyProps) {
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d", { alpha: true })!;
-    const mouse = { x: 0.5, y: 0.5 };
+    let motion = createPointerMotion({ x: 0, y: 0 });
+    let reacquire = true;
+    const limits = {
+      maxVelocity: Math.max(1, cfg.teleportLimits.maxVelocity),
+      acceleration: Math.max(1, cfg.teleportLimits.acceleration),
+      deceleration: Math.max(1, cfg.teleportLimits.deceleration),
+      minimumApproachSpeed: cfg.teleportLimits.minimumApproachSpeed,
+      captureDistance: cfg.teleportLimits.captureDistance,
+    };
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reduced = motionPreference.matches;
+    let width = 0, height = 0;
+    let previousTime: number | undefined;
+    let seconds = 0;
     let dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
     let rafId = 0;
+
+    const requestRender = () => {
+      if (!rafId && !document.hidden) rafId = requestAnimationFrame(loop);
+    };
 
     const vp = () => {
       const bounds = canvas.getBoundingClientRect();
@@ -53,31 +73,28 @@ export default function LowPolyBackground(props: LowPolyProps) {
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
       const { vw, vh } = vp();
+      if (vw <= 0 || vh <= 0) return;
+      if (!width || !height) motion = createPointerMotion({ x: vw / 2, y: vh / 2 });
+      else if (width !== vw || height !== vh) resizePointer(motion, vw / width, vh / height);
+      width = vw;
+      height = vh;
       canvas.width = Math.round(vw * dpr);
       canvas.height = Math.round(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      requestRender();
     };
-
-    resize();
-    window.addEventListener("resize", resize);
-    visualViewport?.addEventListener("resize", resize);
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(document.documentElement);
-
-    const onPointer = (e: PointerEvent) => {
-      mouse.x = e.clientX / window.innerWidth;
-      mouse.y = e.clientY / window.innerHeight;
-    };
-    window.addEventListener("pointermove", onPointer, { passive: true });
 
     const loop = (now: number) => {
+      rafId = 0;
+      const dt = previousTime === undefined ? 0 : Math.min((now - previousTime) / 1000, 0.05);
+      previousTime = now;
       const nextDpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
       const dimensions = vp();
 
       // A client-side navigation can briefly detach the canvas from layout.
       // Wait for the next frame instead of calculating an infinite overscan grid.
       if (dimensions.vw <= 0 || dimensions.vh <= 0) {
-        rafId = requestAnimationFrame(loop);
+        if (!reduced) requestRender();
         return;
       }
 
@@ -88,21 +105,25 @@ export default function LowPolyBackground(props: LowPolyProps) {
         resize();
       }
 
-      const seconds = (now * 0.001) * cfg.speed;
+      if (!reduced) {
+        advancePointer(motion, dt, limits);
+        seconds += dt * cfg.speed;
+      }
       const angle = seconds * 0.12;
       const tNoise = seconds * 0.8;
 
-      const { vw, vh } = vp();
+      const { vw, vh } = dimensions;
       ctx.clearRect(0, 0, vw, vh);
 
       const snap = (v: number) => Math.round(v * dpr) / dpr;
       const cellW = vw / cfg.cols, cellH = vh / cfg.rows;
 
       const dx = Math.cos(angle), dy = Math.sin(angle);
-      const shiftX = (mouse.x - 0.5) * cfg.parallax;
-      const shiftY = (mouse.y - 0.5) * cfg.parallax;
+      const shiftX = (motion.position.x / vw - 0.5) * cfg.parallax;
+      const shiftY = (motion.position.y / vh - 0.5) * cfg.parallax;
 
-      const autoBleed = cfg.parallax + cfg.wobble + 8; // safety margin
+      // Momentum may briefly carry recovery beyond an edge; cover the shift without clamping its path.
+      const autoBleed = Math.max(cfg.parallax, Math.abs(shiftX), Math.abs(shiftY)) + cfg.wobble + 8;
       const bleedPx = cfg.lockEdges ? 0 : Math.max(cfg.overscan ?? 0, autoBleed);
       const ex = Math.ceil(bleedPx / cellW); // extra cells per side (x)
       const ey = Math.ceil(bleedPx / cellH); // extra cells per side (y)
@@ -140,7 +161,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
       const tri = (a: any, b: any, c: any) => {
         const cx = (a.x + b.x + c.x) / 3, cy = (a.y + b.y + c.y) / 3;
         const grad = clamp01((cx * dx + cy * dy) / Math.hypot(vw, vh));
-        const mx = mouse.x * vw, my = mouse.y * vh;
+        const mx = motion.position.x, my = motion.position.y;
         const dist = Math.hypot(cx - mx, cy - my);
         const glow = Math.max(0, 1 - dist / cfg.glowRadius) * cfg.glow;
 
@@ -165,28 +186,60 @@ export default function LowPolyBackground(props: LowPolyProps) {
         }
       }
 
-      rafId = requestAnimationFrame(loop);
+      if (!reduced && (cfg.speed !== 0 || motion.correction)) requestRender();
+      else previousTime = undefined;
     };
 
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || cfg.speed === 0) {
-      loop(performance.now());
-    } else {
-      rafId = requestAnimationFrame(loop);
-    }
+    const stopListening = listenForPointer(window, (point, teleport) => {
+      if (reduced) return;
+      const bounds = canvas.getBoundingClientRect();
+      if (bounds.width <= 0 || bounds.height <= 0) return;
+      setPointerTarget(motion, {
+        x: Math.max(0, Math.min(bounds.width, point.x - bounds.left)),
+        y: Math.max(0, Math.min(bounds.height, point.y - bounds.top)),
+      }, teleport || reacquire);
+      reacquire = false;
+      requestRender();
+    });
+    const preferenceChanged = () => {
+      reduced = motionPreference.matches;
+      motion = createPointerMotion({ x: width / 2, y: height / 2 });
+      reacquire = true;
+      seconds = 0;
+      previousTime = undefined;
+      requestRender();
+    };
+    const visibilityChanged = () => {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+      previousTime = undefined;
+      requestRender();
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    window.visualViewport?.addEventListener("resize", resize);
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(document.documentElement);
+    motionPreference.addEventListener("change", preferenceChanged);
+    document.addEventListener("visibilitychange", visibilityChanged);
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
-      visualViewport?.removeEventListener("resize", resize);
+      window.visualViewport?.removeEventListener("resize", resize);
       resizeObserver.disconnect();
-      window.removeEventListener("pointermove", onPointer);
+      stopListening();
+      motionPreference.removeEventListener("change", preferenceChanged);
+      document.removeEventListener("visibilitychange", visibilityChanged);
     };
   }, [
     cfg.cols, cfg.rows, cfg.speed, cfg.wobble, cfg.parallax,
     cfg.glow, cfg.glowRadius, cfg.colorJitter, cfg.dprCap,
     cfg.from.r, cfg.from.g, cfg.from.b, cfg.to.r, cfg.to.g, cfg.to.b,
     cfg.overscan, cfg.lockEdges,
+    cfg.teleportLimits.maxVelocity, cfg.teleportLimits.acceleration, cfg.teleportLimits.deceleration,
+    cfg.teleportLimits.minimumApproachSpeed,
+    cfg.teleportLimits.captureDistance,
   ]);
 
   return (

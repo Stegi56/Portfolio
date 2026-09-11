@@ -12,6 +12,9 @@ export default function Nav(props: { resumeUrl?: string }) {
   useEffect(() => () => stopTrackingScrollRef.current?.(), []);
 
   const navigateToSection = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    const destination = new URL(event.currentTarget.href);
+    if (destination.pathname !== window.location.pathname) return;
+
     const target = document.getElementById(id);
     if (!target) return;
 
