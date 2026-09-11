@@ -131,8 +131,23 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
   let touchId: number | null = null;
   let touching = false;
   let scrolling = false;
+  let scrollAnchor: { point: Point; x: number; y: number } | null = null;
+  let anchorFrame = 0;
   let source: string | null = null;
   const options = { passive: true, capture: true };
+  const cancelAnchorFrame = () => { win.cancelAnimationFrame(anchorFrame); anchorFrame = 0; };
+  const rebaseAfterTouch = () => {
+    cancelAnchorFrame();
+    // A touch sample can arrive one frame before its compositor scroll offset.
+    // Let that offset commit before inferring further movement, or the same
+    // finger movement would be counted once by touchmove and again by scroll.
+    anchorFrame = win.requestAnimationFrame(() => {
+      anchorFrame = win.requestAnimationFrame(() => {
+        anchorFrame = 0;
+        if (scrollAnchor) { scrollAnchor.x = win.scrollX; scrollAnchor.y = win.scrollY; }
+      });
+    });
+  };
   const pointer = (event: PointerEvent) => {
     if (event.pointerType === "touch" || !event.isPrimary || touching || win.document.hidden) return;
     // Captured pointers can move outside the viewport without firing boundary events.
@@ -163,24 +178,48 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
     if (win.document.hidden) return;
     touching = event.touches.length > 0;
     if (touching) source = null;
+    if (event.touches.length !== 1) scrollAnchor = null;
     if (touchId !== null || event.touches.length !== 1) return;
     const touch = event.touches[0];
     touchId = touch.identifier;
     scrolling = false;
+    scrollAnchor = { point: { x: touch.clientX, y: touch.clientY }, x: win.scrollX, y: win.scrollY };
     onPosition({ x: touch.clientX, y: touch.clientY }, true);
   };
   const touchMove = (event: TouchEvent) => {
     if (win.document.hidden) return;
     const touch = Array.from(event.touches).find((item) => item.identifier === touchId);
-    if (touch) onPosition({ x: touch.clientX, y: touch.clientY }, false, scrolling);
+    if (touch) {
+      const point = { x: touch.clientX, y: touch.clientY };
+      scrollAnchor = event.touches.length === 1 ? { point, x: win.scrollX, y: win.scrollY } : null;
+      rebaseAfterTouch();
+      onPosition(point, false, scrolling);
+    }
   };
   const touchEnd = (event: TouchEvent) => {
     touching = event.touches.length > 0;
-    if (!Array.from(event.touches).some((item) => item.identifier === touchId)) touchId = null;
+    if (!Array.from(event.touches).some((item) => item.identifier === touchId)) {
+      touchId = null;
+      scrollAnchor = null;
+      cancelAnchorFrame();
+    }
     // Keep the last target on release; a second finger never inherits this gesture.
   };
-  const scroll = () => { if (touchId !== null) scrolling = true; };
-  const reset = () => { touchId = null; touching = false; scrolling = false; source = null; };
+  const scroll = (event: Event) => {
+    if (touchId === null || !scrollAnchor || anchorFrame || win.document.hidden) return;
+    if (event.target !== win && event.target !== win.document) return;
+    const x = win.scrollX, y = win.scrollY;
+    const dx = x - scrollAnchor.x, dy = y - scrollAnchor.y;
+    if (!dx && !dy) return;
+    // Native scrolling can update each frame while Chrome throttles touchmove
+    // to 200ms. Content displacement supplies the missing finger movement.
+    // Only infer while this finger is down; inertia must not move the tracker.
+    scrolling = true;
+    const point = { x: scrollAnchor.point.x - dx, y: scrollAnchor.point.y - dy };
+    scrollAnchor = { point, x, y };
+    onPosition(point, false, true);
+  };
+  const reset = () => { cancelAnchorFrame(); touchId = null; touching = false; scrolling = false; scrollAnchor = null; source = null; };
   win.addEventListener("pointerdown", pointer, options);
   win.addEventListener("pointermove", pointer, options);
   win.addEventListener("pointerout", pointerOut, options);
@@ -194,6 +233,7 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
   win.addEventListener("blur", reset);
   win.document.addEventListener("visibilitychange", reset);
   return () => {
+    cancelAnchorFrame();
     win.removeEventListener("pointerdown", pointer, options);
     win.removeEventListener("pointermove", pointer, options);
     win.removeEventListener("pointerout", pointerOut, options);

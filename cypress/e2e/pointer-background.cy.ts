@@ -427,6 +427,10 @@ describe("background input", () => {
     cy.then(() => { nativeTouchActive = true; });
     for (const y of [610, 550, 490, 430, 370, 310]) {
       nativeTouch("touchMove", 180, y);
+      // Allow the compositor's corresponding scroll offset to commit as well.
+      cy.window().then((win) => new Cypress.Promise<void>((resolve) => {
+        win.requestAnimationFrame(() => win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve())));
+      }));
       // Once native scrolling owns the gesture, CDP can acknowledge a move
       // before the passive touch listener receives it. Wait for delivery.
       cy.wrap(null).should(() => {
@@ -468,7 +472,7 @@ describe("background frame response", () => {
     cy.get("canvas").should("have.attr", "data-low-poly-cols", "10");
   });
 
-  it("bridges gaps between scrolling touch samples instead of jumping on delivery", () => {
+  it("tracks scrolling throughout a 200ms touch gap and stops following on release", () => {
     cy.window().then((win) => {
       const vertex = observeFirstVertex(win.document.querySelector("canvas")!);
       const touch = (type: string, y: number) => win.document.body.dispatchEvent(new win.TouchEvent(type, {
@@ -482,22 +486,35 @@ describe("background frame response", () => {
       win.document.body.dispatchEvent(new win.PointerEvent("pointercancel", {
         pointerType: "touch", isPrimary: true, bubbles: true,
       }));
-      // Three display frames can pass between passive touch deliveries while
-      // the compositor scrolls. The next sample must not jump all 240px at once.
-      frames.step(0.05);
-      touch("touchmove", 166);
+      // Chrome can deliver touchmove only every 200ms during native scrolling.
+      // Keep scrolling for twelve frames without delivering any new touch sample.
+      for (let frame = 1; frame <= 12; frame++) {
+        win.scrollTo({ top: frame * 12, behavior: "instant" });
+        win.dispatchEvent(new win.Event("scroll"));
+        frames.step();
+        if (frame >= 6) {
+          expect(vertex(), "scroll deltas keep the rendered tracker near the finger")
+            .to.be.closeTo(expected(406 - frame * 12), 1.5);
+        }
+      }
+      touch("touchmove", 142);
       frames.step();
-      expect(vertex(), "first rendered frame advances partway to the new sample")
-        .to.be.within(expected(406) + 0.3, expected(166) - 1);
-      const firstFrame = vertex();
+      // This sample arrives a frame before its corresponding scroll offset.
+      win.scrollTo({ top: 264, behavior: "instant" });
+      win.dispatchEvent(new win.Event("scroll"));
       frames.step();
-      // Vertex coordinates are rounded to device pixels, so a single small
-      // follow step can render at the same pixel. Check across two frames.
-      frames.step();
-      expect(vertex(), "tracking continues between touch deliveries").to.be.greaterThan(firstFrame);
-      touch("touchend", 166);
+      // A fresh touch sample rebases the scroll anchor. Dragging back must
+      // reverse the inferred movement without double-counting the earlier scroll.
+      for (const top of [180, 96]) {
+        win.scrollTo({ top, behavior: "instant" });
+        win.dispatchEvent(new win.Event("scroll"));
+        frames.step();
+      }
+      touch("touchend", 310);
+      win.scrollTo({ top: 300, behavior: "instant" });
+      win.dispatchEvent(new win.Event("scroll"));
       for (let frame = 0; frame < 15; frame++) frames.step();
-      expect(vertex(), "release settles at the final finger position").to.be.closeTo(expected(166), 1);
+      expect(vertex(), "momentum scrolling after release does not move the tracker").to.be.closeTo(expected(310), 1);
       vertex.restore();
     });
   });
