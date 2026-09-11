@@ -53,6 +53,9 @@ export default function LowPolyBackground(props: LowPolyProps) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reduced = motionPreference.matches;
     let width = 0, height = 0;
+    // Keep scene coordinates stable while mobile browser controls change height.
+    // Extra rows cover newly exposed space instead of stretching the whole mesh.
+    let sceneHeight = 0;
     let previousTime: number | undefined;
     let seconds = 0;
     let dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
@@ -74,12 +77,19 @@ export default function LowPolyBackground(props: LowPolyProps) {
       dpr = Math.min(window.devicePixelRatio || 1, cfg.dprCap);
       const { vw, vh } = vp();
       if (vw <= 0 || vh <= 0) return;
-      if (!width || !height) motion = createPointerMotion({ x: vw / 2, y: vh / 2 });
-      else if (width !== vw || height !== vh) resizePointer(motion, vw / width, vh / height);
+      if (!width || !height) {
+        motion = createPointerMotion({ x: vw / 2, y: vh / 2 });
+        sceneHeight = vh;
+      } else if (width !== vw || (cfg.lockEdges && height !== vh)) {
+        resizePointer(motion, vw / width, vh / sceneHeight);
+        sceneHeight = vh;
+      }
       width = vw;
       height = vh;
-      canvas.width = Math.round(vw * dpr);
-      canvas.height = Math.round(vh * dpr);
+      const pixelWidth = Math.round(vw * dpr);
+      const pixelHeight = Math.round(vh * dpr);
+      if (canvas.width !== pixelWidth) canvas.width = pixelWidth;
+      if (canvas.height !== pixelHeight) canvas.height = pixelHeight;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       requestRender();
     };
@@ -99,6 +109,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
       }
 
       if (
+        !width ||
         canvas.width !== Math.round(dimensions.vw * nextDpr) ||
         canvas.height !== Math.round(dimensions.vh * nextDpr)
       ) {
@@ -116,11 +127,11 @@ export default function LowPolyBackground(props: LowPolyProps) {
       ctx.clearRect(0, 0, vw, vh);
 
       const snap = (v: number) => Math.round(v * dpr) / dpr;
-      const cellW = vw / cfg.cols, cellH = vh / cfg.rows;
+      const cellW = vw / cfg.cols, cellH = sceneHeight / cfg.rows;
 
       const dx = Math.cos(angle), dy = Math.sin(angle);
       const shiftX = (motion.position.x / vw - 0.5) * cfg.parallax;
-      const shiftY = (motion.position.y / vh - 0.5) * cfg.parallax;
+      const shiftY = (motion.position.y / sceneHeight - 0.5) * cfg.parallax;
 
       // Momentum may briefly carry recovery beyond an edge; cover the shift without clamping its path.
       const autoBleed = Math.max(cfg.parallax, Math.abs(shiftX), Math.abs(shiftY)) + cfg.wobble + 8;
@@ -128,7 +139,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
       const ex = Math.ceil(bleedPx / cellW); // extra cells per side (x)
       const ey = Math.ceil(bleedPx / cellH); // extra cells per side (y)
       const colsFull = cfg.cols + ex * 2;
-      const rowsFull = cfg.rows + ey * 2;
+      const rowsFull = Math.ceil(vh / cellH) + ey * 2;
 
       const points = Array.from({ length: rowsFull + 1 }, (_, gy) =>
         Array.from({ length: colsFull + 1 }, (_, gx) => {
@@ -160,7 +171,7 @@ export default function LowPolyBackground(props: LowPolyProps) {
 
       const tri = (a: any, b: any, c: any) => {
         const cx = (a.x + b.x + c.x) / 3, cy = (a.y + b.y + c.y) / 3;
-        const grad = clamp01((cx * dx + cy * dy) / Math.hypot(vw, vh));
+        const grad = clamp01((cx * dx + cy * dy) / Math.hypot(vw, sceneHeight));
         const mx = motion.position.x, my = motion.position.y;
         const dist = Math.hypot(cx - mx, cy - my);
         const glow = Math.max(0, 1 - dist / cfg.glowRadius) * cfg.glow;
@@ -215,18 +226,20 @@ export default function LowPolyBackground(props: LowPolyProps) {
       previousTime = undefined;
       requestRender();
     };
-    resize();
-    window.addEventListener("resize", resize);
-    window.visualViewport?.addEventListener("resize", resize);
-    const resizeObserver = new ResizeObserver(resize);
+    // Resize the backing buffer only inside a drawing frame, so clearing it
+    // and repainting happen together rather than flashing between frames.
+    requestRender();
+    window.addEventListener("resize", requestRender);
+    window.visualViewport?.addEventListener("resize", requestRender);
+    const resizeObserver = new ResizeObserver(requestRender);
     resizeObserver.observe(document.documentElement);
     motionPreference.addEventListener("change", preferenceChanged);
     document.addEventListener("visibilitychange", visibilityChanged);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resize);
-      window.visualViewport?.removeEventListener("resize", resize);
+      window.removeEventListener("resize", requestRender);
+      window.visualViewport?.removeEventListener("resize", requestRender);
       resizeObserver.disconnect();
       stopListening();
       motionPreference.removeEventListener("change", preferenceChanged);

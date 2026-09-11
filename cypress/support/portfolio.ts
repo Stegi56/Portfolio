@@ -36,6 +36,17 @@ function assertWindowAtPageBottom(appWindow: Cypress.AUTWindow) {
 }
 
 export function checkAccessibility() {
+  // Section.tsx reveals content inside a 50px viewport inset. Visibility alone
+  // can pass mid-fade, when axe sees temporary low-contrast composited colours.
+  cy.document({ log: false }).should((document) => {
+    const window = document.defaultView!;
+    document.querySelectorAll<HTMLElement>(".section > .container > [style]").forEach((element) => {
+      if (!element.style.opacity) return;
+      const bounds = element.getBoundingClientRect();
+      if (bounds.bottom <= 50 || bounds.top >= window.innerHeight - 50) return;
+      expect(window.getComputedStyle(element).opacity, "visible section has finished fading in").to.equal("1");
+    });
+  });
   cy.readFile<string>("node_modules/axe-core/axe.min.js", { log: false }).then((source) => {
     cy.window({ log: false }).then((window) => {
       const testWindow = window as typeof window & {
@@ -47,7 +58,11 @@ export function checkAccessibility() {
       const summary = violations.map(({ id, impact, nodes }) => ({
         id,
         impact,
-        targets: nodes.map((node) => node.target),
+        nodes: nodes.map(({ target, failureSummary, any, all, none }) => ({
+          target,
+          failureSummary,
+          checks: [...any, ...all, ...none].map(({ id, data }) => ({ id, data })),
+        })),
       }));
 
       cy.task("log", JSON.stringify(summary, null, 2)).then(() => {

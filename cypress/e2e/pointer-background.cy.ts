@@ -525,8 +525,7 @@ describe("background frame response", () => {
       canvas.style.height = "700px";
       win.dispatchEvent(new win.Event("resize"));
       frames.step(0);
-      // Shorter cells require two overscan rows: the first vertex moves to y=-87.5.
-      expect(vertex(), "resize preserves relative placement during recovery").to.be.closeTo(-75 + 87.5 + 25 * (180 / 375 - 400 / 812), 1);
+      expect(vertex(), "height changes preserve scene placement during recovery").to.be.closeTo(expected(180, 400), 1);
       canvas.style.height = "100dvh";
       win.dispatchEvent(new win.Event("resize"));
       for (let frame = 0; frame < 240; frame++) frames.step();
@@ -629,6 +628,86 @@ describe("background frame response", () => {
       frames.step(0);
       expect(vertex.point(), "dragging cannot displace the rendered anchor").to.deep.equal(point);
       vertex.restore();
+    });
+  });
+});
+
+// Model toolbar resize notifications and stepped viewport heights explicitly:
+// desktop touch emulation does not provide collapsing mobile browser chrome.
+describe("mobile toolbar scroll regressions", { viewportWidth: 375, viewportHeight: 812 }, () => {
+  let frames: ReturnType<typeof controlFrames>;
+
+  beforeEach(() => {
+    cy.visit("/", { onBeforeLoad(win) { frames = controlFrames(win); } });
+    cy.get("canvas").should("have.attr", "data-low-poly-cols", "10");
+    cy.window().then((win) => {
+      frames.step(0);
+      win.document.body.dispatchEvent(new win.TouchEvent("touchstart", {
+        touches: [new win.Touch({ identifier: 1, target: win.document.body, clientX: 187.5, clientY: 406 })],
+        bubbles: true,
+      }));
+      frames.step(0);
+    });
+  });
+
+  it("keeps the painted background between redundant viewport resize notifications and the next frame", () => {
+    cy.window().then((win) => {
+      const canvas = win.document.querySelector("canvas")!;
+      const context = canvas.getContext("2d")!;
+      const alpha = () => context.getImageData(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2), 1, 1).data[3];
+      const size = [canvas.width, canvas.height];
+      expect(alpha(), "background is painted before resize").to.be.greaterThan(0);
+      expect(win.visualViewport, "visual viewport API").not.to.equal(null);
+      win.visualViewport!.dispatchEvent(new win.Event("resize"));
+      expect([canvas.width, canvas.height], "notification did not change the canvas size").to.deep.equal(size);
+      // Do not advance rAF or retry: that would hide a cleared frame.
+      expect(alpha(), "resize must retain the painted background until the next frame").to.be.greaterThan(0);
+    });
+  });
+
+  it("keeps the mesh stationary when a scrolling toolbar changes viewport height", () => {
+    let vertices: Point[] = [];
+    let before: Point[];
+    cy.window().then((win) => {
+      const context = win.document.querySelector("canvas")!.getContext("2d")!;
+      const moveTo = context.moveTo.bind(context);
+      cy.stub(context, "moveTo").callsFake((x: number, y: number) => {
+        vertices.push({ x, y });
+        moveTo(x, y);
+      });
+      frames.step(0);
+      before = [...vertices];
+      expect(before.length, "rendered mesh vertices").to.be.greaterThan(0);
+      vertices = [];
+      win.scrollTo({ top: 120, behavior: "instant" });
+      frames.step(0);
+      expect(vertices, "scrolling alone does not move the fixed mesh").to.deep.equal(before);
+    });
+    // Simulate the address bar retracting, without advancing animation time or
+    // moving the finger. A mesh shift is therefore caused by resizing alone.
+    for (const height of [832, 872, 842, 812]) {
+      cy.viewport(375, height);
+      cy.window().then((win) => {
+        expect(win.innerHeight).to.equal(height);
+        vertices = [];
+        frames.step(0);
+        // Additional rows may cover newly exposed space; existing rows stay put.
+        expect(vertices.length, "original mesh remains covered").to.be.at.least(before.length);
+        const displacement = Math.max(...before.map((point, index) =>
+          Math.hypot(point.x - vertices[index].x, point.y - vertices[index].y)));
+        expect(displacement, "toolbar resize must not jump the mesh (CSS pixels)").to.be.at.most(1);
+        const canvas = win.document.querySelector("canvas")!;
+        const context = canvas.getContext("2d")!;
+        expect(canvas.getBoundingClientRect().height, "canvas covers the viewport").to.equal(height);
+        expect(context.getImageData(canvas.width - 2, canvas.height - 2, 1, 1).data[3], "newly exposed bottom edge is painted").to.be.greaterThan(0);
+      });
+    }
+    cy.viewport(812, 375);
+    cy.window().then((win) => {
+      frames.step(0);
+      const canvas = win.document.querySelector("canvas")!;
+      expect(canvas.getBoundingClientRect().width, "rotation updates width").to.equal(812);
+      expect(canvas.getContext("2d")!.getImageData(canvas.width - 2, canvas.height - 2, 1, 1).data[3], "rotation keeps the bottom edge painted").to.be.greaterThan(0);
     });
   });
 });
