@@ -1,6 +1,6 @@
 export type Point = { x: number; y: number };
 type Correction = { velocity: Point; sampledTarget: Point };
-export type PointerMotion = { position: Point; target: Point; correction: Correction | null };
+export type PointerMotion = { position: Point; target: Point; correction: Correction | null; scrolling: boolean };
 export type TeleportLimits = {
   maxVelocity: number; // CSS pixels / second
   acceleration: number; // CSS pixels / second squared
@@ -18,11 +18,12 @@ export const defaultTeleportLimits = {
 } satisfies TeleportLimits;
 
 export function createPointerMotion(position: Point): PointerMotion {
-  return { position: { ...position }, target: { ...position }, correction: null };
+  return { position: { ...position }, target: { ...position }, correction: null, scrolling: false };
 }
 
 /** Retarget recovery without changing its position or momentum. */
-export function setPointerTarget(state: PointerMotion, target: Point, teleport: boolean) {
+export function setPointerTarget(state: PointerMotion, target: Point, teleport: boolean, scrolling = false) {
+  state.scrolling = scrolling;
   if (teleport) {
     if (!state.correction && (state.position.x !== target.x || state.position.y !== target.y)) {
       state.correction = { velocity: { x: 0, y: 0 }, sampledTarget: { ...target } };
@@ -37,6 +38,16 @@ export function setPointerTarget(state: PointerMotion, target: Point, teleport: 
 export function advancePointer(state: PointerMotion, elapsed: number, limits: TeleportLimits) {
   if (state.correction) {
     advanceCorrection(state, elapsed, limits);
+  } else if (state.scrolling) {
+    // Passive touch samples can arrive less often than frames during native
+    // scrolling. A short, time-based follow avoids stepping between samples.
+    const blend = -Math.expm1(-Math.min(Math.max(elapsed, 0), 0.05) / 0.035);
+    state.position.x += (state.target.x - state.position.x) * blend;
+    state.position.y += (state.target.y - state.position.y) * blend;
+    if (Math.hypot(state.target.x - state.position.x, state.target.y - state.position.y) < 0.25) {
+      state.position.x = state.target.x;
+      state.position.y = state.target.y;
+    }
   } else {
     state.position.x = state.target.x;
     state.position.y = state.target.y;
@@ -101,8 +112,12 @@ function advanceCorrection(state: PointerMotion, elapsed: number, limits: Telepo
     // Check every integration step so the minimum approach cannot skip the arrival zone.
     // Capture only the latest actual sample, never an interpolated point earlier in the frame.
     if (Math.hypot(state.target.x - state.position.x, state.target.y - state.position.y) <= captureDistance) {
-      state.position.x = state.target.x;
-      state.position.y = state.target.y;
+      // Scrolling hands the remaining gap to the short follow above, avoiding
+      // a visible snap at the configured teleport capture distance.
+      if (!state.scrolling) {
+        state.position.x = state.target.x;
+        state.position.y = state.target.y;
+      }
       state.correction = null;
       return;
     }
@@ -112,9 +127,10 @@ function advanceCorrection(state: PointerMotion, elapsed: number, limits: Telepo
 }
 
 /** Touch events keep supplying coordinates after scrolling cancels pointer events. */
-export function listenForPointer(win: Window, onPosition: (point: Point, teleport: boolean) => void) {
+export function listenForPointer(win: Window, onPosition: (point: Point, teleport: boolean, scrolling?: boolean) => void) {
   let touchId: number | null = null;
   let touching = false;
+  let scrolling = false;
   let source: string | null = null;
   const options = { passive: true, capture: true };
   const pointer = (event: PointerEvent) => {
@@ -141,6 +157,7 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
   const pointerCancel = (event: PointerEvent) => {
     // Touch scrolling cancels pointer events, but the touch gesture is still continuous.
     if (event.pointerType !== "touch" && event.isPrimary) source = null;
+    if (event.pointerType === "touch" && touchId !== null) scrolling = true;
   };
   const touchStart = (event: TouchEvent) => {
     if (win.document.hidden) return;
@@ -149,19 +166,21 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
     if (touchId !== null || event.touches.length !== 1) return;
     const touch = event.touches[0];
     touchId = touch.identifier;
+    scrolling = false;
     onPosition({ x: touch.clientX, y: touch.clientY }, true);
   };
   const touchMove = (event: TouchEvent) => {
     if (win.document.hidden) return;
     const touch = Array.from(event.touches).find((item) => item.identifier === touchId);
-    if (touch) onPosition({ x: touch.clientX, y: touch.clientY }, false);
+    if (touch) onPosition({ x: touch.clientX, y: touch.clientY }, false, scrolling);
   };
   const touchEnd = (event: TouchEvent) => {
     touching = event.touches.length > 0;
     if (!Array.from(event.touches).some((item) => item.identifier === touchId)) touchId = null;
     // Keep the last target on release; a second finger never inherits this gesture.
   };
-  const reset = () => { touchId = null; touching = false; source = null; };
+  const scroll = () => { if (touchId !== null) scrolling = true; };
+  const reset = () => { touchId = null; touching = false; scrolling = false; source = null; };
   win.addEventListener("pointerdown", pointer, options);
   win.addEventListener("pointermove", pointer, options);
   win.addEventListener("pointerout", pointerOut, options);
@@ -171,6 +190,7 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
   win.addEventListener("touchmove", touchMove, options);
   win.addEventListener("touchend", touchEnd, options);
   win.addEventListener("touchcancel", touchEnd, options);
+  win.addEventListener("scroll", scroll, options);
   win.addEventListener("blur", reset);
   win.document.addEventListener("visibilitychange", reset);
   return () => {
@@ -183,6 +203,7 @@ export function listenForPointer(win: Window, onPosition: (point: Point, telepor
     win.removeEventListener("touchmove", touchMove, options);
     win.removeEventListener("touchend", touchEnd, options);
     win.removeEventListener("touchcancel", touchEnd, options);
+    win.removeEventListener("scroll", scroll, options);
     win.removeEventListener("blur", reset);
     win.document.removeEventListener("visibilitychange", reset);
   };

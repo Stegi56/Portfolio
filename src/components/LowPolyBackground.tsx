@@ -197,18 +197,19 @@ export default function LowPolyBackground(props: LowPolyProps) {
         }
       }
 
-      if (!reduced && (cfg.speed !== 0 || motion.correction)) requestRender();
+      const followingScroll = motion.scrolling && (motion.position.x !== motion.target.x || motion.position.y !== motion.target.y);
+      if (!reduced && (cfg.speed !== 0 || motion.correction || followingScroll)) requestRender();
       else previousTime = undefined;
     };
 
-    const stopListening = listenForPointer(window, (point, teleport) => {
+    const stopListening = listenForPointer(window, (point, teleport, scrolling) => {
       if (reduced) return;
       const bounds = canvas.getBoundingClientRect();
       if (bounds.width <= 0 || bounds.height <= 0) return;
       setPointerTarget(motion, {
         x: Math.max(0, Math.min(bounds.width, point.x - bounds.left)),
         y: Math.max(0, Math.min(bounds.height, point.y - bounds.top)),
-      }, teleport || reacquire);
+      }, teleport || reacquire, scrolling);
       reacquire = false;
       requestRender();
     });

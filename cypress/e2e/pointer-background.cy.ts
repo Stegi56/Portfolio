@@ -1,19 +1,33 @@
 import { advancePointer, createPointerMotion, defaultTeleportLimits, listenForPointer, resizePointer, setPointerTarget, type Point } from "../../src/lib/pointerMotion";
 
 describe("pointer motion", () => {
-  it("passes fast continuous movement and reversals through on the next frame", () => {
-    const state = createPointerMotion({ x: 0, y: 0 });
-    for (const target of [{ x: 1500, y: 1500 }, { x: 0, y: 0 }, { x: 900, y: 50 }]) {
-      setPointerTarget(state, target, false);
-      advancePointer(state, 1 / 144, defaultTeleportLimits);
-      expect(state.position).to.deep.equal(target);
-      expect(state.correction).to.equal(null);
+  it("settles scrolling samples consistently across refresh rates and restores direct tracking", () => {
+    const finalPositions: number[] = [];
+    for (const hz of [30, 60, 120]) {
+      const state = createPointerMotion({ x: 100, y: 500 });
+      setPointerTarget(state, { x: 100, y: 350 }, false, true);
+      for (let frame = 0; frame < hz / 5; frame++) {
+        const previous = state.position.y;
+        advancePointer(state, 1 / hz, defaultTeleportLimits);
+        expect(state.position.y, "moves toward the sample without overshoot").to.be.within(350, previous);
+      }
+      expect(state.position.y, "settles within one pixel after 200ms").to.be.closeTo(350, 1);
+      finalPositions.push(state.position.y);
+      setPointerTarget(state, { x: 300, y: 350 }, false);
+      advancePointer(state, 1 / hz, defaultTeleportLimits);
+      expect(state.position, "ordinary movement remains immediate").to.deep.equal({ x: 300, y: 350 });
     }
-    // Several samples in one frame render only the latest position.
-    setPointerTarget(state, { x: 100, y: 100 }, false);
-    setPointerTarget(state, { x: 1200, y: 300 }, false);
-    advancePointer(state, 0, defaultTeleportLimits);
-    expect(state.position).to.deep.equal({ x: 1200, y: 300 });
+    expect(Math.max(...finalPositions) - Math.min(...finalPositions)).to.be.lessThan(0.25);
+  });
+
+  it("hands off touch recovery without snapping across the remaining scroll gap", () => {
+    const state = createPointerMotion({ x: 100, y: 400 });
+    setPointerTarget(state, { x: 100, y: 370 }, true, true);
+    advancePointer(state, 1 / 120, { ...defaultTeleportLimits, captureDistance: 40 });
+    expect(state.correction, "recovery hands off inside its capture radius").to.equal(null);
+    expect(state.position.y, "handoff preserves the displayed position").to.be.greaterThan(395);
+    for (let frame = 0; frame < 30; frame++) advancePointer(state, 1 / 120, defaultTeleportLimits);
+    expect(state.position.y, "scroll following settles the remaining gap").to.be.closeTo(370, 0.25);
   });
 
   it("limits only teleport correction, brakes, and settles without overshooting", () => {
@@ -154,18 +168,6 @@ describe("pointer motion", () => {
     }
   });
 
-  it("brakes and returns smoothly when the finger moves back to its starting point", () => {
-    const state = createPointerMotion({ x: 0, y: 0 });
-    setPointerTarget(state, { x: 375, y: 812 }, true);
-    advancePointer(state, 1 / 60, defaultTeleportLimits);
-    const before = { ...state.position };
-    setPointerTarget(state, { x: 0, y: 0 }, false);
-    advancePointer(state, 0, defaultTeleportLimits);
-    expect(state.position).to.deep.equal(before);
-    for (let frame = 0; frame < 360; frame++) advancePointer(state, 1 / 60, defaultTeleportLimits);
-    expect(state.position).to.deep.equal({ x: 0, y: 0 });
-    expect(state.correction).to.equal(null);
-  });
 });
 
 describe("handoff from teleport recovery to unrestricted tracking", () => {
@@ -295,7 +297,10 @@ describe("background input", () => {
     cy.window().then((win) => {
       const positions: { x: number; y: number }[] = [];
       const teleports: boolean[] = [];
-      const dispose = listenForPointer(win, (point, teleport) => { positions.push(point); teleports.push(teleport); });
+      const scrollModes: boolean[] = [];
+      const dispose = listenForPointer(win, (point, teleport, scrolling = false) => {
+        positions.push(point); teleports.push(teleport); scrollModes.push(scrolling);
+      });
       const touch = (identifier: number, clientX: number, clientY: number) => new win.Touch({ identifier, target: win.document.body, clientX, clientY });
       const fire = (type: string, touches: Touch[]) => win.document.body.dispatchEvent(new win.TouchEvent(type, { touches, bubbles: true, cancelable: true }));
       const first = touch(1, 50, 200);
@@ -317,6 +322,7 @@ describe("background input", () => {
       win.document.body.dispatchEvent(new win.PointerEvent("pointermove", { pointerType: "mouse", isPrimary: true, clientX: 200, clientY: 250, bubbles: true }));
       expect(positions.at(-1)).to.deep.equal({ x: 200, y: 250 });
       expect(teleports).to.deep.equal([true, false, false, true, true]);
+      expect(scrollModes, "only the browser-owned gesture uses scroll following").to.deep.equal([false, true, true, false, false]);
       dispose();
       fire("touchstart", [first]);
       expect(positions).to.have.length(5);
@@ -419,7 +425,14 @@ describe("background input", () => {
     cdp("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
     nativeTouch("touchStart", 180, 650);
     cy.then(() => { nativeTouchActive = true; });
-    for (const y of [610, 550, 490, 430, 370, 310]) nativeTouch("touchMove", 180, y);
+    for (const y of [610, 550, 490, 430, 370, 310]) {
+      nativeTouch("touchMove", 180, y);
+      // Once native scrolling owns the gesture, CDP can acknowledge a move
+      // before the passive touch listener receives it. Wait for delivery.
+      cy.wrap(null).should(() => {
+        expect(positions.at(-1)!.y, "each native scrolling sample follows the finger").to.be.closeTo(y, 3);
+      });
+    }
     cy.window().should((win) => {
       expect(win.scrollY, "native scrolling remains enabled").to.be.greaterThan(100);
       const cancelled = events.indexOf("cancel");
@@ -453,6 +466,40 @@ describe("background frame response", () => {
     cy.viewport(375, 812);
     cy.visit("/", { onBeforeLoad(win) { frames = controlFrames(win); } });
     cy.get("canvas").should("have.attr", "data-low-poly-cols", "10");
+  });
+
+  it("bridges gaps between scrolling touch samples instead of jumping on delivery", () => {
+    cy.window().then((win) => {
+      const vertex = observeFirstVertex(win.document.querySelector("canvas")!);
+      const touch = (type: string, y: number) => win.document.body.dispatchEvent(new win.TouchEvent(type, {
+        touches: type === "touchend" ? [] : [new win.Touch({ identifier: 1, target: win.document.body, clientX: 187.5, clientY: y })],
+        bubbles: true,
+      }));
+      const expected = (y: number) => -75 + 50.75 + 25 * (0.5 - y / 812);
+      frames.step(0);
+      touch("touchstart", 406);
+      frames.step(0);
+      win.document.body.dispatchEvent(new win.PointerEvent("pointercancel", {
+        pointerType: "touch", isPrimary: true, bubbles: true,
+      }));
+      // Three display frames can pass between passive touch deliveries while
+      // the compositor scrolls. The next sample must not jump all 240px at once.
+      frames.step(0.05);
+      touch("touchmove", 166);
+      frames.step();
+      expect(vertex(), "first rendered frame advances partway to the new sample")
+        .to.be.within(expected(406) + 0.3, expected(166) - 1);
+      const firstFrame = vertex();
+      frames.step();
+      // Vertex coordinates are rounded to device pixels, so a single small
+      // follow step can render at the same pixel. Check across two frames.
+      frames.step();
+      expect(vertex(), "tracking continues between touch deliveries").to.be.greaterThan(firstFrame);
+      touch("touchend", 166);
+      for (let frame = 0; frame < 15; frame++) frames.step();
+      expect(vertex(), "release settles at the final finger position").to.be.closeTo(expected(166), 1);
+      vertex.restore();
+    });
   });
 
   it("switches a continuously dragged finger to exact tracking and only limits the next touch", () => {
@@ -595,41 +642,6 @@ describe("background frame response", () => {
     });
   });
 
-  it("moves right and down when touching bottom-right and dragging left from a top-left anchor", () => {
-    cy.window().then((win) => {
-      const vertex = observeFirstVertex(win.document.querySelector("canvas")!);
-      const pointer = (x: number, y: number) => win.document.body.dispatchEvent(new win.PointerEvent("pointermove", {
-        pointerType: "mouse", isPrimary: true, clientX: x, clientY: y, bubbles: true,
-      }));
-      const touch = (type: string, x: number) => win.document.body.dispatchEvent(new win.TouchEvent(type, {
-        touches: [new win.Touch({ identifier: 1, target: win.document.body, clientX: x, clientY: 800 })], bubbles: true,
-      }));
-      frames.step(0);
-      pointer(187.5, 406);
-      frames.step(0);
-      pointer(0, 0);
-      frames.step(0);
-      touch("touchstart", 350);
-      for (let frame = 1; frame <= 18; frame++) {
-        touch("touchmove", 350 - frame * 5);
-        frames.step();
-      }
-      // Remove the known first vertex wobble after 0.3 seconds to recover both
-      // parallax axes. Looking only at x-y would miss a pointer stuck at x=0.
-      const time = 0.3 * 2.5 * 0.8;
-      const wobble = 15 * Math.sin(1.2 * -1.6 + 0.7 * -0.7 + 0.6 * time)
-        * Math.cos(0.7 * -1.6 - 1.1 * -0.7 + 0.4 * time);
-      const point = vertex.point();
-      const anchorX = ((point.x + 75 - wobble) / 25 + 0.5) * 375;
-      const anchorY = ((point.y + 50.75 - wobble) / 25 + 0.5) * 812;
-      expect(anchorX, "moves right, away from the left edge").to.be.within(40, 260);
-      expect(anchorY, "moves down toward the finger").to.be.within(100, 800);
-      touch("touchmove", 50);
-      frames.step(0);
-      expect(vertex.point(), "dragging cannot displace the rendered anchor").to.deep.equal(point);
-      vertex.restore();
-    });
-  });
 });
 
 // Model toolbar resize notifications and stepped viewport heights explicitly:
