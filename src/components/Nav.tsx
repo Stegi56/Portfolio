@@ -70,7 +70,7 @@ function scrollWithBrowserBehavior(target: HTMLElement) {
     }
 
     correctionCount += 1;
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.scrollTo({ top: desiredScrollY(), behavior: "smooth" });
     scheduleSettleCheck();
   };
 
@@ -80,7 +80,7 @@ function scrollWithBrowserBehavior(target: HTMLElement) {
   };
 
   window.addEventListener("scroll", scheduleSettleCheck, { passive: true });
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.scrollTo({ top: desiredScrollY(), behavior: "smooth" });
   scheduleSettleCheck();
 
   return cleanup;

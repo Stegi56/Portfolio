@@ -79,11 +79,13 @@ jobs:
 
       - name: Run Cypress against the shared static build
         id: browser-tests
+        timeout-minutes: 10
         # Temporary Edge exception: https://github.com/Stegi56/Portfolio/issues/4
         continue-on-error: ${{ matrix.browser == 'edge' }}
         run: npm run cypress:run -- --browser "${{ matrix.browser }}"
         env:
           PORTFOLIO_SKIP_BUILD: "1"
+          DEBUG: ${{ matrix.browser == 'firefox' && 'cypress:server:browsers:firefox,cypress-verbose:server:browsers:geckodriver,cypress-verbose:server:browsers:webdriver' || '' }}
 
       - name: Report the temporary Edge failure exception
         if: matrix.browser == 'edge' && steps.browser-tests.outcome == 'failure'
