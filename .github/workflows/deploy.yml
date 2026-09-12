@@ -27,6 +27,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Test pointer motion
+        run: npm run test:unit
+
       - name: Build static site
         run: npm run build
 
@@ -39,32 +42,23 @@ jobs:
           if-no-files-found: error
 
       - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:
           path: out
 
   test:
-    name: Cypress (${{ matrix.group }})
+    name: Cypress (${{ matrix.browser }})
     needs: build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - group: mobile
-            viewport: mobile
-            specs: cypress/e2e/portfolio.cy.ts
-          - group: tablet
-            viewport: tablet
-            specs: cypress/e2e/portfolio.cy.ts
-          - group: desktop
-            viewport: desktop
-            specs: cypress/e2e/portfolio.cy.ts
-          - group: regressions-and-pointer
-            viewport: all
-            specs: cypress/e2e/portfolio-regressions.cy.ts,cypress/e2e/pointer-background.cy.ts
+        browser: [chrome, firefox, edge]
     steps:
       - uses: actions/checkout@v4
+      - name: Install legacy Firefox runtime dependency
+        if: matrix.browser == 'firefox'
+        run: sudo apt-get update && sudo apt-get install -y libdbus-glib-1-2
       - uses: actions/setup-node@v4
         with:
           node-version: 24.18.0
@@ -80,23 +74,35 @@ jobs:
           name: static-build
           path: out
 
+      - name: Provision the pinned browser
+        run: node scripts/test-browsers.mjs "${{ matrix.browser }}"
+
       - name: Run Cypress against the shared static build
-        run: npm run cypress:run -- --spec "${{ matrix.specs }}"
+        id: browser-tests
+        timeout-minutes: 10
+        # Temporary Edge exception: https://github.com/Stegi56/Portfolio/issues/4
+        continue-on-error: ${{ matrix.browser == 'edge' }}
+        run: npm run cypress:run -- --browser "${{ matrix.browser }}"
         env:
           PORTFOLIO_SKIP_BUILD: "1"
-          PORTFOLIO_VIEWPORT: ${{ matrix.viewport }}
+          DEBUG: ${{ matrix.browser == 'firefox' && 'cypress:server:browsers:firefox,cypress-verbose:server:browsers:geckodriver,cypress-verbose:server:browsers:webdriver' || '' }}
+
+      - name: Report the temporary Edge failure exception
+        if: matrix.browser == 'edge' && steps.browser-tests.outcome == 'failure'
+        run: echo "::warning::Pinned Edge 120 failed; temporarily nonblocking under https://github.com/Stegi56/Portfolio/issues/4"
 
       - name: Save screenshots for review and failure diagnosis
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-${{ matrix.group }}
+          name: cypress-screenshots-${{ matrix.browser }}
           path: cypress/screenshots
           if-no-files-found: ignore
 
   deploy:
     needs: [build, test]
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    # PR and manual runs only validate; deployment follows the merge to main.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       pages: write

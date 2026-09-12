@@ -1,33 +1,20 @@
 "use client";
 
-import { useBreakpoint } from "../hooks/useBreakpoint";
-import LowPolyBackground from "./LowPolyBackground";
-
-const backgroundConfig = {
-  lg: { cols: 24, rows: 16 },
-  md: { cols: 18, rows: 18 },
-  sm: { cols: 10, rows: 16 },
-};
+import { useEffect, useRef } from "react";
+import { mountBackground } from "../lib/background";
 
 export default function ResponsiveBackground() {
-  const breakpoint = useBreakpoint();
+  const canvas = useRef<HTMLCanvasElement>(null);
+  useEffect(() => mountBackground(canvas.current!), []);
   return (
-    <LowPolyBackground
-      {...backgroundConfig[breakpoint]}
-      speed={2.5}
-      wobble={15}
-      parallax={25}
-      teleportLimits={{ 
-        maxVelocity: 1200, 
-        acceleration: 9800, 
-        deceleration: 8000, 
-        minimumApproachSpeed: 400, 
-        captureDistance: 40 }}
-      glow={0.2}
-      glowRadius={150}
-      dprCap={1.5}
-      from={{ r: 45, g: 58, b: 99 }}
-      to={{ r: 70, g: 58, b: 140 }}
+    <canvas
+      ref={canvas}
+      aria-hidden
+      style={{
+        position: "fixed", inset: 0,
+        width: "100dvw", height: "100dvh",
+        zIndex: -1, opacity: 0.75, pointerEvents: "none",
+      }}
     />
   );
 }

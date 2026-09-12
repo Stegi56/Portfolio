@@ -1,6 +1,6 @@
 export type Point = { x: number; y: number };
 type Correction = { velocity: Point; sampledTarget: Point };
-export type PointerMotion = { position: Point; target: Point; correction: Correction | null; scrolling: boolean };
+type PointerMotion = { position: Point; target: Point; correction: Correction | null; scrolling: boolean };
 export type TeleportLimits = {
   maxVelocity: number; // CSS pixels / second
   acceleration: number; // CSS pixels / second squared
@@ -17,49 +17,47 @@ export const defaultTeleportLimits = {
   captureDistance: 2,
 } satisfies TeleportLimits;
 
-export function createPointerMotion(position: Point): PointerMotion {
-  return { position: { ...position }, target: { ...position }, correction: null, scrolling: false };
-}
-
-/** Retarget recovery without changing its position or momentum. */
-export function setPointerTarget(state: PointerMotion, target: Point, teleport: boolean, scrolling = false) {
-  state.scrolling = scrolling;
-  if (teleport) {
-    if (!state.correction && (state.position.x !== target.x || state.position.y !== target.y)) {
-      state.correction = { velocity: { x: 0, y: 0 }, sampledTarget: { ...target } };
-    }
-    // A new contact/re-entry is a discontinuity, not a sample of pointer velocity.
-    if (state.correction) state.correction.sampledTarget = { ...target };
-  }
-  state.target.x = target.x;
-  state.target.y = target.y;
-}
-
-export function advancePointer(state: PointerMotion, elapsed: number, limits: TeleportLimits) {
-  if (state.correction) {
-    advanceCorrection(state, elapsed, limits);
-  } else if (state.scrolling) {
-    // Passive touch samples can arrive less often than frames during native
-    // scrolling. A short, time-based follow avoids stepping between samples.
-    const blend = -Math.expm1(-Math.min(Math.max(elapsed, 0), 0.05) / 0.035);
-    state.position.x += (state.target.x - state.position.x) * blend;
-    state.position.y += (state.target.y - state.position.y) * blend;
-    if (Math.hypot(state.target.x - state.position.x, state.target.y - state.position.y) < 0.25) {
-      state.position.x = state.target.x;
-      state.position.y = state.target.y;
-    }
-  } else {
-    state.position.x = state.target.x;
-    state.position.y = state.target.y;
-  }
-}
-
-/** Preserve relative placement on resize without carrying obsolete correction momentum. */
-export function resizePointer(state: PointerMotion, scaleX: number, scaleY: number) {
-  for (const point of [state.position, state.target, state.correction?.sampledTarget]) {
-    if (point) { point.x *= scaleX; point.y *= scaleY; }
-  }
-  if (state.correction) state.correction.velocity = { x: 0, y: 0 };
+/** Samples cannot move the displayed position until a frame advances it. */
+export function createPointerMotion(initial: Point, limits: TeleportLimits = defaultTeleportLimits) {
+  const state: PointerMotion = {
+    position: { ...initial }, target: { ...initial }, correction: null, scrolling: false,
+  };
+  return {
+    sample(target: Point, teleport: boolean, scrolling = false) {
+      state.scrolling = scrolling;
+      if (teleport) {
+        if (!state.correction && (state.position.x !== target.x || state.position.y !== target.y)) {
+          state.correction = { velocity: { x: 0, y: 0 }, sampledTarget: { ...target } };
+        }
+        // Re-entry is a discontinuity, not a sample of pointer velocity.
+        if (state.correction) state.correction.sampledTarget = { ...target };
+      }
+      state.target = { ...target };
+    },
+    advance(elapsed: number): Point {
+      if (state.correction) {
+        advanceCorrection(state, elapsed, limits);
+      } else if (state.scrolling) {
+        // Native scrolling supplies sparse touch samples; follow between them in time.
+        const blend = -Math.expm1(-Math.min(Math.max(elapsed, 0), 0.05) / 0.035);
+        state.position.x += (state.target.x - state.position.x) * blend;
+        state.position.y += (state.target.y - state.position.y) * blend;
+        if (Math.hypot(state.target.x - state.position.x, state.target.y - state.position.y) < 0.25) {
+          state.position = { ...state.target };
+        }
+      } else {
+        state.position = { ...state.target };
+      }
+      return { ...state.position };
+    },
+    resize(scaleX: number, scaleY: number) {
+      // Preserve placement without carrying obsolete correction momentum.
+      for (const point of [state.position, state.target, state.correction?.sampledTarget]) {
+        if (point) { point.x *= scaleX; point.y *= scaleY; }
+      }
+      if (state.correction) state.correction.velocity = { x: 0, y: 0 };
+    },
+  };
 }
 
 /** Steer velocity in small steps; a moving target never directly displaces the anchor. */
@@ -124,127 +122,4 @@ function advanceCorrection(state: PointerMotion, elapsed: number, limits: Telepo
   }
   sampledTarget.x = state.target.x;
   sampledTarget.y = state.target.y;
-}
-
-/** Touch events keep supplying coordinates after scrolling cancels pointer events. */
-export function listenForPointer(win: Window, onPosition: (point: Point, teleport: boolean, scrolling?: boolean) => void) {
-  let touchId: number | null = null;
-  let touching = false;
-  let scrolling = false;
-  let scrollAnchor: { point: Point; x: number; y: number } | null = null;
-  let anchorFrame = 0;
-  let source: string | null = null;
-  const options = { passive: true, capture: true };
-  const cancelAnchorFrame = () => { win.cancelAnimationFrame(anchorFrame); anchorFrame = 0; };
-  const rebaseAfterTouch = () => {
-    cancelAnchorFrame();
-    // A touch sample can arrive one frame before its compositor scroll offset.
-    // Let that offset commit before inferring further movement, or the same
-    // finger movement would be counted once by touchmove and again by scroll.
-    anchorFrame = win.requestAnimationFrame(() => {
-      anchorFrame = win.requestAnimationFrame(() => {
-        anchorFrame = 0;
-        if (scrollAnchor) { scrollAnchor.x = win.scrollX; scrollAnchor.y = win.scrollY; }
-      });
-    });
-  };
-  const pointer = (event: PointerEvent) => {
-    if (event.pointerType === "touch" || !event.isPrimary || touching || win.document.hidden) return;
-    // Captured pointers can move outside the viewport without firing boundary events.
-    if (event.clientX < 0 || event.clientX >= win.innerWidth || event.clientY < 0 || event.clientY >= win.innerHeight) {
-      source = null;
-      return;
-    }
-    const nextSource = `${event.pointerType}:${event.pointerId}`;
-    const teleport = source !== nextSource;
-    source = nextSource;
-    onPosition({ x: event.clientX, y: event.clientY }, teleport);
-  };
-  const pointerOut = (event: PointerEvent) => {
-    if (event.pointerType !== "touch" && event.isPrimary && event.relatedTarget === null) source = null;
-  };
-  const pointerOver = (event: PointerEvent) => {
-    if (event.pointerType !== "touch" && event.isPrimary && event.relatedTarget === null) {
-      source = null;
-      pointer(event);
-    }
-  };
-  const pointerCancel = (event: PointerEvent) => {
-    // Touch scrolling cancels pointer events, but the touch gesture is still continuous.
-    if (event.pointerType !== "touch" && event.isPrimary) source = null;
-    if (event.pointerType === "touch" && touchId !== null) scrolling = true;
-  };
-  const touchStart = (event: TouchEvent) => {
-    if (win.document.hidden) return;
-    touching = event.touches.length > 0;
-    if (touching) source = null;
-    if (event.touches.length !== 1) scrollAnchor = null;
-    if (touchId !== null || event.touches.length !== 1) return;
-    const touch = event.touches[0];
-    touchId = touch.identifier;
-    scrolling = false;
-    scrollAnchor = { point: { x: touch.clientX, y: touch.clientY }, x: win.scrollX, y: win.scrollY };
-    onPosition({ x: touch.clientX, y: touch.clientY }, true);
-  };
-  const touchMove = (event: TouchEvent) => {
-    if (win.document.hidden) return;
-    const touch = Array.from(event.touches).find((item) => item.identifier === touchId);
-    if (touch) {
-      const point = { x: touch.clientX, y: touch.clientY };
-      scrollAnchor = event.touches.length === 1 ? { point, x: win.scrollX, y: win.scrollY } : null;
-      rebaseAfterTouch();
-      onPosition(point, false, scrolling);
-    }
-  };
-  const touchEnd = (event: TouchEvent) => {
-    touching = event.touches.length > 0;
-    if (!Array.from(event.touches).some((item) => item.identifier === touchId)) {
-      touchId = null;
-      scrollAnchor = null;
-      cancelAnchorFrame();
-    }
-    // Keep the last target on release; a second finger never inherits this gesture.
-  };
-  const scroll = (event: Event) => {
-    if (touchId === null || !scrollAnchor || anchorFrame || win.document.hidden) return;
-    if (event.target !== win && event.target !== win.document) return;
-    const x = win.scrollX, y = win.scrollY;
-    const dx = x - scrollAnchor.x, dy = y - scrollAnchor.y;
-    if (!dx && !dy) return;
-    // Native scrolling can update each frame while Chrome throttles touchmove
-    // to 200ms. Content displacement supplies the missing finger movement.
-    // Only infer while this finger is down; inertia must not move the tracker.
-    scrolling = true;
-    const point = { x: scrollAnchor.point.x - dx, y: scrollAnchor.point.y - dy };
-    scrollAnchor = { point, x, y };
-    onPosition(point, false, true);
-  };
-  const reset = () => { cancelAnchorFrame(); touchId = null; touching = false; scrolling = false; scrollAnchor = null; source = null; };
-  win.addEventListener("pointerdown", pointer, options);
-  win.addEventListener("pointermove", pointer, options);
-  win.addEventListener("pointerout", pointerOut, options);
-  win.addEventListener("pointerover", pointerOver, options);
-  win.addEventListener("pointercancel", pointerCancel, options);
-  win.addEventListener("touchstart", touchStart, options);
-  win.addEventListener("touchmove", touchMove, options);
-  win.addEventListener("touchend", touchEnd, options);
-  win.addEventListener("touchcancel", touchEnd, options);
-  win.addEventListener("scroll", scroll, options);
-  win.addEventListener("blur", reset);
-  win.document.addEventListener("visibilitychange", reset);
-  return () => {
-    cancelAnchorFrame();
-    win.removeEventListener("pointerdown", pointer, options);
-    win.removeEventListener("pointermove", pointer, options);
-    win.removeEventListener("pointerout", pointerOut, options);
-    win.removeEventListener("pointerover", pointerOver, options);
-    win.removeEventListener("pointercancel", pointerCancel, options);
-    win.removeEventListener("touchstart", touchStart, options);
-    win.removeEventListener("touchmove", touchMove, options);
-    win.removeEventListener("touchend", touchEnd, options);
-    win.removeEventListener("touchcancel", touchEnd, options);
-    win.removeEventListener("scroll", scroll, options);
-    win.removeEventListener("blur", reset);
-    win.document.removeEventListener("visibilitychange", reset);
-  };
 }

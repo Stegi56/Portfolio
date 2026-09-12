@@ -1,3 +1,4 @@
+import { assertBackgroundCoverage } from "../support/background";
 import {
   assertImmediatelyAtPageBottom,
   assertPublishedBlogLinks,
@@ -12,7 +13,7 @@ const viewports = [
   { name: "tablet", width: 768, height: 1024 },
   { name: "desktop", width: 1440, height: 900 },
 ];
-const requestedViewport = Cypress.expose("viewport") ?? "all";
+const requestedViewport = Cypress.env("viewport") ?? "all";
 const selectedViewports = viewports.filter(({ name }) => requestedViewport === "all" || requestedViewport === name);
 if (!selectedViewports.length) throw new Error(`Unknown portfolio viewport: ${requestedViewport}`);
 
@@ -24,6 +25,8 @@ selectedViewports.forEach(({ name, width, height }) => {
       cy.contains("h1", "Joel Staugaitis").should("be.visible");
       checkAccessibility();
       assertNoHorizontalOverflow(width);
+      assertBackgroundCoverage();
+      cy.get("body").trigger("pointermove", { eventConstructor: "PointerEvent", pointerType: "mouse", isPrimary: true, clientX: width * 0.8, clientY: height * 0.3 });
       cy.screenshot(`${name}-homepage`, { capture: "viewport" });
 
       findSkill("aws").should("have.class", "selected");
@@ -33,9 +36,12 @@ selectedViewports.forEach(({ name, width, height }) => {
 
     it("navigates between homepage sections and static blog pages", () => {
       cy.visit("/");
-      cy.contains("a", "Skills").click();
+      cy.contains("a", "Skills").click({ scrollBehavior: false });
       cy.location("hash").should("eq", "#skills");
       cy.get("#skills").should("be.visible");
+      cy.get("#skills > .container > div").should("have.css", "opacity", "1");
+      cy.get("#skills").should(($section) => expect($section[0].getBoundingClientRect().top).to.be.within(80, 140));
+      cy.screenshot(`${name}-skills`, { capture: "viewport" });
 
       cy.contains("a", "Blog").click();
       cy.location("pathname", { timeout: 10_000 }).should("eq", "/blog/");
@@ -50,6 +56,8 @@ selectedViewports.forEach(({ name, width, height }) => {
       cy.location("pathname").should("eq", "/");
       cy.location("hash").should("eq", "#contact");
       assertImmediatelyAtPageBottom();
+      cy.get("#contact > .container > div").should("have.css", "opacity", "1");
+      cy.screenshot(`${name}-contact`, { capture: "viewport" });
     });
 
     it("has usable links and a functioning copy control", () => {
@@ -103,6 +111,7 @@ selectedViewports.forEach(({ name, width, height }) => {
       });
       cy.contains("h3", "This page has gone bananas").should("be.visible");
       cy.contains("a", "Return home").should("be.visible");
+      assertBackgroundCoverage();
       cy.screenshot(`${name}-404`, { capture: "viewport" });
     });
   });
