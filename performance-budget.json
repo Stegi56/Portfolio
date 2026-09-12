@@ -1,0 +1,8 @@
+{
+  "estimateDate": "2026-09-12",
+  "estimatedLowEndBenchmarkIndex": 264,
+  "benchmarkDescription": "Lighthouse benchmark index using the Chrome DevTools lowScore reference. A low-end planning proxy for the requested bottom-5% target, not a measured population percentile.",
+  "refreshRateHz": 60,
+  "maxTaskDurationMs": 16.666666666666668,
+  "targetAppWorkPerFrameMs": 10
+}

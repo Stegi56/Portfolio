@@ -1,3 +1,4 @@
+import { assertBackgroundCoverage } from "../support/background";
 import { assertPublishedBlogLinks, assertScrolledToPageBottom, publishedBlogPaths } from "../support/portfolio";
 
 // Content checks and targeted regressions run once, outside the viewport matrix.
@@ -74,24 +75,6 @@ describe("mobile refresh regressions", { viewportWidth: 412, viewportHeight: 924
     assertBackgroundCoverage();
   });
 });
-
-function assertBackgroundCoverage() {
-  cy.window().then((appWindow) => {
-    cy.get("canvas").should(($canvas) => {
-      const canvas = $canvas[0] as HTMLCanvasElement;
-      const bounds = canvas.getBoundingClientRect();
-      expect(bounds.left).to.equal(0);
-      expect(bounds.top).to.equal(0);
-      expect(Math.round(bounds.right)).to.equal(appWindow.innerWidth);
-      expect(Math.round(bounds.bottom)).to.equal(appWindow.innerHeight);
-
-      const context = canvas.getContext("2d");
-      expect(context, "canvas context").not.to.equal(null);
-      const rightEdgePixel = context!.getImageData(canvas.width - 2, Math.floor(canvas.height / 2), 1, 1).data;
-      expect(rightEdgePixel[3], "right edge pixel alpha").to.be.greaterThan(0);
-    });
-  });
-}
 
 function assertBackgroundGrid(cols: number, rows: number) {
   cy.get("canvas")

@@ -1,9 +1,11 @@
 /node_modules
+/.cache/test-browsers
 /.next
 /out
 # Cypress keeps visual review and failure screenshots here.
 /cypress/screenshots
 /cypress/videos
+/cypress/downloads
 /tsconfig.tsbuildinfo
 !/.github/workflows
 /.idea/

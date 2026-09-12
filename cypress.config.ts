@@ -2,14 +2,17 @@ import { defineConfig } from "cypress";
 import { spawn, spawnSync, type ChildProcess } from "node:child_process";
 import { createServer } from "node:net";
 import { existsSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { browserIdentity } from "./scripts/test-browsers.mjs";
 
 let previewUrl = "";
 let previewProcess: ChildProcess | undefined;
+const expected = process.env.PORTFOLIO_TEST_BROWSER ? JSON.parse(process.env.PORTFOLIO_TEST_BROWSER) : undefined;
 
 export default defineConfig({
-  expose: {
+  screenshotsFolder: expected ? join("cypress", "screenshots", expected.name) : "cypress/screenshots/diagnostic",
+  env: {
     viewport: process.env.PORTFOLIO_VIEWPORT || "all",
   },
   e2e: {
@@ -17,8 +20,35 @@ export default defineConfig({
     supportFile: "cypress/support/e2e.ts",
     specPattern: "cypress/e2e/**/*.cy.ts",
     async setupNodeEvents(on, config) {
+      if (expected) {
+        const actual = browserIdentity(expected.executable);
+        config.browsers = config.browsers.filter((browser) => browser.name !== expected.name);
+        config.browsers.push({
+          name: expected.name, family: expected.name === "firefox" ? "firefox" : "chromium",
+          channel: "stable", displayName: actual.product, version: actual.version,
+          majorVersion: Number(actual.version.split(".")[0]), path: expected.executable,
+          isHeaded: !config.isTextTerminal, isHeadless: Boolean(config.isTextTerminal),
+        });
+      }
       on("before:browser:launch", (browser, launchOptions) => {
+        if (expected) {
+          const actual = browserIdentity(browser.path);
+          if (browser.name !== expected.name || resolve(browser.path) !== resolve(expected.executable)
+            || actual.version !== expected.version || !actual.product.toLowerCase().includes(expected.name)) {
+            throw new Error(`Pinned browser mismatch: expected ${expected.name} ${expected.version}, found ${actual.product} ${actual.version}`);
+          }
+          console.log(`Verified browser: ${actual.product} ${actual.version}`);
+        }
         if (browser.family === "chromium") launchOptions.args.push("--window-size=1600,1200");
+        if (browser.name === "chrome" && browser.isHeadless) {
+          // Chrome 109 supports unified headless; Cypress 14 selects its older compositor.
+          // Compatibility review: https://github.com/Stegi56/Portfolio/issues/3
+          launchOptions.args = launchOptions.args.map((arg) => arg === "--headless" ? "--headless=new" : arg);
+        }
+        if (browser.family === "firefox") {
+          launchOptions.preferences["dom.w3c_touch_events.enabled"] = 1;
+          launchOptions.env = { ...launchOptions.env, MOZ_HEADLESS_WIDTH: "1600", MOZ_HEADLESS_HEIGHT: "1200" };
+        }
         return launchOptions;
       });
       // CI workers share the build artifact; local runs build fresh by default.

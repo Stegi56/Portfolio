@@ -1,0 +1,57 @@
+{
+  "evaluatedDate": "2026-09-12",
+  "reevaluateDate": "2027-03-12",
+  "extractor": {
+    "bootstrapUrl": "https://sourceforge.net/projects/sevenzip/files/7-Zip/26.03/7zr.exe/download",
+    "bootstrapSha256": "ad4c82fadcbdf93c03b4fc440f300509c7d60c5c2f4d183e35d9d70d6957037d",
+    "url": "https://www.7-zip.org/a/7z2603-x64.exe",
+    "sha256": "0859c524b8a63551848f0c246abddcb1d0b7b656b0fbfe879f8d85e61a9e6edd"
+  },
+  "browsers": {
+    "chrome": {
+      "win32": {
+        "version": "109.0.5414.120",
+        "url": "https://dl.google.com/release2/chrome/czao2hrvpk5wgqrkz4kks5r734_109.0.5414.120/109.0.5414.120_chrome_installer.exe",
+        "sha256": "adc1a5953f2a7cb0ea42e02cf0a55787494b852ae575b24eca4cdb48d93853d1",
+        "nestedArchive": "chrome.7z",
+        "executable": "Chrome-bin/chrome.exe"
+      },
+      "linux": {
+        "version": "109.0.5414.74",
+        "image": "cypress/browsers@sha256:0fd04e43a51ad866a03c0db12ad9f999c01e9fb17c73d5eb38b896a0a8cc8d4c",
+        "executable": "chrome/chrome"
+      }
+    },
+    "firefox": {
+      "win32": {
+        "version": "115.0",
+        "url": "https://archive.mozilla.org/pub/firefox/releases/115.0/win64/en-US/Firefox%20Setup%20115.0.exe",
+        "sha256": "5a224c18eea8a20306d34675d611a20b3aeac0c1c8ac2a1e57aae5bdb0ede596",
+        "executable": "core/firefox.exe"
+      },
+      "linux": {
+        "version": "115.0",
+        "url": "https://archive.mozilla.org/pub/firefox/releases/115.0/linux-x86_64/en-US/firefox-115.0.tar.bz2",
+        "sha256": "18c4c5aa3ad3e3773ab00576e317af17e831e8197b7297890bb5d7a3176fc396",
+        "executable": "firefox/firefox"
+      }
+    },
+    "edge": {
+      "win32": {
+        "version": "120.0.2210.121",
+        "downloadInfoUrl": "https://msedge.api.cdp.microsoft.com/api/v1.1/internal/contents/Browser/namespaces/Default/names/msedge-stable-win-x64/versions/120.0.2210.121/files?action=GenerateDownloadInfo&foregroundPriority=true",
+        "fileId": "MicrosoftEdge_X64_120.0.2210.121.exe",
+        "sha256": "ff57d3a0e046a1170a602f1d9f24269f87a0fa20c4daef2f30a009436b530c58",
+        "nestedArchive": "MSEDGE.7z",
+        "executable": "Chrome-bin/120.0.2210.121/msedge.exe"
+      },
+      "linux": {
+        "version": "120.0.2210.121",
+        "url": "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_120.0.2210.121-1_amd64.deb",
+        "sha256": "4d5c1090d45f5bee81c756d24a75d4624201c6c57550c29af95d864c5511a80a",
+        "format": "deb",
+        "executable": "opt/microsoft/msedge/msedge"
+      }
+    }
+  }
+}
